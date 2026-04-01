@@ -1377,8 +1377,8 @@
                                 class="bi bi-table text-warning me-2 d-none d-md-inline"></i>บัญชีโครงสร้างหน่วย</h2>
                     </div>
                     <div class="d-flex gap-2"><button class="btn btn-warning btn-auth-edit fw-bold"
-                            onclick="openModal()"><i class="bi bi-plus-lg me-1"></i>เพิ่มข้อมูล</button><button
-                            class="btn btn-success fw-bold" onclick="exportExcel()"><i
+                            onclick="window.openModal()"><i class="bi bi-plus-lg me-1"></i>เพิ่มข้อมูล</button><button
+                            class="btn btn-success fw-bold" onclick="window.exportExcel()"><i
                                 class="bi bi-file-earmark-excel me-1"></i>Excel</button></div>
                 </div>
                 <div id="tableFilterContainer"></div>
@@ -1463,7 +1463,7 @@
                             onclick="toggleMobileSidebar()"></i>
                         <h2 class="mb-0 fw-bold"><i class="bi bi-layers-fill text-warning me-2"></i>จัดการโครงสร้าง</h2>
                     </div>
-                    <button class="btn btn-outline-info btn-sm fw-bold" onclick="buildDynamicTree()"><i
+                    <button class="btn btn-outline-info btn-sm fw-bold" onclick="window.buildDynamicTree()"><i
                             class="bi bi-arrow-repeat"></i> รีโหลด</button>
                 </div>
                 <div id="dynamicFilterContainer"></div>
@@ -1483,7 +1483,7 @@
                         <h2 class="mb-0 fw-bold"><i class="bi bi-globe-americas text-info me-2"></i>แผนที่ยุทธวิธี (GIS
                             2026)</h2>
                     </div>
-                    <button class="btn btn-outline-info btn-sm fw-bold" onclick="loadMap()"><i
+                    <button class="btn btn-outline-info btn-sm fw-bold" onclick="window.loadMap()"><i
                             class="bi bi-arrow-repeat"></i> รีโหลดแผนที่</button>
                 </div>
 
@@ -1515,7 +1515,7 @@
                             <!-- Layer Toggle Menu -->
                             <div id="layer-toggles" class="position-absolute"
                                 style="top: 15px; right: 15px; width: 250px; z-index: 1000; background: rgba(24, 28, 20, 0.95); border: 1px solid #4b5563; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); backdrop-filter: blur(4px); transition: all 0.3s; overflow: hidden;">
-                                <div onclick="toggleLayerMenu()" id="layer-menu-header"
+                                <div onclick="window.toggleLayerMenu()" id="layer-menu-header"
                                     class="d-flex justify-content-between align-items-center p-2 cursor-pointer"
                                     style="background: rgba(31, 41, 55, 0.8); border-bottom: 1px solid #4b5563;">
                                     <span class="text-warning fw-bold" style="font-size: 0.8rem;"><i
@@ -1528,7 +1528,7 @@
                                     <div class="p-2 d-flex flex-column gap-2" style="font-size: 0.75rem;">
 
                                         <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                            onclick="toggleMapLayer('higherHqLayerGroup', 'eye-higherHq')">
+                                            onclick="window.toggleMapLayer('higherHqLayerGroup', 'eye-higherHq')">
                                             <div class="d-flex align-items-center gap-2"><span
                                                     class="d-flex align-items-center justify-content-center border border-warning rounded"
                                                     style="width: 18px; height: 18px; background: #7f1d1d;"><i
@@ -1539,7 +1539,7 @@
                                         </div>
 
                                         <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                            onclick="toggleMapLayer('hqLayerGroup', 'eye-hq')">
+                                            onclick="window.toggleMapLayer('hqLayerGroup', 'eye-hq')">
                                             <div class="d-flex align-items-center gap-2"><span
                                                     class="d-flex align-items-center justify-content-center border border-warning rounded"
                                                     style="width: 18px; height: 18px; background: #111827;"><i
@@ -1550,7 +1550,7 @@
                                         </div>
 
                                         <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                            onclick="toggleMapLayer('hospitalLayerGroup', 'eye-hosp')">
+                                            onclick="window.toggleMapLayer('hospitalLayerGroup', 'eye-hosp')">
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="d-flex gap-1">
                                                     <span
@@ -1570,7 +1570,7 @@
                                         </div>
 
                                         <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                            onclick="toggleMapLayer('strategicLayerGroup', 'eye-strat')">
+                                            onclick="window.toggleMapLayer('strategicLayerGroup', 'eye-strat')">
                                             <div class="d-flex align-items-center gap-2"><span
                                                     class="strategic-marker-mini"></span> <span
                                                     class="text-light">จุดยุทธศาสตร์ (1:50k)</span></div>
@@ -1578,7 +1578,7 @@
                                         </div>
 
                                         <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                            onclick="toggleMapLayer('borderLayerGroup', 'eye-border')">
+                                            onclick="window.toggleMapLayer('borderLayerGroup', 'eye-border')">
                                             <div class="d-flex align-items-center gap-2"><span
                                                     style="width: 16px; border-bottom: 2px solid #ef4444;"></span> <span
                                                     class="text-light">เส้นเขตแดน ไทย-กัมพูชา</span></div>
@@ -1586,7 +1586,7 @@
                                         </div>
 
                                         <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                            onclick="toggleMapLayer('pillarLayerGroup', 'eye-pillar')">
+                                            onclick="window.toggleMapLayer('pillarLayerGroup', 'eye-pillar')">
                                             <div class="d-flex align-items-center gap-2"><span
                                                     class="border-pillar-marker-mini"></span> <span
                                                     class="text-light">หลักหมุดเขตแดน (1-73)</span></div>
@@ -1599,7 +1599,7 @@
 
                             <!-- Detailed Side Panel -->
                             <div id="side-panel-map" class="p-3 custom-scroll">
-                                <button onclick="resetMap()"
+                                <button onclick="window.resetMap()"
                                     class="btn btn-sm btn-dark position-absolute top-0 end-0 m-3 rounded-circle shadow border-secondary"><i
                                         class="bi bi-x-lg"></i></button>
                                 <div id="panel-stars" class="text-warning mb-1"></div>
@@ -1661,7 +1661,8 @@
                                             style="line-height: 1.6; font-size:0.75rem;"></p>
                                     </div>
                                 </div>
-                                <button onclick="resetMap()" class="btn btn-dark border-secondary w-100 mt-2 shadow-sm"
+                                <button onclick="window.resetMap()"
+                                    class="btn btn-dark border-secondary w-100 mt-2 shadow-sm"
                                     style="font-size: 0.85rem;">ย่อแผนที่กลับ</button>
                             </div>
                         </div>
@@ -1689,7 +1690,7 @@
                         <h2 class="mb-0 fw-bold"><i class="bi bi-people-fill text-warning me-2"></i>จัดการผู้ใช้งาน
                             (Admin)</h2>
                     </div>
-                    <button class="btn btn-warning fw-bold shadow-sm" onclick="openUserModal()"><i
+                    <button class="btn btn-warning fw-bold shadow-sm" onclick="window.openUserModal()"><i
                             class="bi bi-person-plus-fill me-1"></i> เพิ่มผู้ใช้ใหม่</button>
                 </div>
 
@@ -1841,7 +1842,7 @@
         // ==========================================
         // 🔗 API CONNECTION (ใส่ URL ตรงนี้)
         // ==========================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxNouL-br90nz0a-8a_jhMxhI6AL8Ol4fUqhQDNwqMU-yrWOROfWFOYSSxaSNpfWSg/exec"; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxeqzIIIgM6Y-hzvGhJEUsMn1oQNz07BgIYXI6Z7H_K2Enbbjv9mlZnShk5Yk56CH4M/exec"; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
 
         // Core Fetch API
         async function fetchAPI(action, data = {}) {
@@ -1875,13 +1876,19 @@
         let hqLayerGroup, higherHqLayerGroup, hospitalLayerGroup, borderLayerGroup, strategicLayerGroup, pillarLayerGroup, distanceLineGroup;
 
         // 🛠️ ฟังก์ชันช่วยเหลือสำหรับ Bootstrap (Lazy Initialization ป้องกัน Error Backdrop)
-        const getBsModal = (id) => {
+        window.getBsModal = (id) => {
             const el = document.getElementById(id);
-            return el ? (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)) : null;
+            if (!el) return null;
+            let instance = bootstrap.Modal.getInstance(el);
+            if (!instance) instance = new bootstrap.Modal(el);
+            return instance;
         };
-        const getBsOffcanvas = (id) => {
+        window.getBsOffcanvas = (id) => {
             const el = document.getElementById(id);
-            return el ? (bootstrap.Offcanvas.getInstance(el) || new bootstrap.Offcanvas(el)) : null;
+            if (!el) return null;
+            let instance = bootstrap.Offcanvas.getInstance(el);
+            if (!instance) instance = new bootstrap.Offcanvas(el);
+            return instance;
         };
 
         const higherHQs = [
@@ -1917,7 +1924,7 @@
                 length: 'ชายแดนทางบกและทางน้ำ', desc: 'ป้องกันแนวชายแดนใต้และทะเลอันดามัน',
                 detailedDesc: 'ป้องกันการกระทำผิดกฎหมายข้ามชาติ สินค้าหนีภาษี และรักษาความมั่นคงร่วมกับประเทศเพื่อนบ้าน',
                 currentPersonnel: 0,
-                hospitals: [{ name: 'รพ.ค่ายเทพสตรี', lat: 8.169, lng: 99.638 }, { name: 'รพ.ค่ายวชิราวุธ', lat: 8.441, lng: 99.962 }, { name: 'รพ.สนาม ร.25 พัน.2', lat: 9.957, lng: 98.638 }, { name: 'รพ.สนาม กองพลพัฒนาที่ 4', lat: 7.155, lng: 100.188 }],
+                hospitals: [{ name: 'รพ.ค่ายเทพสตรี', lat: 8.169, lng: 99.638 }, { name: 'รพ.ค่ายวชราวุธ', lat: 8.441, lng: 99.962 }, { name: 'รพ.สนาม ร.25 พัน.2', lat: 9.957, lng: 98.638 }, { name: 'รพ.สนาม กองพลพัฒนาที่ 4', lat: 7.155, lng: 100.188 }],
                 govHospitals: [{ name: 'รพ.ระนอง', lat: 9.967, lng: 98.636 }, { name: 'รพ.สงขลา', lat: 7.175, lng: 100.603 }, { name: 'รพ.นราธิวาสราชนครินทร์', lat: 6.431, lng: 101.823 }]
             },
             {
@@ -2020,10 +2027,14 @@
             document.getElementById('themeToggle').checked = (savedTheme === 'light');
 
             const filterTemplate = document.getElementById('globalFilterTemplate').innerHTML;
-            document.getElementById('dashboardFilterContainer').innerHTML = filterTemplate;
-            document.getElementById('tableFilterContainer').innerHTML = filterTemplate;
-            document.getElementById('treeFilterContainer').innerHTML = filterTemplate;
-            document.getElementById('dynamicFilterContainer').innerHTML = filterTemplate;
+            const dashboardFilter = document.getElementById('dashboardFilterContainer');
+            if (dashboardFilter) dashboardFilter.innerHTML = filterTemplate;
+            const tableFilter = document.getElementById('tableFilterContainer');
+            if (tableFilter) tableFilter.innerHTML = filterTemplate;
+            const treeFilter = document.getElementById('treeFilterContainer');
+            if (treeFilter) treeFilter.innerHTML = filterTemplate;
+            const dynamicFilter = document.getElementById('dynamicFilterContainer');
+            if (dynamicFilter) dynamicFilter.innerHTML = filterTemplate;
 
             if (sessionStorage.getItem('isLoggedIn') === 'true') {
                 document.getElementById('loginSection').style.display = 'none';
@@ -2041,7 +2052,7 @@
                     roleBadge.classList.add('text-dark');
                 }
 
-                loadData(true);
+                window.loadData(true);
             } else {
                 document.getElementById('loginSection').style.display = 'flex';
                 document.getElementById('appWrapper').style.display = 'none';
@@ -2078,7 +2089,7 @@
             });
         }
 
-        async function handleLogin() {
+        window.handleLogin = async function () {
             const u = document.getElementById('loginUser').value;
             const p = document.getElementById('loginPass').value;
             if (!u || !p) return Swal.fire('แจ้งเตือน', 'กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบ', 'warning');
@@ -2118,15 +2129,15 @@
                     }
 
                     Swal.fire({ title: 'ยินดีต้อนรับ', text: 'เข้าสู่ระบบสำเร็จ', icon: 'success', timer: 1500, showConfirmButton: false });
-                    loadData(true);
+                    window.loadData(true);
                 }
             } catch (err) {
                 btn.innerHTML = orig; btn.disabled = false;
                 Swal.fire('ข้อผิดพลาด', err.message, 'error');
             }
-        }
+        };
 
-        function handleLogout() {
+        window.handleLogout = function () {
             Swal.fire({
                 title: 'ยืนยันการออกจากระบบ', icon: 'warning', showCancelButton: true, confirmButtonText: 'ออกจากระบบ', cancelButtonText: 'ยกเลิก', customClass: { popup: 'dark-swal' }
             }).then(function (result) {
@@ -2142,7 +2153,7 @@
                     if (yearlyChart) yearlyChart.destroy();
                 }
             });
-        }
+        };
 
         function applyPermissions() {
             const role = sessionStorage.getItem('userRole') || 'Viewer';
@@ -2179,15 +2190,15 @@
                 <td>${escapeHTML(u.name)}</td>
                 <td>${roleBadge}</td>
                 <td>
-                    <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="openUserModal(${i})"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3 ms-1" onclick="deleteUser(${u.rowIndex})"><i class="bi bi-trash"></i></button>
+                    <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="window.openUserModal(${i})"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3 ms-1" onclick="window.deleteUser(${u.rowIndex})"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>`;
             });
             safeSetHTML('usersTableBody', html || '<tr><td colspan="5" class="text-center text-muted">ไม่มีข้อมูลผู้ใช้งาน</td></tr>');
         }
 
-        function openUserModal(index = null) {
+        window.openUserModal = function (index = null) {
             document.getElementById('userForm').reset();
             document.getElementById('u_rid').value = '';
             if (index !== null) {
@@ -2198,11 +2209,11 @@
                 document.getElementById('u_name').value = u.name;
                 document.getElementById('u_role').value = u.role;
             }
-            const modal = getBsModal('userModal');
+            const modal = window.getBsModal('userModal');
             if (modal) modal.show();
-        }
+        };
 
-        async function saveUser() {
+        window.saveUser = async function () {
             const btn = document.querySelector('#userForm button'); let orig = btn.innerHTML;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังบันทึก...'; btn.disabled = true;
 
@@ -2216,7 +2227,7 @@
 
             try {
                 await fetchAPI('saveUserData', data);
-                const modal = getBsModal('userModal');
+                const modal = window.getBsModal('userModal');
                 if (modal) modal.hide();
 
                 btn.innerHTML = orig; btn.disabled = false;
@@ -2226,9 +2237,9 @@
                 btn.innerHTML = orig; btn.disabled = false;
                 Swal.fire('ข้อผิดพลาด', err.message, 'error');
             }
-        }
+        };
 
-        function deleteUser(rowIndex) {
+        window.deleteUser = function (rowIndex) {
             Swal.fire({ title: 'ลบผู้ใช้?', text: "ไม่สามารถกู้คืนได้", icon: 'warning', showCancelButton: true, confirmButtonText: 'ลบข้อมูล', customClass: { popup: 'dark-swal' } }).then(async result => {
                 if (result.isConfirmed) {
                     try {
@@ -2240,16 +2251,16 @@
                     }
                 }
             });
-        }
+        };
 
-        function toggleTheme() {
+        window.toggleTheme = function () {
             const target = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             document.body.setAttribute('data-theme', target);
             localStorage.setItem('theme', target);
             renderUI();
-        }
+        };
 
-        function toggleSidebar() {
+        window.toggleSidebar = function () {
             document.getElementById('sidebar').classList.toggle('collapsed');
             document.getElementById('mainContent').classList.toggle('expanded');
             let icon = document.getElementById('toggleIcon');
@@ -2259,31 +2270,32 @@
                 icon.classList.replace('bi-chevron-right', 'bi-chevron-left');
             }
             setTimeout(function () { if (pChart) pChart.resize(); if (yearlyChart) yearlyChart.resize(); }, 300);
-        }
+        };
 
-        function toggleMobileSidebar() {
+        window.toggleMobileSidebar = function () {
             document.getElementById('sidebar').classList.toggle('mobile-open');
             document.getElementById('mobileOverlay').classList.toggle('active');
-        }
+        };
 
-        function showPage(p, el) {
+        window.showPage = function (p, el) {
             document.querySelectorAll('.nav-link').forEach(function (n) { n.classList.remove('active'); });
             if (el) el.classList.add('active');
             ['dashboard', 'structure', 'tree', 'dynamic', 'map', 'admin', 'dailyReport', 'kp4Report'].forEach(function (s) {
                 let sec = document.getElementById(s + 'Section');
                 if (sec) sec.style.display = 'none';
             });
-            document.getElementById(p + 'Section').style.display = 'block';
+            const selectedSection = document.getElementById(p + 'Section');
+            if (selectedSection) selectedSection.style.display = 'block';
 
             if (window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('mobile-open');
                 document.getElementById('mobileOverlay').classList.remove('active');
             }
 
-            if (p === 'tree') buildTree();
-            if (p === 'dynamic') buildDynamicTree();
+            if (p === 'tree') window.buildTree();
+            if (p === 'dynamic') window.buildDynamicTree();
             if (p === 'map') {
-                loadMap();
+                window.loadMap();
                 setTimeout(() => {
                     if (tacticalMap) tacticalMap.invalidateSize();
                 }, 300);
@@ -2291,9 +2303,11 @@
             if (p === 'admin') loadUsers();
 
             let today = new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
-            if (document.getElementById('reportDate')) document.getElementById('reportDate').innerText = today;
-            if (document.getElementById('kp4Date')) document.getElementById('kp4Date').innerText = today;
-        }
+            const reportDateEl = document.getElementById('reportDate');
+            if (reportDateEl) reportDateEl.innerText = today;
+            const kp4DateEl = document.getElementById('kp4Date');
+            if (kp4DateEl) kp4DateEl.innerText = today;
+        };
 
         function formatDiff(cur, prev) {
             if (prev === undefined || prev === null || prev === "") return "";
@@ -2314,22 +2328,29 @@
             return isNaN(num) ? 0 : num;
         }
 
-        function applyGlobalFilter(sourceElement) {
+        window.applyGlobalFilter = function (sourceElement) {
             if (sourceElement) {
                 const filterType = sourceElement.getAttribute('data-filter');
                 const val = sourceElement.value;
                 document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(el => el.value = val);
             }
 
-            filters.search = (document.querySelector('.filter-search').value || "").toUpperCase();
-            filters.plan = document.querySelector('.filter-plan').value;
-            filters.l0 = document.querySelector('.filter-l0').value;
-            filters.l1 = document.querySelector('.filter-l1').value;
-            filters.l2 = document.querySelector('.filter-l2').value;
-            filters.l3 = document.querySelector('.filter-l3').value;
+            const searchEl = document.querySelector('.filter-search');
+            const planEl = document.querySelector('.filter-plan');
+            const l0El = document.querySelector('.filter-l0');
+            const l1El = document.querySelector('.filter-l1');
+            const l2El = document.querySelector('.filter-l2');
+            const l3El = document.querySelector('.filter-l3');
+
+            filters.search = searchEl ? (searchEl.value || "").toUpperCase() : "";
+            filters.plan = planEl ? planEl.value : "";
+            filters.l0 = l0El ? l0El.value : "";
+            filters.l1 = l1El ? l1El.value : "";
+            filters.l2 = l2El ? l2El.value : "";
+            filters.l3 = l3El ? l3El.value : "";
 
             renderUI();
-        }
+        };
 
         function isMatchFilter(r) {
             let strMatch = r.slice(0, 6).map(x => (x || "").toString()).join(" ").toUpperCase();
@@ -2430,7 +2451,7 @@
                         let hierarchyStr = hierarchyArr.join(' <i class="bi bi-chevron-right text-muted mx-1" style="font-size:0.7rem;"></i> ');
 
                         let editBtnHtml = canEdit
-                            ? '<button class="btn btn-sm btn-outline-warning rounded-pill px-3 shadow-sm" onclick="edit(' + i + ')"><i class="bi bi-pencil-fill"></i></button>'
+                            ? '<button class="btn btn-sm btn-outline-warning rounded-pill px-3 shadow-sm" onclick="window.edit(' + i + ')"><i class="bi bi-pencil-fill"></i></button>'
                             : '<button class="btn btn-sm btn-outline-secondary rounded-pill px-3 shadow-sm" disabled title="เฉพาะผู้ดูแลระบบ"><i class="bi bi-lock-fill"></i></button>';
 
                         tableHtml += '<tr>' +
@@ -2515,13 +2536,15 @@
 
                 updateCharts(g, n, s, p, structStats);
 
-                if (document.getElementById('treeSection').style.display === 'block') buildTree();
-                if (document.getElementById('dynamicSection').style.display === 'block') buildDynamicTree();
+                const treeSection = document.getElementById('treeSection');
+                if (treeSection && treeSection.style.display === 'block') window.buildTree();
+                const dynamicSection = document.getElementById('dynamicSection');
+                if (dynamicSection && dynamicSection.style.display === 'block') window.buildDynamicTree();
                 if (typeof syncPersonnelToMap === 'function') syncPersonnelToMap();
 
-                updateNotifications();
-                renderDailyReport();
-                renderKp4Report();
+                window.updateNotifications();
+                window.renderDailyReport();
+                window.renderKp4Report();
 
             } catch (e) {
                 console.error("UI Render Error:", e);
@@ -2529,7 +2552,7 @@
             }
         }
 
-        async function loadData(fetchFromServer) {
+        window.loadData = async function (fetchFromServer) {
             if (fetchFromServer) {
                 safeSetHTML('tableBody', '<tr><td colspan="11" class="text-center text-warning py-5"><div class="spinner-border text-warning mb-3" style="width: 3rem; height: 3rem;" role="status"></div><br><span class="fw-bold">กำลังซิงค์ฐานข้อมูลศูนย์ปฏิบัติการ...</span></td></tr>');
 
@@ -2545,12 +2568,12 @@
             } else {
                 renderUI();
             }
-        }
+        };
 
         // ==========================================
         // 🌳 TREE & DYNAMIC VIEW
         // ==========================================
-        function buildTree() {
+        window.buildTree = function () {
             let treeUnits = 0; let treePersonnel = 0; const groups = {};
 
             rawData.forEach(function (r) {
@@ -2562,7 +2585,8 @@
                 if (!groups[l0]) groups[l0] = {}; if (!groups[l0][l1]) groups[l0][l1] = {};
                 if (!groups[l0][l1][l2]) groups[l0][l1][l2] = {}; if (!groups[l0][l1][l2][l3]) groups[l0][l1][l2][l3] = [];
 
-                groups[l0][l1][l2][l3].push(r);
+                // ✅ เก็บ object พร้อม index เพื่อป้องกัน index สูญหายเมื่อ array ถูกแปลง
+                groups[l0][l1][l2][l3].push({ data: r, index: r.originalIndex });
                 treeUnits++; treePersonnel += cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
             });
 
@@ -2576,13 +2600,15 @@
                         for (let l3 in groups[l0][l1][l2]) {
                             html += `<li><div class="node-box fw-bold border-danger text-danger"><i class="bi bi-bullseye me-2"></i>${l3}</div><ul>`;
                             groups[l0][l1][l2][l3].forEach(u => {
-                                let ct = cleanNumber(u[10]) || (cleanNumber(u[6]) + cleanNumber(u[7]) + cleanNumber(u[8]) + cleanNumber(u[9]));
-                                let nodeName = escapeHTML(u[5]) || "ยอดกำลังพลรวม";
-                                html += `<li><div class="node-box glass-panel hover-highlight cursor-pointer" onclick="openDrawer(${u.originalIndex})">
+                                let rData = u.data;
+                                let ct = cleanNumber(rData[10]) || (cleanNumber(rData[6]) + cleanNumber(rData[7]) + cleanNumber(rData[8]) + cleanNumber(rData[9]));
+                                let nodeName = escapeHTML(rData[5]) || "ยอดกำลังพลรวม";
+                                // ✅ เรียกใช้ window.openDrawer และใช้ index ที่แมปมาอย่างถูกต้อง
+                                html += `<li><div class="node-box glass-panel hover-highlight cursor-pointer" onclick="window.openDrawer(${u.index})">
                   <div class="d-flex justify-content-between align-items-center"><div class="fw-bold text-light" style="font-size:0.85rem;"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${nodeName}</div><span class="badge bg-warning text-dark">${ct.toLocaleString()}</span></div>
                   <div class="d-flex justify-content-between mt-2 pt-2 border-top border-secondary border-opacity-25" style="font-size:0.7rem;">
-                    <span class="text-info"><i class="bi bi-stars"></i> ${cleanNumber(u[6]).toLocaleString()}</span><span class="text-success"><i class="bi bi-person-badge"></i> ${cleanNumber(u[7]).toLocaleString()}</span>
-                    <span class="text-warning"><i class="bi bi-person-check"></i> ${cleanNumber(u[8]).toLocaleString()}</span><span class="text-danger"><i class="bi bi-person-fill"></i> ${cleanNumber(u[9]).toLocaleString()}</span>
+                    <span class="text-info"><i class="bi bi-stars"></i> ${cleanNumber(rData[6]).toLocaleString()}</span><span class="text-success"><i class="bi bi-person-badge"></i> ${cleanNumber(rData[7]).toLocaleString()}</span>
+                    <span class="text-warning"><i class="bi bi-person-check"></i> ${cleanNumber(rData[8]).toLocaleString()}</span><span class="text-danger"><i class="bi bi-person-fill"></i> ${cleanNumber(rData[9]).toLocaleString()}</span>
                   </div></div></li>`;
                             });
                             html += '</ul></li>';
@@ -2591,9 +2617,9 @@
                 } html += '</ul></li>';
             }
             safeSetHTML('treeDisplay', html + '</ul></li></ul>');
-        }
+        };
 
-        function buildDynamicTree() {
+        window.buildDynamicTree = function () {
             const canEdit = applyPermissions();
             const container = document.getElementById('dynamicTreeContainer');
             const summaryBox = document.getElementById('dynamicSummaryBox');
@@ -2662,7 +2688,7 @@
                 `;
                 }
 
-                let addBtn = (title, p1, p2, p3, p4) => canEdit ? `<button class="btn btn-sm btn-dark border-secondary btn-inline-add shadow-sm" onclick="prefillModal('${escapeHTML(p1)}','${escapeHTML(p2)}','${escapeHTML(p3)}','${escapeHTML(p4)}'); event.preventDefault();">+ ${title}</button>` : '';
+                let addBtn = (title, p1, p2, p3, p4) => canEdit ? `<button class="btn btn-sm btn-dark border-secondary btn-inline-add shadow-sm" onclick="window.prefillModal('${escapeHTML(p1)}','${escapeHTML(p2)}','${escapeHTML(p3)}','${escapeHTML(p4)}'); event.preventDefault();">+ ${title}</button>` : '';
                 let html = '';
                 for (let plan in hierarchy) {
                     html += `<details><summary><span class="text-warning"><i class="bi bi-journal-text me-2"></i>${plan}</span> ${addBtn('ยุทธศาสตร์', plan, '', '', '')}</summary><div class="details-content">`;
@@ -2674,7 +2700,7 @@
                                 html += `<details><summary><span class="text-warning"><i class="bi bi-crosshair me-2"></i>${l2}</span> ${addBtn('ปฏิบัติการ', plan, l0, l1, l2)}</summary><div class="details-content">`;
                                 hierarchy[plan][l0][l1][l2].forEach(unit => {
                                     let name = (unit.l3 !== "-" ? unit.l3 : "") + (unit.l4 !== "-" ? " > " + unit.l4 : ""); if (name === "" || name === " > ") name = "หน่วยฐาน";
-                                    let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-warning rounded-circle py-0 px-1" onclick="edit(${unit.index})"><i class="bi bi-pencil"></i></button>` : '';
+                                    let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-warning rounded-circle py-0 px-1" onclick="window.edit(${unit.index})"><i class="bi bi-pencil"></i></button>` : '';
 
                                     let diff = unit.total - unit.prevTotal;
                                     let diffBadge = '';
@@ -2684,7 +2710,7 @@
                                     let updateIcon = unit.isUpdated ? '<i class="bi bi-check-circle-fill text-success ms-2" style="font-size: 0.75rem;" title="อัปเดตแล้ว"></i>' : '<i class="bi bi-clock text-secondary ms-2" style="font-size: 0.75rem;" title="รอดำเนินการ"></i>';
 
                                     html += `<div class="d-flex justify-content-between align-items-center border-bottom border-secondary border-opacity-25 py-2 px-2 hover-highlight">
-                                    <span class="text-light cursor-pointer text-truncate" onclick="openDrawer(${unit.index})"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${name} ${updateIcon}</span>
+                                    <span class="text-light cursor-pointer text-truncate" onclick="window.openDrawer(${unit.index})"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${name} ${updateIcon}</span>
                                     <div class="text-nowrap">${diffBadge}<span class="badge bg-dark border border-warning text-warning me-2">${unit.total.toLocaleString()} นาย</span>${editBtnHtml}</div></div>`;
                                 });
                                 html += `</div></details>`;
@@ -2694,17 +2720,18 @@
                 }
                 container.innerHTML = html || '<div class="text-muted text-center mt-4">ไม่พบข้อมูลโครงสร้างตามตัวกรอง</div>';
             }, 100);
-        }
+        };
 
-        function prefillModal(plan, l0, l1, l2) {
+        window.prefillModal = function (plan, l0, l1, l2) {
             document.getElementById('uForm').reset(); document.getElementById('rid').value = '';
             if (plan) document.getElementById('m_plan').value = plan; if (l0) document.getElementById('m_l0').value = l0;
             if (l1) document.getElementById('m_l1').value = l1; if (l2) document.getElementById('m_l2').value = l2;
-            const modal = getBsModal('unitModal');
+            const modal = window.getBsModal('unitModal');
             if (modal) modal.show();
-        }
+        };
 
-        function openDrawer(index) {
+        // ✅ ฟังก์ชันแสดง Drawer ผูกเข้าสู่หน้าต่าง Global
+        window.openDrawer = function (index) {
             if (index === undefined || index === null) return;
             currentDrawerIndex = index; const r = rawData[index];
 
@@ -2717,25 +2744,25 @@
             safeSetHTML('d-total', currTotal.toLocaleString()); safeSetText('d-prev-total', prevTotal.toLocaleString()); safeSetHTML('d-diff-total', formatDiff(currTotal, prevTotal) || "<span class='text-muted'>-</span>");
             safeSetText('d-check', r[11] || '-'); safeSetText('d-status', r[12] || '-');
 
-            const drawer = getBsOffcanvas('nodeDrawer');
+            const drawer = window.getBsOffcanvas('nodeDrawer');
             if (drawer) drawer.show();
-        }
+        };
 
-        function editFromDrawer() {
-            const drawer = getBsOffcanvas('nodeDrawer');
+        window.editFromDrawer = function () {
+            const drawer = window.getBsOffcanvas('nodeDrawer');
             if (drawer) drawer.hide();
 
-            if (currentDrawerIndex !== null) edit(currentDrawerIndex);
-        }
+            if (currentDrawerIndex !== null) window.edit(currentDrawerIndex);
+        };
 
-        function openModal() {
+        window.openModal = function () {
             document.getElementById('uForm').reset();
             document.getElementById('rid').value = '';
-            const modal = getBsModal('unitModal');
+            const modal = window.getBsModal('unitModal');
             if (modal) modal.show();
-        }
+        };
 
-        function edit(i) {
+        window.edit = function (i) {
             const r = rawData[i];
             if (r.length >= 19) { document.getElementById('rid').value = r[18]; }
             document.getElementById('m_plan').value = r[0] || ""; document.getElementById('m_l0').value = r[1] || ""; document.getElementById('m_l1').value = r[2] || "";
@@ -2743,11 +2770,11 @@
             document.getElementById('m_g').value = cleanNumber(r[6]) || ""; document.getElementById('m_n').value = cleanNumber(r[7]) || "";
             document.getElementById('m_s').value = cleanNumber(r[8]) || ""; document.getElementById('m_p').value = cleanNumber(r[9]) || "";
 
-            const modal = getBsModal('unitModal');
+            const modal = window.getBsModal('unitModal');
             if (modal) modal.show();
-        }
+        };
 
-        async function save() {
+        window.save = async function () {
             const data = {
                 rowIndex: document.getElementById('rid').value, plan: document.getElementById('m_plan').value, l0: document.getElementById('m_l0').value,
                 l1: document.getElementById('m_l1').value, l2: document.getElementById('m_l2').value, l3: document.getElementById('m_l3').value,
@@ -2758,19 +2785,19 @@
 
             try {
                 await fetchAPI('saveUnitData', data);
-                const modal = getBsModal('unitModal');
+                const modal = window.getBsModal('unitModal');
                 if (modal) modal.hide();
 
                 btn.innerHTML = origHtml; btn.disabled = false;
-                loadData(true);
+                window.loadData(true);
                 Swal.fire({ title: 'Success', text: 'บันทึกข้อมูลเรียบร้อย', icon: 'success', timer: 1500, showConfirmButton: false });
             } catch (err) {
                 btn.innerHTML = origHtml; btn.disabled = false;
                 Swal.fire('Error', err.message, 'error');
             }
-        }
+        };
 
-        async function exportPDFFromDrawer() {
+        window.exportPDFFromDrawer = async function () {
             if (currentDrawerIndex === null) return;
             const r = rawData[currentDrawerIndex];
             if (r.length < 19) return Swal.fire('Error', 'ไม่พบข้อมูลแถวอ้างอิง', 'error');
@@ -2787,7 +2814,7 @@
                 btn.innerHTML = origHtml; btn.disabled = false;
                 Swal.fire('Error', err.message, 'error');
             }
-        }
+        };
 
         function updateCharts(g, n, s, p, structStats) {
             const isLight = document.body.getAttribute('data-theme') === 'light';
@@ -2839,13 +2866,13 @@
             }
         }
 
-        function exportExcel() {
+        window.exportExcel = function () {
             Swal.fire({ title: 'Exporting...', didOpen: () => Swal.showLoading(), customClass: { popup: 'dark-swal' } });
             const headers = ["แผนงาน", "ยุทธศาสตร์", "จัดกำลัง", "ยุทธการ", "ยุทธวิธี", "ปฏิบัติการ", "นายพล", "น.", "ส.", "พลฯ", "รวม", "Check List", "อัปเดต", "นายพล(เดิม)", "น.(เดิม)", "ส.(เดิม)", "พลฯ(เดิม)", "รวม(เดิม)"];
             const dataToExport = [headers, ...rawData.map(r => r.slice(0, 18))];
             const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(dataToExport), "DB"); XLSX.writeFile(wb, "บัญชีโครงสร้าง_ศปก_ทบ.xlsx");
             Swal.close();
-        }
+        };
 
         window.toggleLayerMenu = function () {
             const content = document.getElementById('layer-menu-content');
@@ -2899,7 +2926,7 @@
             taskForces.forEach(tf => {
                 const starsHtml = Array(tf.stars).fill('<i class="fas fa-star text-warning" style="font-size:0.75rem;"></i>').join('');
                 const pText = tf.currentPersonnel > 0 ? `<div class="mt-3 pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center"><span class="small text-muted fw-bold">กำลังพล:</span><strong class="text-gold fs-5">${tf.currentPersonnel.toLocaleString()} <span class="fs-6 text-muted fw-normal">นาย</span></strong></div>` : `<div class="mt-3 pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center"><span class="small text-muted fw-bold">กำลังพล:</span><strong class="text-muted small">ไม่พบข้อมูล</strong></div>`;
-                const cardHTML = `<div class="force-card-ui h-100 d-flex flex-column justify-content-between" style="border-left-color: ${tf.color};" data-force-id="${tf.id}" onclick="zoomToForce('${tf.id}')" onmouseenter="if(!activeForceId) highlightForce('${tf.id}')" onmouseleave="if(!activeForceId) resetHighlight()">
+                const cardHTML = `<div class="force-card-ui h-100 d-flex flex-column justify-content-between" style="border-left-color: ${tf.color};" data-force-id="${tf.id}" onclick="window.zoomToForce('${tf.id}')" onmouseenter="if(!activeForceId) window.highlightForce('${tf.id}')" onmouseleave="if(!activeForceId) window.resetHighlight()">
                 <div><div class="d-flex align-items-center justify-content-between mb-3 pointer-events-none">
                     <div class="d-flex flex-column"><div class="d-flex gap-1 mb-1">${starsHtml}</div><h5 class="fw-bold mb-0 text-white" style="text-shadow: 0 0 10px ${tf.color};">${tf.name}</h5></div>
                     <div class="rounded-circle d-flex align-items-center justify-content-center border" style="width:35px; height:35px; background:rgba(0,0,0,0.5); color: ${tf.color}; border-color:${tf.color};"><i class="fas fa-search-plus"></i></div>
@@ -2995,7 +3022,7 @@
             }, 1000);
         };
 
-        function loadMap() {
+        window.loadMap = function () {
             setTimeout(async function () {
                 const loadingEl = document.getElementById('loading');
                 if (tacticalMap) { tacticalMap.invalidateSize(); if (loadingEl) loadingEl.style.display = 'none'; return; }
@@ -3063,10 +3090,10 @@
                                 let thaiName = engToThaiProv[feature.properties.NAME_1 || feature.properties.name || ""] || "";
                                 const force = getTaskForceForProvince(thaiName);
                                 layer.on({
-                                    mouseover: e => { if (activeForceId) return; const tooltip = document.getElementById('custom-tooltip'); document.getElementById('tooltip-province').innerText = 'จังหวัด ' + thaiName; if (force) { document.getElementById('tooltip-force').innerHTML = `<span style="color:${force.color}">●</span> ${force.name}`; highlightForce(force.id); } else { document.getElementById('tooltip-force').innerHTML = '<span class="text-secondary">พื้นที่ตอนใน</span>'; layer.setStyle({ fillColor: '#6b7280', fillOpacity: 0.5 }); layer.bringToFront(); } tooltip.style.opacity = 1; tooltip.style.left = e.originalEvent.pageX + 15 + "px"; tooltip.style.top = e.originalEvent.pageY + 15 + "px"; },
+                                    mouseover: e => { if (activeForceId) return; const tooltip = document.getElementById('custom-tooltip'); document.getElementById('tooltip-province').innerText = 'จังหวัด ' + thaiName; if (force) { document.getElementById('tooltip-force').innerHTML = `<span style="color:${force.color}">●</span> ${force.name}`; window.highlightForce(force.id); } else { document.getElementById('tooltip-force').innerHTML = '<span class="text-secondary">พื้นที่ตอนใน</span>'; layer.setStyle({ fillColor: '#6b7280', fillOpacity: 0.5 }); layer.bringToFront(); } tooltip.style.opacity = 1; tooltip.style.left = e.originalEvent.pageX + 15 + "px"; tooltip.style.top = e.originalEvent.pageY + 15 + "px"; },
                                     mousemove: e => { if (activeForceId) return; document.getElementById('custom-tooltip').style.left = e.originalEvent.pageX + 15 + "px"; document.getElementById('custom-tooltip').style.top = e.originalEvent.pageY + 15 + "px"; },
-                                    out: () => { if (activeForceId) return; document.getElementById('custom-tooltip').style.opacity = 0; resetHighlight(); },
-                                    click: () => { if (force) zoomToForce(force.id); else resetMap(); }
+                                    out: () => { if (activeForceId) return; document.getElementById('custom-tooltip').style.opacity = 0; window.resetHighlight(); },
+                                    click: () => { if (force) window.zoomToForce(force.id); else window.resetMap(); }
                                 });
                                 if (force) layer.bindTooltip(`<div class="province-label-container label-group-${force.id}"><div class="province-name">${thaiName}</div><div class="force-name" style="color:${force.color}">${force.name}</div></div>`, { permanent: true, direction: "center", interactive: false, className: 'clear-tooltip' });
                             }
@@ -3116,30 +3143,30 @@
                     if (tacticalMap) tacticalMap.invalidateSize();
                 }
             }, 400);
-        }
+        };
 
-        function highlightForce(forceId) {
+        window.highlightForce = function (forceId) {
             if (activeForceId && activeForceId !== forceId) return;
             document.querySelectorAll('.force-card-ui').forEach(card => { if (card.dataset.forceId === forceId) { card.classList.add('active'); card.classList.remove('dimmed'); } else { card.classList.remove('active'); card.classList.add('dimmed'); } });
             if (geojsonLayer) { geojsonLayer.eachLayer(layer => { let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || ""; const force = getTaskForceForProvince(thaiName); if (force && force.id === forceId) { layer.setStyle({ weight: 2.5, color: '#f59e0b', fillOpacity: 0.6 }); layer.bringToFront(); } else { layer.setStyle({ weight: 1, color: '#4b5563', fillOpacity: force ? 0.15 : 0.05 }); } }); }
             document.querySelectorAll(`.label-group-${forceId}`).forEach(el => el.classList.add('show'));
-        }
+        };
 
-        function resetHighlight() {
+        window.resetHighlight = function () {
             if (activeForceId) return;
             document.querySelectorAll('.force-card-ui').forEach(card => card.classList.remove('active', 'dimmed'));
             if (geojsonLayer) { geojsonLayer.eachLayer(layer => { let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || ""; const force = getTaskForceForProvince(thaiName); layer.setStyle({ weight: 1, color: '#4b5563', fillOpacity: force ? 0.35 : 0.1 }); }); }
             document.querySelectorAll('.province-label-container').forEach(el => el.classList.remove('show'));
-        }
+        };
 
-        function zoomToForce(forceId) {
+        window.zoomToForce = function (forceId) {
             if (!geojsonLayer) return; const force = taskForces.find(tf => tf.id === forceId); if (!force) return;
-            activeForceId = forceId; document.getElementById('custom-tooltip').style.opacity = 0; highlightForce(forceId);
+            activeForceId = forceId; document.getElementById('custom-tooltip').style.opacity = 0; window.highlightForce(forceId);
             distanceLineGroup.clearLayers(); resetAllPopups();
             const forceLayers = []; geojsonLayer.eachLayer(layer => { let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || ""; const f = getTaskForceForProvince(thaiName); if (f && f.id === forceId) forceLayers.push(layer); });
             if (forceLayers.length > 0) { tacticalMap.fitBounds(new L.featureGroup(forceLayers).getBounds(), { paddingTopLeft: [20, 20], paddingBottomRight: window.innerWidth < 768 ? [20, 20] : [340, 20], maxZoom: 8, animate: true, duration: 0.8 }); }
             showSidePanel(force);
-        }
+        };
 
         function showSidePanel(force) {
             const panel = document.getElementById('side-panel-map');
@@ -3150,7 +3177,7 @@
 
             const hqEl = document.getElementById('panel-hq');
             hqEl.innerHTML = `<div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-warning" style="width:15px;"></i> <span class="font-medium text-white">${force.hq}</span></div><i class="fas fa-location-arrow text-secondary"></i>`;
-            hqEl.setAttribute('onclick', `focusHQ('${force.id}')`);
+            hqEl.setAttribute('onclick', `window.focusHQ('${force.id}')`);
 
             document.getElementById('panel-length').innerText = force.length;
             document.getElementById('panel-stars').innerHTML = Array(force.stars).fill('<i class="fas fa-star text-warning"></i>').join(' ');
@@ -3160,19 +3187,19 @@
 
             const milList = document.getElementById('panel-hospitals');
             if (force.hospitals && force.hospitals.length > 0) {
-                milList.innerHTML = force.hospitals.map((h, index) => `<li class="cursor-pointer bg-dark bg-opacity-50 p-2 rounded border border-secondary transition-all d-flex align-items-center justify-content-between gap-2 mb-1" onclick="focusHospital('${force.id}', 'mil', ${index})" onmouseover="this.style.borderColor='#ef4444'" onmouseout="this.style.borderColor='var(--bs-secondary)'"><div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-danger" style="width:15px;"></i> ${h.name}</div><i class="fas fa-location-arrow text-secondary"></i></li>`).join('');
+                milList.innerHTML = force.hospitals.map((h, index) => `<li class="cursor-pointer bg-dark bg-opacity-50 p-2 rounded border border-secondary transition-all d-flex align-items-center justify-content-between gap-2 mb-1" onclick="window.focusHospital('${force.id}', 'mil', ${index})" onmouseover="this.style.borderColor='#ef4444'" onmouseout="this.style.borderColor='var(--bs-secondary)'"><div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-danger" style="width:15px;"></i> ${h.name}</div><i class="fas fa-location-arrow text-secondary"></i></li>`).join('');
             } else { milList.innerHTML = `<li class="text-muted fst-italic p-2" style="font-size:0.8rem;">ไม่มีข้อมูลสถานพยาบาล</li>`; }
 
             const govList = document.getElementById('panel-gov-hospitals');
             if (force.govHospitals && force.govHospitals.length > 0) {
-                govList.innerHTML = force.govHospitals.map((h, index) => `<li class="cursor-pointer bg-dark bg-opacity-50 p-2 rounded border border-secondary transition-all d-flex align-items-center justify-content-between gap-2 mb-1" onclick="focusHospital('${force.id}', 'gov', ${index})" onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='var(--bs-secondary)'"><div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-success" style="width:15px;"></i> ${h.name}</div><i class="fas fa-location-arrow text-secondary"></i></li>`).join('');
+                govList.innerHTML = force.govHospitals.map((h, index) => `<li class="cursor-pointer bg-dark bg-opacity-50 p-2 rounded border border-secondary transition-all d-flex align-items-center justify-content-between gap-2 mb-1" onclick="window.focusHospital('${force.id}', 'gov', ${index})" onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='var(--bs-secondary)'"><div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-success" style="width:15px;"></i> ${h.name}</div><i class="fas fa-location-arrow text-secondary"></i></li>`).join('');
             } else { govList.innerHTML = `<li class="text-muted fst-italic p-2" style="font-size:0.8rem;">ไม่มีข้อมูลสถานพยาบาล</li>`; }
 
             document.getElementById('panel-desc').innerText = force.detailedDesc;
             panel.classList.add('show');
         }
 
-        function resetMap() {
+        window.resetMap = function () {
             activeForceId = null;
             if (tacticalMap) tacticalMap.closePopup();
             distanceLineGroup.clearLayers();
@@ -3183,8 +3210,8 @@
 
             document.getElementById('side-panel-map').classList.remove('show');
             if (tacticalMap) { tacticalMap.setView([13.7367, 100.5231], 5.8, { animate: true, duration: 0.8 }); }
-            resetHighlight();
-        }
+            window.resetHighlight();
+        };
 
         // ==========================================
         // 🔔 NOTIFICATIONS & REPORTS SYSTEM
@@ -3202,12 +3229,12 @@
             } catch (e) { return 0; }
         }
 
-        function openNotifDrawer() {
-            const drawer = getBsOffcanvas('notifDrawer');
+        window.openNotifDrawer = function () {
+            const drawer = window.getBsOffcanvas('notifDrawer');
             if (drawer) drawer.show();
-        }
+        };
 
-        function updateNotifications() {
+        window.updateNotifications = function () {
             let validUpdates = rawData.filter(r => r[12] && r[12].toString().includes("Updated"));
             validUpdates.sort((a, b) => parseThaiDateStr(b[12]) - parseThaiDateStr(a[12]));
             let recentUpdates = validUpdates.slice(0, 20);
@@ -3219,7 +3246,7 @@
                 let total = cleanNumber(r[10]);
 
                 notifHtml += `
-            <div class="notif-item p-3 border-bottom border-secondary border-opacity-25 cursor-pointer" onclick="openDrawer(${r.originalIndex})">
+            <div class="notif-item p-3 border-bottom border-secondary border-opacity-25 cursor-pointer" onclick="window.openDrawer(${r.originalIndex})">
                 <div class="d-flex justify-content-between align-items-center mb-1">
                     <span class="fw-bold text-white text-truncate" style="max-width: 70%; font-size:0.9rem;">${name}</span>
                     <small class="text-muted" style="font-size:0.7rem;"><i class="bi bi-clock"></i> ${timeStr}</small>
@@ -3231,7 +3258,7 @@
             </div>`;
             });
 
-            document.getElementById('notifListContainer').innerHTML = notifHtml || '<div class="text-center p-4 text-muted">ไม่มีการอัปเดตข้อมูล</div>';
+            safeSetHTML('notifListContainer', notifHtml || '<div class="text-center p-4 text-muted">ไม่มีการอัปเดตข้อมูล</div>');
 
             let now = new Date().getTime();
             let countToday = validUpdates.filter(r => (now - parseThaiDateStr(r[12])) < (24 * 60 * 60 * 1000)).length;
@@ -3240,9 +3267,9 @@
                 badge.innerText = countToday;
                 badge.style.display = countToday > 0 ? 'inline-block' : 'none';
             }
-        }
+        };
 
-        function renderDailyReport() {
+        window.renderDailyReport = function () {
             let stats = {};
             let totalCurr = 0, totalPrev = 0;
 
@@ -3261,15 +3288,20 @@
                 totalCurr += ct; totalPrev += pt;
             });
 
-            document.getElementById('dr-total-prev').innerText = totalPrev.toLocaleString();
-            document.getElementById('dr-total-curr').innerText = totalCurr.toLocaleString();
+            const drTotalPrev = document.getElementById('dr-total-prev');
+            if (drTotalPrev) drTotalPrev.innerText = totalPrev.toLocaleString();
+
+            const drTotalCurr = document.getElementById('dr-total-curr');
+            if (drTotalCurr) drTotalCurr.innerText = totalCurr.toLocaleString();
 
             let diff = totalCurr - totalPrev;
             let diffEl = document.getElementById('dr-total-diff');
-            diffEl.className = "fw-bold"; // Reset classes
-            if (diff > 0) { diffEl.innerText = "+" + diff.toLocaleString(); diffEl.classList.add("text-success"); }
-            else if (diff < 0) { diffEl.innerText = diff.toLocaleString(); diffEl.classList.add("text-danger"); }
-            else { diffEl.innerText = "0"; diffEl.classList.add("text-dark"); }
+            if (diffEl) {
+                diffEl.className = "fw-bold"; // Reset classes
+                if (diff > 0) { diffEl.innerText = "+" + diff.toLocaleString(); diffEl.classList.add("text-success"); }
+                else if (diff < 0) { diffEl.innerText = diff.toLocaleString(); diffEl.classList.add("text-danger"); }
+                else { diffEl.innerText = "0"; diffEl.classList.add("text-dark"); }
+            }
 
             let tableHtml = '';
             for (let l0 in stats) {
@@ -3289,10 +3321,10 @@
                 <td class="fw-bold ${rowDiffColor}">${rowDiffStr}</td>
             </tr>`;
             }
-            document.getElementById('dr-table-body').innerHTML = tableHtml || '<tr><td colspan="8" class="text-center">ไม่มีข้อมูล</td></tr>';
-        }
+            safeSetHTML('dr-table-body', tableHtml || '<tr><td colspan="8" class="text-center">ไม่มีข้อมูล</td></tr>');
+        };
 
-        function renderKp4Report() {
+        window.renderKp4Report = function () {
             let tableHtml = '';
             let sumG = 0, sumN = 0, sumS = 0, sumP = 0, sumTotal = 0;
             let index = 1;
@@ -3321,9 +3353,9 @@
             </tr>`;
             });
 
-            document.getElementById('kp4-table-body').innerHTML = tableHtml || '<tr><td colspan="9" class="text-center">ไม่มีข้อมูลที่จะแสดงผล</td></tr>';
+            safeSetHTML('kp4-table-body', tableHtml || '<tr><td colspan="9" class="text-center">ไม่มีข้อมูลที่จะแสดงผล</td></tr>');
 
-            document.getElementById('kp4-table-foot').innerHTML = `
+            const footHtml = `
             <tr>
                 <td colspan="2" class="text-end pe-3">รวมทั้งสิ้น</td>
                 <td class="text-primary">${sumG.toLocaleString()}</td>
@@ -3334,7 +3366,8 @@
                 <td class="fs-6">${sumTotal.toLocaleString()}</td>
                 <td></td>
             </tr>`;
-        }
+            safeSetHTML('kp4-table-foot', footHtml);
+        };
     </script>
 </body>
 
