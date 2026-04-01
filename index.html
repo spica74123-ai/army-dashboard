@@ -3,16 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ระบบบัญชาการ ฝกพ.ศปก.ทบ.</title>
 
+    <!-- CSS Frameworks -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
 
+    <!-- JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
@@ -42,7 +43,6 @@
             --table-hover: rgba(255, 215, 0, 0.05);
             --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             --glow-gold: 0 0 10px rgba(255, 215, 0, 0.5);
-            /* แก้ไขบัคตัวแปรแสงเงาหาย */
         }
 
         /* โทนสว่าง (Light Mode) */
@@ -63,7 +63,6 @@
             --table-hover: rgba(0, 0, 0, 0.03);
             --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
             --glow-gold: 0 0 10px rgba(194, 146, 0, 0.5);
-            /* แก้ไขบัคตัวแปรแสงเงาหาย */
         }
 
         body {
@@ -104,7 +103,7 @@
             border-radius: 20px;
             border: 1px solid var(--gold);
             box-shadow: var(--card-shadow);
-            width: 100%;
+            width: 90%;
             max-width: 420px;
             text-align: center;
             backdrop-filter: blur(10px);
@@ -120,12 +119,14 @@
             z-index: 1050;
             color: var(--sidebar-text);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
         }
 
         .main-content {
             margin-left: 280px;
             padding: 40px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
         }
 
         .logo-container {
@@ -252,6 +253,7 @@
             transform: scale(1.1);
         }
 
+        /* 📱 การตั้งค่า Responsive เฉพาะสำหรับ Mobile */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -277,6 +279,30 @@
 
             .mobile-overlay.active {
                 display: block;
+            }
+
+            /* จัดการขนาดฟอนต์และ UI บนมือถือ */
+            .tactical-card h2 {
+                font-size: 1.8rem !important;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* ปรับแผนที่และต้นไม้บนมือถือ */
+            #dynamicTreeContainer {
+                padding: 10px !important;
+            }
+
+            #map-container {
+                min-height: 450px !important;
+            }
+
+            #viewDiv {
+                height: 100% !important;
+                min-height: 450px !important;
             }
         }
 
@@ -462,6 +488,7 @@
             padding: 10px 15px 10px 30px;
             border-left: 2px solid var(--army);
             margin-left: 15px;
+            overflow-x: auto;
         }
 
         .btn-inline-add {
@@ -553,6 +580,7 @@
             color: var(--text);
             border-left: 2px solid var(--gold);
             width: 420px;
+            max-width: 100vw;
             box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
         }
 
@@ -602,12 +630,9 @@
             background: linear-gradient(90deg, #e74c3c, #c0392b);
         }
 
-        /* 🛠️ ปรับสมดุล Sidebar Theme Switch เมื่อพับ */
         .theme-switch {
-            position: absolute;
-            bottom: 20px;
-            left: 15px;
-            right: 15px;
+            margin-top: auto;
+            padding-top: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -644,7 +669,6 @@
             display: block;
         }
 
-        /* 🛠️ ปรับ Badge การแจ้งเตือนเมื่อพับ Sidebar */
         .sidebar.collapsed .nav-link {
             position: relative;
         }
@@ -666,6 +690,7 @@
 
         .progress-bar {
             background-color: #2ecc71;
+            transition: width 0.5s ease;
         }
 
         .custom-scroll::-webkit-scrollbar {
@@ -828,16 +853,6 @@
             color: #fff !important;
         }
 
-        .tactical-map-legend {
-            background: rgba(27, 30, 19, 0.9);
-            padding: 12px;
-            border: 1px solid var(--gold);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
         .nato-marker {
             background: none;
             border: none;
@@ -877,22 +892,6 @@
             background: var(--panel) !important;
             border-radius: 8px !important;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
-        }
-
-        .leaflet-control-layers-toggle {
-            width: 36px !important;
-            height: 36px !important;
-            background-size: 20px 20px !important;
-            background-position: center !important;
-            display: block !important;
-            border-radius: 8px !important;
-        }
-
-        .leaflet-control-layers-expanded {
-            padding: 10px !important;
-            color: var(--text) !important;
-            background: var(--panel) !important;
-            border-radius: 8px !important;
         }
 
         .force-card-ui {
@@ -1053,13 +1052,7 @@
             font-size: 10px;
         }
 
-        .tactical-hospital-marker:hover {
-            transform: scale(1.2);
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.9);
-            z-index: 1000 !important;
-        }
-
-        .inner-hospital-marker {
+        .gov-hospital-marker {
             background-color: #111827;
             border: 2px solid #3b82f6;
             border-radius: 50%;
@@ -1070,15 +1063,9 @@
             transition: transform 0.2s;
         }
 
-        .inner-hospital-marker i {
+        .gov-hospital-marker i {
             color: #3b82f6;
             font-size: 10px;
-        }
-
-        .inner-hospital-marker:hover {
-            transform: scale(1.2);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.9);
-            z-index: 1000 !important;
         }
 
         .strategic-marker {
@@ -1091,12 +1078,8 @@
             transition: transform 0.2s;
         }
 
-        .strategic-marker:hover {
-            transform: scale(1.3);
-            z-index: 1000 !important;
-        }
-
         .strategic-marker-mini {
+            display: inline-block;
             width: 0;
             height: 0;
             border-left: 6px solid transparent;
@@ -1115,13 +1098,8 @@
             transition: transform 0.2s;
         }
 
-        .border-pillar-marker:hover {
-            transform: scale(1.8) translateY(-2px);
-            filter: drop-shadow(0 0 4px #ef4444);
-            z-index: 1000 !important;
-        }
-
         .border-pillar-marker-mini {
+            display: inline-block;
             background-color: #f3f4f6;
             width: 6px;
             height: 10px;
@@ -1161,7 +1139,7 @@
 
     <div id="appWrapper" style="display: none;">
         <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileSidebar()"></div>
-        <div class="sidebar" id="sidebar">
+        <div class="sidebar d-flex flex-column" id="sidebar">
             <div class="sidebar-toggler" onclick="toggleSidebar()"><i id="toggleIcon" class="bi bi-chevron-left"></i>
             </div>
             <div class="text-center mb-4">
@@ -1177,37 +1155,40 @@
                     id="userDisplay" class="text-white fs-5">User</strong><br><span id="userRoleBadge"
                     class="badge bg-secondary mt-1 shadow-sm" style="font-size:0.65rem;">Role</span></div>
 
-            <a class="nav-link active" onclick="showPage('dashboard', this)"><i
-                    class="bi bi-speedometer2 me-3 fs-5"></i> <span class="nav-text">DASHBOARD</span></a>
-            <a class="nav-link" onclick="showPage('structure', this)"><i class="bi bi-table me-3 fs-5"></i> <span
-                    class="nav-text">โครงสร้างหน่วย</span></a>
-            <a class="nav-link" onclick="showPage('tree', this)"><i class="bi bi-diagram-3-fill me-3 fs-5"></i> <span
-                    class="nav-text">ผังโครงสร้างหน่วย</span></a>
-            <a class="nav-link btn-auth-edit" onclick="showPage('dynamic', this)"><i
-                    class="bi bi-layers-fill me-3 fs-5"></i> <span class="nav-text">จัดการโครงสร้าง</span></a>
-            <a class="nav-link" onclick="showPage('map', this)"><i class="bi bi-globe-americas me-3 fs-5 text-info"></i>
-                <span class="nav-text">แผนที่ยุทธวิธี</span></a>
+            <div class="flex-grow-1 custom-scroll" style="overflow-y: auto; overflow-x: hidden;">
+                <a class="nav-link active" onclick="showPage('dashboard', this)"><i
+                        class="bi bi-speedometer2 me-3 fs-5"></i> <span class="nav-text">DASHBOARD</span></a>
+                <a class="nav-link" onclick="showPage('structure', this)"><i class="bi bi-table me-3 fs-5"></i> <span
+                        class="nav-text">โครงสร้างหน่วย</span></a>
+                <a class="nav-link" onclick="showPage('tree', this)"><i class="bi bi-diagram-3-fill me-3 fs-5"></i>
+                    <span class="nav-text">ผังโครงสร้างหน่วย</span></a>
+                <a class="nav-link btn-auth-edit" onclick="showPage('dynamic', this)"><i
+                        class="bi bi-layers-fill me-3 fs-5"></i> <span class="nav-text">จัดการโครงสร้าง</span></a>
+                <a class="nav-link" onclick="showPage('map', this)"><i
+                        class="bi bi-globe-americas me-3 fs-5 text-info"></i> <span
+                        class="nav-text">แผนที่ยุทธวิธี</span></a>
 
-            <div class="my-2 border-bottom border-secondary border-opacity-25 mx-3"></div>
-            <a class="nav-link" onclick="openNotifDrawer()"><i class="bi bi-bell-fill me-3 fs-5 text-warning"></i> <span
-                    class="nav-text">การแจ้งเตือน</span> <span id="notifBadge"
-                    class="badge bg-danger ms-2 rounded-pill shadow-sm"
-                    style="font-size:0.7rem; display:none;">0</span></a>
-            <a class="nav-link" onclick="showPage('dailyReport', this)"><i
-                    class="bi bi-file-earmark-bar-graph-fill me-3 fs-5 text-success"></i> <span
-                    class="nav-text">รายงานประจำวัน</span></a>
-            <a class="nav-link" onclick="showPage('kp4Report', this)"><i
-                    class="bi bi-file-earmark-text-fill me-3 fs-5 text-primary"></i> <span class="nav-text">สถานภาพ
-                    กพ.๔</span></a>
+                <div class="my-2 border-bottom border-secondary border-opacity-25 mx-3"></div>
+                <a class="nav-link" onclick="openNotifDrawer()"><i class="bi bi-bell-fill me-3 fs-5 text-warning"></i>
+                    <span class="nav-text">การแจ้งเตือน</span> <span id="notifBadge"
+                        class="badge bg-danger ms-2 rounded-pill shadow-sm"
+                        style="font-size:0.7rem; display:none;">0</span></a>
+                <a class="nav-link" onclick="showPage('dailyReport', this)"><i
+                        class="bi bi-file-earmark-bar-graph-fill me-3 fs-5 text-success"></i> <span
+                        class="nav-text">รายงานประจำวัน</span></a>
+                <a class="nav-link" onclick="showPage('kp4Report', this)"><i
+                        class="bi bi-file-earmark-text-fill me-3 fs-5 text-primary"></i> <span class="nav-text">สถานภาพ
+                        กพ.๔</span></a>
 
-            <a class="nav-link btn-admin-only mt-2" style="display:none;" onclick="showPage('admin', this)"><i
-                    class="bi bi-people-fill me-3 fs-5 text-danger"></i> <span
-                    class="nav-text">จัดการผู้ใช้งาน</span></a>
+                <a class="nav-link btn-admin-only mt-2" style="display:none;" onclick="showPage('admin', this)"><i
+                        class="bi bi-people-fill me-3 fs-5 text-danger"></i> <span
+                        class="nav-text">จัดการผู้ใช้งาน</span></a>
+            </div>
 
-            <a class="nav-link mt-4" style="color: #e74c3c;" onclick="handleLogout()"><i
+            <a class="nav-link mt-3 mb-2" style="color: #e74c3c;" onclick="handleLogout()"><i
                     class="bi bi-box-arrow-left me-3 fs-5"></i> <span class="nav-text fw-bold">ออกจากระบบ</span></a>
 
-            <div class="theme-switch"><span style="font-size:0.75rem; color:var(--sidebar-text);"><i
+            <div class="theme-switch mt-auto"><span style="font-size:0.75rem; color:var(--sidebar-text);"><i
                         class="bi bi-moon-stars me-2"></i>โหมดหน้าจอ</span>
                 <div class="form-check form-switch"><input class="form-check-input cursor-pointer" type="checkbox"
                         id="themeToggle" onchange="toggleTheme()"></div>
@@ -1512,7 +1493,7 @@
                         style="min-height: 600px;">
                         <div id="map-container"
                             class="w-100 flex-grow-1 position-relative rounded-4 border border-secondary shadow-lg overflow-hidden"
-                            style="z-index: 10; background: #0f172a;">
+                            style="z-index: 10; background: #0f172a; min-height: 500px;">
                             <div id="viewDiv" class="w-100 h-100 position-absolute top-0 start-0 z-0"></div>
 
                             <div class="hud-corner hud-tl"></div>
@@ -1855,188 +1836,33 @@
         </div>
     </div>
 
-    <!-- ================= DRAWER (รายละเอียดด้านขวา) ================= -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="nodeDrawer">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title fw-bold text-gold"><i class="bi bi-crosshair me-2"></i>รายละเอียดเจาะลึก</h5>
-            <button type="button" class="btn-close" style="filter: invert(1);" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body custom-scroll">
-            <div class="p-3 rounded mb-4 shadow-sm"
-                style="background: rgba(128,128,128,0.1); border: 1px solid rgba(128,128,128,0.2);">
-                <div class="drawer-label">แผนงาน</div>
-                <div class="drawer-value text-muted" id="d-plan">-</div>
-                <div class="drawer-label">ยุทธศาสตร์</div>
-                <div class="drawer-value text-info" id="d-l0">-</div>
-                <div class="drawer-label">จัดกำลัง</div>
-                <div class="drawer-value text-success" id="d-l1">-</div>
-                <div class="drawer-label">ยุทธการ</div>
-                <div class="drawer-value fs-5 text-warning" id="d-l2">-</div>
-                <div class="drawer-label">ยุทธวิธี</div>
-                <div class="drawer-value text-danger" id="d-l3">-</div>
-                <div class="drawer-label">ปฏิบัติการ</div>
-                <div class="drawer-value text-light" id="d-l4">-</div>
-            </div>
-            <h6 class="mb-3 fw-bold text-gold"><i class="bi bi-people-fill me-2"></i>กำลังพลปัจจุบัน</h6>
-            <div class="row text-center mb-2 g-2">
-                <div class="col-3">
-                    <div class="p-2 rounded border border-info border-opacity-25"
-                        style="background: rgba(13,202,240,0.05);">
-                        <div class="text-info fw-bold fs-5" id="d-g">0</div><small class="text-muted"
-                            style="font-size:0.7rem">นายพล</small>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="p-2 rounded border border-success border-opacity-25"
-                        style="background: rgba(46,204,113,0.05);">
-                        <div class="text-success fw-bold fs-5" id="d-n">0</div><small class="text-muted"
-                            style="font-size:0.7rem">น.</small>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="p-2 rounded border border-warning border-opacity-25"
-                        style="background: rgba(241,196,15,0.05);">
-                        <div class="text-warning fw-bold fs-5" id="d-s">0</div><small class="text-muted"
-                            style="font-size:0.7rem">ส.</small>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="p-2 rounded border border-danger border-opacity-25"
-                        style="background: rgba(231,76,60,0.05);">
-                        <div class="text-danger fw-bold fs-5" id="d-p">0</div><small class="text-muted"
-                            style="font-size:0.7rem">พลฯ</small>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center p-3 rounded mb-4 mt-3 shadow-sm"
-                style="background: var(--input-bg); border: 1px solid var(--gold);">
-                <small class="text-muted fw-bold">ยอดรวม</small>
-                <div class="fs-1 fw-bold mb-2 mt-1 text-gold" id="d-total">0</div>
-                <div class="pt-2 d-flex justify-content-between small fw-bold"
-                    style="border-top: 1px dashed var(--army);" id="d-compare-box"><span class="text-muted">ยอดเดิม:
-                        <span id="d-prev-total" class="text-secondary">0</span></span><span class="text-muted">ส่วนต่าง:
-                        <span id="d-diff-total">-</span></span></div>
-            </div>
-            <div class="drawer-label"><i class="bi bi-card-checklist me-1"></i>เช็ค List</div>
-            <div class="drawer-value text-muted fs-6" id="d-check">-</div>
-            <div class="drawer-label"><i class="bi bi-clock-history me-1"></i>อัปเดตล่าสุด</div>
-            <div class="drawer-value text-info fs-6" id="d-status">-</div>
-            <button class="btn btn-outline-danger w-100 mt-3 fw-bold shadow-sm" id="btnExportPDF"
-                onclick="exportPDFFromDrawer()"><i class="bi bi-file-earmark-pdf-fill me-2"></i>พิมพ์ PDF</button>
-            <button class="btn btn-warning w-100 mt-2 fw-bold shadow btn-auth-edit" id="btnEditDrawer"
-                onclick="editFromDrawer()"><i class="bi bi-pencil-square me-2"></i>แก้ไขข้อมูล</button>
-        </div>
-    </div>
-
-    <!-- ================= MODAL บันทึกข้อมูลหน่วย ================= -->
-    <div class="modal fade" id="unitModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content shadow-lg"
-                style="background: var(--panel); border: 1px solid var(--gold); color: var(--text);">
-                <div class="modal-body p-4 p-md-5">
-                    <div
-                        class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-                        <h4 class="fw-bold mb-0 text-gold"><i class="bi bi-pencil-square me-2"></i>ฟอร์มบันทึกข้อมูล
-                        </h4><button type="button" class="btn-close" style="filter: invert(1);"
-                            data-bs-dismiss="modal"></button>
-                    </div>
-                    <form id="uForm">
-                        <input type="hidden" id="rid">
-                        <div class="row g-3">
-                            <div class="col-md-6"><label class="small fw-bold mb-1 text-gold">แผนงาน (A)</label><input
-                                    list="planDataList" id="m_plan"
-                                    class="form-control border-warning shadow-sm"><datalist
-                                    id="planDataList"></datalist></div>
-                            <div class="col-md-6"><label class="small text-info fw-bold mb-1">ระดับยุทธศาสตร์
-                                    (B)</label><input type="text" id="m_l0" class="form-control border-info shadow-sm">
-                            </div>
-                            <div class="col-md-6"><label class="small text-success fw-bold mb-1">การจัดกำลัง (ตามแผน)
-                                    (C)</label><input type="text" id="m_l1" class="form-control"></div>
-                            <div class="col-md-6"><label class="small text-warning fw-bold mb-1">ระดับยุทธการ
-                                    (D)</label><input type="text" id="m_l2" class="form-control"></div>
-                            <div class="col-md-6"><label class="small text-danger fw-bold mb-1">ระดับยุทธวิธี
-                                    (E)</label><input type="text" id="m_l3" class="form-control"></div>
-                            <div class="col-md-6"><label class="small text-muted fw-bold mb-1">ปฏิบัติการหน้างาน
-                                    (F)</label><input type="text" id="m_l4" class="form-control"></div>
-                        </div>
-                        <h6 class="mt-4 mb-3 fw-bold text-gold"><i class="bi bi-person-bounding-box me-2"></i>ยอดกำลังพล
-                        </h6>
-                        <div class="row g-2 text-center p-3 rounded"
-                            style="background: rgba(128,128,128,0.1); border: 1px solid var(--army);">
-                            <div class="col-6 col-md-3"><label class="small text-info fw-bold mb-2">นายพล
-                                    (G)</label><input type="number" id="m_g"
-                                    class="form-control text-center fs-4 text-info fw-bold"></div>
-                            <div class="col-6 col-md-3"><label class="small text-success fw-bold mb-2">น.
-                                    (H)</label><input type="number" id="m_n"
-                                    class="form-control text-center fs-4 text-success fw-bold"></div>
-                            <div class="col-6 col-md-3"><label class="small text-warning fw-bold mb-2">ส.
-                                    (I)</label><input type="number" id="m_s"
-                                    class="form-control text-center fs-4 text-warning fw-bold"></div>
-                            <div class="col-6 col-md-3"><label class="small text-danger fw-bold mb-2">พลฯ
-                                    (J)</label><input type="number" id="m_p"
-                                    class="form-control text-center fs-4 text-danger fw-bold"></div>
-                        </div>
-                        <button type="button" class="btn btn-warning text-dark w-100 mt-4 py-3 fw-bold fs-5 shadow"
-                            onclick="save()"><i class="bi bi-save2-fill me-2"></i>บันทึก</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= MODAL บันทึกผู้ใช้งาน (Admin) ================= -->
-    <div class="modal fade" id="userModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-lg"
-                style="background: var(--panel); border: 1px solid var(--gold); color: var(--text);">
-                <div class="modal-body p-4">
-                    <div
-                        class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-                        <h5 class="fw-bold mb-0 text-gold"><i class="bi bi-person-badge me-2"></i>ฟอร์มผู้ใช้งาน</h5>
-                        <button type="button" class="btn-close" style="filter: invert(1);"
-                            data-bs-dismiss="modal"></button>
-                    </div>
-                    <form id="userForm">
-                        <input type="hidden" id="u_rid">
-                        <div class="mb-3">
-                            <label class="small text-muted fw-bold mb-1">Username (สำหรับล็อกอิน)</label>
-                            <input type="text" id="u_username" class="form-control border-warning shadow-sm" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="small text-muted fw-bold mb-1">Password</label>
-                            <input type="text" id="u_password" class="form-control shadow-sm" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="small text-muted fw-bold mb-1">ชื่อ-สกุล (แสดงผลในระบบ)</label>
-                            <input type="text" id="u_name" class="form-control shadow-sm" required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="small text-muted fw-bold mb-1">ระดับสิทธิ์ (Role)</label>
-                            <select id="u_role" class="form-select shadow-sm border-info text-info fw-bold">
-                                <option value="Admin">Admin (จัดการระบบได้ทั้งหมด)</option>
-                                <option value="Editor">Editor (เพิ่ม/แก้ไขข้อมูลหน่วยได้)</option>
-                                <option value="Viewer" selected>Viewer (ดูข้อมูลได้อย่างเดียว)</option>
-                            </select>
-                        </div>
-                        <button type="button" class="btn btn-warning text-dark w-100 py-2 fw-bold shadow"
-                            onclick="saveUser()"><i class="bi bi-save2-fill me-2"></i>บันทึกผู้ใช้</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= DRAWER แจ้งเตือน ================= -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="notifDrawer"
-        style="background: var(--panel); border-left: 2px solid var(--gold); color: var(--text); width: 380px; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
-        <div class="offcanvas-header border-bottom border-secondary pb-3">
-            <h5 class="offcanvas-title fw-bold text-gold"><i class="bi bi-bell-fill me-2"></i>แจ้งเตือนการอัปเดต</h5>
-            <button type="button" class="btn-close" style="filter: invert(1);" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body custom-scroll p-0" id="notifListContainer"></div>
-    </div>
-
     <script>
+        // ==========================================
+        // 🔗 API CONNECTION (ใส่ URL ตรงนี้)
+        // ==========================================
+        const GAS_API_URL = ""; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
+
+        // Core Fetch API
+        async function fetchAPI(action, data = {}) {
+            if (!GAS_API_URL || GAS_API_URL.trim() === "") {
+                console.warn("ยังไม่ได้ใส่ GAS_API_URL ระบบจะรันในโหมด Demo");
+                return runDemoMode(action, data);
+            }
+            try {
+                const response = await fetch(GAS_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: action, data: data })
+                });
+                const result = await response.json();
+                if (result.error) throw new Error(result.error);
+                return result;
+            } catch (error) {
+                console.error("API Error:", error);
+                throw error;
+            }
+        }
+
         // ==========================================
         // 🟢 GLOBAL VARIABLES & INITIALIZATION
         // ==========================================
@@ -2044,9 +1870,18 @@
         let currentDrawerIndex = null;
         let filters = { search: '', plan: '', l0: '', l1: '', l2: '', l3: '', l4: '' };
 
-        let modal, userModal, drawer, notifOffcanvas;
         let tacticalMap = null, drawnItems = null, geojsonLayer = null, activeForceId = null;
         let hqLayerGroup, higherHqLayerGroup, hospitalLayerGroup, borderLayerGroup, strategicLayerGroup, pillarLayerGroup, distanceLineGroup;
+
+        // 🛠️ ฟังก์ชันช่วยเหลือสำหรับ Bootstrap (Lazy Initialization ป้องกัน Error Backdrop)
+        const getBsModal = (id) => {
+            const el = document.getElementById(id);
+            return el ? (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)) : null;
+        };
+        const getBsOffcanvas = (id) => {
+            const el = document.getElementById(id);
+            return el ? (bootstrap.Offcanvas.getInstance(el) || new bootstrap.Offcanvas(el)) : null;
+        };
 
         const higherHQs = [
             { name: "กองบัญชาการกองทัพบก (บก.ทบ.)", desc: "ศูนย์กลางการบังคับบัญชา", lat: 13.764, lng: 100.505 },
@@ -2135,8 +1970,8 @@
             signal: '<svg viewBox="0 0 100 60"><rect width="100" height="60" fill="COLOR_PLACEHOLDER" stroke="#000" stroke-width="4"/><path d="M 55,10 L 45,30 L 60,30 L 40,50" fill="none" stroke="#000" stroke-width="4" stroke-linejoin="round"/></svg>'
         };
 
-        const hqIcon = L.divIcon({ className: 'custom-div-icon', html: `<div class="hq-marker" style="width:24px;height:24px;"><i class="fas fa-star"></i></div>`, iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] });
-        const higherHqIcon = L.divIcon({ className: 'custom-div-icon', html: `<div class="higher-hq-marker" style="width:32px;height:32px;"><i class="fas fa-shield-alt"></i></div>`, iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -16] });
+        const hqIcon = L.divIcon({ className: 'custom-div-icon', html: `<div class="hq-marker" style="width:24px;height:24px;"><i class="fas fa-star text-warning"></i></div>`, iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] });
+        const higherHqIcon = L.divIcon({ className: 'custom-div-icon', html: `<div class="higher-hq-marker" style="width:32px;height:32px;"><i class="fas fa-shield-alt text-warning"></i></div>`, iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -16] });
         const hospitalIcon = L.divIcon({ className: 'custom-div-icon', html: `<div class="tactical-hospital-marker" style="width:20px;height:20px;"><i class="fas fa-plus"></i></div>`, iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -10] });
         const govHospitalIcon = L.divIcon({ className: 'custom-div-icon', html: `<div class="gov-hospital-marker" style="width:20px;height:20px;"><i class="fas fa-plus"></i></div>`, iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -10] });
         const strategicIcon = L.divIcon({ className: 'custom-div-icon', html: `<div class="strategic-marker"></div>`, iconSize: [16, 14], iconAnchor: [8, 14], popupAnchor: [0, -14] });
@@ -2177,7 +2012,8 @@
             pillars.push({ lat: coords[coords.length - 1][0], lng: coords[coords.length - 1][1], name: "หลักหมุดที่ 73 (บ้านหาดเล็ก)" }); return pillars;
         }
 
-        window.onload = function () {
+        // ✅ เปลี่ยนจาก window.onload เป็น DOMContentLoaded ป้องกัน Error ตอน Load
+        document.addEventListener('DOMContentLoaded', function () {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.body.setAttribute('data-theme', savedTheme);
             document.getElementById('themeToggle').checked = (savedTheme === 'light');
@@ -2187,11 +2023,6 @@
             document.getElementById('tableFilterContainer').innerHTML = filterTemplate;
             document.getElementById('treeFilterContainer').innerHTML = filterTemplate;
             document.getElementById('dynamicFilterContainer').innerHTML = filterTemplate;
-
-            modal = new bootstrap.Modal(document.getElementById('unitModal'));
-            userModal = new bootstrap.Modal(document.getElementById('userModal'));
-            drawer = new bootstrap.Offcanvas(document.getElementById('nodeDrawer'));
-            notifOffcanvas = new bootstrap.Offcanvas(document.getElementById('notifDrawer'));
 
             if (sessionStorage.getItem('isLoggedIn') === 'true') {
                 document.getElementById('loginSection').style.display = 'none';
@@ -2214,9 +2045,39 @@
                 document.getElementById('loginSection').style.display = 'flex';
                 document.getElementById('appWrapper').style.display = 'none';
             }
-        };
+        });
 
-        function handleLogin() {
+        // ------------------------------------
+        // ฟังก์ชัน Demo จำลองการทำงานหากไม่มี API URL
+        // ------------------------------------
+        function runDemoMode(action, data) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    if (action === 'checkLogin') {
+                        if (data.username === 'admin' && data.password === '1234') resolve({ success: true, name: 'Demo Admin', role: 'Admin' });
+                        else resolve({ success: true, name: data.username, role: 'Editor' });
+                    }
+                    else if (action === 'getUnitData') {
+                        resolve({
+                            rows: [
+                                ["แผนงานป้องกันชายแดน", "ยุทธศาสตร์ที่ 1", "กกล. ผาเมือง", "ส่วนบังคับบัญชา", "-", "บก.กกล.ผาเมือง", 1, 15, 50, 200, 266, "ตรวจสอบแล้ว", "Updated: 10/10/26 10:00", 1, 15, 50, 200, 266],
+                                ["แผนงานป้องกันชายแดน", "ยุทธศาสตร์ที่ 1", "กกล. สุรสีห์", "ส่วนปฏิบัติการ", "ร.29", "ร.29 พัน.1", 0, 8, 30, 150, 188, "", "Updated: 11/10/26 12:30", 0, 8, 30, 100, 138],
+                                ["แผนงานป้องกันชายแดน", "ยุทธศาสตร์ที่ 2", "กกล. นเรศวร", "ส่วนสนับสนุน", "รพ.สนาม", "รพ.ค่ายวชิรปราการ", 0, 5, 20, 40, 65, "", "Pending", 0, 5, 20, 40, 65]
+                            ]
+                        });
+                    }
+                    else if (action === 'getUsersData') {
+                        resolve({ rows: [{ username: 'admin', password: '123', name: 'ระบบ Admin', role: 'Admin', rowIndex: 2 }] });
+                    }
+                    else if (action === 'saveUnitData' || action === 'saveUserData' || action === 'deleteUserData') {
+                        resolve({ success: true });
+                    }
+                    else resolve({ error: 'Demo Action Not Found' });
+                }, 800);
+            });
+        }
+
+        async function handleLogin() {
             const u = document.getElementById('loginUser').value;
             const p = document.getElementById('loginPass').value;
             if (!u || !p) return Swal.fire('แจ้งเตือน', 'กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบ', 'warning');
@@ -2226,55 +2087,41 @@
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังตรวจสอบ...';
             btn.disabled = true;
 
-            if (typeof google !== 'undefined' && google.script) {
-                google.script.run
-                    .withSuccessHandler(function (res) {
-                        btn.innerHTML = orig; btn.disabled = false;
-                        processLoginResponse(res, u);
-                    })
-                    .withFailureHandler(function (err) {
-                        btn.innerHTML = orig; btn.disabled = false;
-                        Swal.fire('ข้อผิดพลาด', err.message, 'error');
-                    })
-                    .checkLogin(u, p);
-            } else {
-                setTimeout(function () {
-                    btn.innerHTML = orig; btn.disabled = false;
-                    processLoginResponse({ success: true, name: u || 'Demo User', role: 'Admin' }, u);
-                }, 800);
-            }
-        }
+            try {
+                const res = await fetchAPI('checkLogin', { username: u, password: p });
+                btn.innerHTML = orig; btn.disabled = false;
+                if (res.error) {
+                    Swal.fire('เข้าสู่ระบบล้มเหลว', res.error, 'error');
+                } else if (res.success) {
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('userName', res.name);
+                    sessionStorage.setItem('userRole', res.role);
 
-        function processLoginResponse(res, username) {
-            if (res && res.error) {
-                Swal.fire('เข้าสู่ระบบล้มเหลว', res.error, 'error');
-            } else if (res && res.success) {
-                sessionStorage.setItem('isLoggedIn', 'true');
-                sessionStorage.setItem('userName', res.name);
-                sessionStorage.setItem('userRole', res.role);
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('appWrapper').style.display = 'block';
+                    document.getElementById('userDisplay').innerText = escapeHTML(res.name) || escapeHTML(u);
 
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('appWrapper').style.display = 'block';
-                document.getElementById('userDisplay').innerText = escapeHTML(res.name) || escapeHTML(username);
+                    let roleBadge = document.getElementById('userRoleBadge');
+                    roleBadge.innerText = escapeHTML(res.role);
+                    roleBadge.className = 'badge mt-1 shadow-sm';
 
-                let roleBadge = document.getElementById('userRoleBadge');
-                roleBadge.innerText = escapeHTML(res.role);
+                    if (res.role === 'Admin') {
+                        roleBadge.classList.add('bg-danger');
+                        document.querySelectorAll('.btn-admin-only').forEach(el => el.style.display = '');
+                    } else if (res.role === 'Editor') {
+                        roleBadge.classList.add('bg-warning', 'text-dark');
+                        document.querySelectorAll('.btn-admin-only').forEach(el => el.style.display = 'none');
+                    } else {
+                        roleBadge.classList.add('bg-secondary');
+                        document.querySelectorAll('.btn-admin-only').forEach(el => el.style.display = 'none');
+                    }
 
-                roleBadge.className = 'badge mt-1 shadow-sm';
-
-                if (res.role === 'Admin') {
-                    roleBadge.classList.add('bg-danger');
-                    document.querySelectorAll('.btn-admin-only').forEach(el => el.style.display = '');
-                } else if (res.role === 'Editor') {
-                    roleBadge.classList.add('bg-warning', 'text-dark');
-                    document.querySelectorAll('.btn-admin-only').forEach(el => el.style.display = 'none');
-                } else {
-                    roleBadge.classList.add('bg-secondary');
-                    document.querySelectorAll('.btn-admin-only').forEach(el => el.style.display = 'none');
+                    Swal.fire({ title: 'ยินดีต้อนรับ', text: 'เข้าสู่ระบบสำเร็จ', icon: 'success', timer: 1500, showConfirmButton: false });
+                    loadData(true);
                 }
-
-                Swal.fire({ title: 'ยินดีต้อนรับ', text: 'เข้าสู่ระบบสำเร็จ', icon: 'success', timer: 1500, showConfirmButton: false });
-                loadData(true);
+            } catch (err) {
+                btn.innerHTML = orig; btn.disabled = false;
+                Swal.fire('ข้อผิดพลาด', err.message, 'error');
             }
         }
 
@@ -2308,18 +2155,16 @@
             return canEdit;
         }
 
-        function loadUsers() {
+        async function loadUsers() {
             safeSetHTML('usersTableBody', '<tr><td colspan="5" class="text-center text-warning py-3"><div class="spinner-border spinner-border-sm"></div> กำลังโหลดผู้ใช้งาน...</td></tr>');
-            if (typeof google !== 'undefined' && google.script) {
-                google.script.run
-                    .withSuccessHandler(res => {
-                        if (res.error) { Swal.fire('Error', res.error, 'error'); return; }
-                        usersData = res.rows || [];
-                        renderUsersTable();
-                    }).getUsersData();
-            } else {
-                usersData = [{ username: 'admin', password: '123', name: 'ระบบ Admin', role: 'Admin', rowIndex: 2 }];
+            try {
+                const res = await fetchAPI('getUsersData');
+                if (res.error) throw new Error(res.error);
+                usersData = res.rows || [];
                 renderUsersTable();
+            } catch (err) {
+                Swal.fire('Error', err.message, 'error');
+                safeSetHTML('usersTableBody', '<tr><td colspan="5" class="text-center text-danger">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>');
             }
         }
 
@@ -2352,10 +2197,11 @@
                 document.getElementById('u_name').value = u.name;
                 document.getElementById('u_role').value = u.role;
             }
-            userModal.show();
+            const modal = getBsModal('userModal');
+            if (modal) modal.show();
         }
 
-        function saveUser() {
+        async function saveUser() {
             const btn = document.querySelector('#userForm button'); let orig = btn.innerHTML;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังบันทึก...'; btn.disabled = true;
 
@@ -2367,22 +2213,29 @@
                 role: document.getElementById('u_role').value
             };
 
-            if (typeof google !== 'undefined' && google.script) {
-                google.script.run
-                    .withSuccessHandler(() => { userModal.hide(); btn.innerHTML = orig; btn.disabled = false; Swal.fire('สำเร็จ', 'บันทึกข้อมูลผู้ใช้แล้ว', 'success'); loadUsers(); })
-                    .withFailureHandler(err => { btn.innerHTML = orig; btn.disabled = false; Swal.fire('ข้อผิดพลาด', err.message, 'error'); }).saveUserData(data);
-            } else {
-                setTimeout(() => { userModal.hide(); btn.innerHTML = orig; btn.disabled = false; Swal.fire('Demo', 'บันทึกสำเร็จ (โหมดจำลอง)', 'success'); }, 800);
+            try {
+                await fetchAPI('saveUserData', data);
+                const modal = getBsModal('userModal');
+                if (modal) modal.hide();
+
+                btn.innerHTML = orig; btn.disabled = false;
+                Swal.fire('สำเร็จ', 'บันทึกข้อมูลผู้ใช้แล้ว', 'success');
+                loadUsers();
+            } catch (err) {
+                btn.innerHTML = orig; btn.disabled = false;
+                Swal.fire('ข้อผิดพลาด', err.message, 'error');
             }
         }
 
         function deleteUser(rowIndex) {
-            Swal.fire({ title: 'ลบผู้ใช้?', text: "ไม่สามารถกู้คืนได้", icon: 'warning', showCancelButton: true, confirmButtonText: 'ลบข้อมูล', customClass: { popup: 'dark-swal' } }).then(result => {
+            Swal.fire({ title: 'ลบผู้ใช้?', text: "ไม่สามารถกู้คืนได้", icon: 'warning', showCancelButton: true, confirmButtonText: 'ลบข้อมูล', customClass: { popup: 'dark-swal' } }).then(async result => {
                 if (result.isConfirmed) {
-                    if (typeof google !== 'undefined' && google.script) {
-                        google.script.run.withSuccessHandler(() => { Swal.fire('ลบแล้ว!', '', 'success'); loadUsers(); }).deleteUserData(rowIndex);
-                    } else {
-                        Swal.fire('Demo', 'ลบสำเร็จ (โหมดจำลอง)', 'success');
+                    try {
+                        await fetchAPI('deleteUserData', { rowIndex: rowIndex });
+                        Swal.fire('ลบแล้ว!', '', 'success');
+                        loadUsers();
+                    } catch (err) {
+                        Swal.fire('Error', err.message, 'error');
                     }
                 }
             });
@@ -2430,7 +2283,6 @@
             if (p === 'dynamic') buildDynamicTree();
             if (p === 'map') {
                 loadMap();
-                // แก้ไขบัคแผนที่ขยับไม่ได้เมื่อซ่อนกลับมาแสดงใหม่
                 setTimeout(() => {
                     if (tacticalMap) tacticalMap.invalidateSize();
                 }, 300);
@@ -2662,12 +2514,10 @@
 
                 updateCharts(g, n, s, p, structStats);
 
-                // Update Background Elements
                 if (document.getElementById('treeSection').style.display === 'block') buildTree();
                 if (document.getElementById('dynamicSection').style.display === 'block') buildDynamicTree();
                 if (typeof syncPersonnelToMap === 'function') syncPersonnelToMap();
 
-                // Update New Features
                 updateNotifications();
                 renderDailyReport();
                 renderKp4Report();
@@ -2678,29 +2528,18 @@
             }
         }
 
-        function loadData(fetchFromServer) {
+        async function loadData(fetchFromServer) {
             if (fetchFromServer) {
                 safeSetHTML('tableBody', '<tr><td colspan="11" class="text-center text-warning py-5"><div class="spinner-border text-warning mb-3" style="width: 3rem; height: 3rem;" role="status"></div><br><span class="fw-bold">กำลังซิงค์ฐานข้อมูลศูนย์ปฏิบัติการ...</span></td></tr>');
 
-                if (typeof google !== 'undefined' && google.script) {
-                    google.script.run
-                        .withSuccessHandler(function (res) {
-                            if (res && res.error) { Swal.fire('ข้อผิดพลาดฐานข้อมูล', res.error, 'error'); return; }
-                            rawData = res.rows || [];
-                            renderUI();
-                        })
-                        .withFailureHandler(function (err) {
-                            Swal.fire('การเชื่อมต่อล้มเหลว', err.message, 'error');
-                        }).getUnitData();
-                } else {
-                    setTimeout(() => {
-                        rawData = [
-                            ["แผนงานป้องกันชายแดน", "ยุทธศาสตร์ที่ 1", "กกล. ผาเมือง", "ส่วนบังคับบัญชา", "-", "บก.กกล.ผาเมือง", 1, 15, 50, 200, 266, "ตรวจสอบแล้ว", "Updated: 10/10/26 10:00", 1, 15, 50, 200, 266],
-                            ["แผนงานป้องกันชายแดน", "ยุทธศาสตร์ที่ 1", "กกล. สุรสีห์", "ส่วนปฏิบัติการ", "ร.29", "ร.29 พัน.1", 0, 8, 30, 150, 188, "", "Updated: 11/10/26 12:30", 0, 8, 30, 100, 138],
-                            ["แผนงานป้องกันชายแดน", "ยุทธศาสตร์ที่ 2", "กกล. นเรศวร", "ส่วนสนับสนุน", "รพ.สนาม", "รพ.ค่ายวชิรปราการ", 0, 5, 20, 40, 65, "", "Pending", 0, 5, 20, 40, 65]
-                        ];
-                        renderUI();
-                    }, 1000);
+                try {
+                    const res = await fetchAPI('getUnitData');
+                    if (res.error) throw new Error(res.error);
+                    rawData = res.rows || [];
+                    renderUI();
+                } catch (err) {
+                    Swal.fire('การเชื่อมต่อล้มเหลว', err.message, 'error');
+                    safeSetHTML('tableBody', '<tr><td colspan="11" class="text-center text-danger">ไม่สามารถโหลดข้อมูลได้</td></tr>');
                 }
             } else {
                 renderUI();
@@ -2768,7 +2607,6 @@
                 rawData.forEach((r, i) => {
                     if (!isMatchFilter(r)) return;
 
-                    // คำนวณสถิติ
                     let ct = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
                     let pt = (r[17] !== undefined && r[17] !== "") ? cleanNumber(r[17]) : ct;
                     let isUpdated = r[12] && r[12].toString().includes("Updated");
@@ -2785,7 +2623,6 @@
                     hierarchy[plan][l0][l1][l2].push({ l3: l3, l4: l4, index: i, total: ct, prevTotal: pt, isUpdated: isUpdated });
                 });
 
-                // วาดกล่องสรุปข้อมูล (Summary Box)
                 if (summaryBox) {
                     let netDiff = stats.total - stats.prevTotal;
                     let diffColor = netDiff > 0 ? 'text-success' : (netDiff < 0 ? 'text-danger' : 'text-muted');
@@ -2838,7 +2675,6 @@
                                     let name = (unit.l3 !== "-" ? unit.l3 : "") + (unit.l4 !== "-" ? " > " + unit.l4 : ""); if (name === "" || name === " > ") name = "หน่วยฐาน";
                                     let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-warning rounded-circle py-0 px-1" onclick="edit(${unit.index})"><i class="bi bi-pencil"></i></button>` : '';
 
-                                    // ป้ายแจ้งส่วนต่างและไอคอนอัปเดต
                                     let diff = unit.total - unit.prevTotal;
                                     let diffBadge = '';
                                     if (diff > 0) diffBadge = `<span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 me-2" title="เพิ่มขึ้น">+${diff.toLocaleString()}</span>`;
@@ -2847,8 +2683,8 @@
                                     let updateIcon = unit.isUpdated ? '<i class="bi bi-check-circle-fill text-success ms-2" style="font-size: 0.75rem;" title="อัปเดตแล้ว"></i>' : '<i class="bi bi-clock text-secondary ms-2" style="font-size: 0.75rem;" title="รอดำเนินการ"></i>';
 
                                     html += `<div class="d-flex justify-content-between align-items-center border-bottom border-secondary border-opacity-25 py-2 px-2 hover-highlight">
-                                    <span class="text-light cursor-pointer" onclick="openDrawer(${unit.index})"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${name} ${updateIcon}</span>
-                                    <div>${diffBadge}<span class="badge bg-dark border border-warning text-warning me-2">${unit.total.toLocaleString()} นาย</span>${editBtnHtml}</div></div>`;
+                                    <span class="text-light cursor-pointer text-truncate" onclick="openDrawer(${unit.index})"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${name} ${updateIcon}</span>
+                                    <div class="text-nowrap">${diffBadge}<span class="badge bg-dark border border-warning text-warning me-2">${unit.total.toLocaleString()} นาย</span>${editBtnHtml}</div></div>`;
                                 });
                                 html += `</div></details>`;
                             } html += `</div></details>`;
@@ -2863,7 +2699,8 @@
             document.getElementById('uForm').reset(); document.getElementById('rid').value = '';
             if (plan) document.getElementById('m_plan').value = plan; if (l0) document.getElementById('m_l0').value = l0;
             if (l1) document.getElementById('m_l1').value = l1; if (l2) document.getElementById('m_l2').value = l2;
-            modal.show();
+            const modal = getBsModal('unitModal');
+            if (modal) modal.show();
         }
 
         function openDrawer(index) {
@@ -2878,11 +2715,24 @@
             safeSetText('d-g', cg.toLocaleString()); safeSetText('d-n', cn.toLocaleString()); safeSetText('d-s', cs.toLocaleString()); safeSetText('d-p', cp.toLocaleString());
             safeSetHTML('d-total', currTotal.toLocaleString()); safeSetText('d-prev-total', prevTotal.toLocaleString()); safeSetHTML('d-diff-total', formatDiff(currTotal, prevTotal) || "<span class='text-muted'>-</span>");
             safeSetText('d-check', r[11] || '-'); safeSetText('d-status', r[12] || '-');
-            drawer.show();
+
+            const drawer = getBsOffcanvas('nodeDrawer');
+            if (drawer) drawer.show();
         }
 
-        function editFromDrawer() { drawer.hide(); if (currentDrawerIndex !== null) edit(currentDrawerIndex); }
-        function openModal() { document.getElementById('uForm').reset(); document.getElementById('rid').value = ''; modal.show(); }
+        function editFromDrawer() {
+            const drawer = getBsOffcanvas('nodeDrawer');
+            if (drawer) drawer.hide();
+
+            if (currentDrawerIndex !== null) edit(currentDrawerIndex);
+        }
+
+        function openModal() {
+            document.getElementById('uForm').reset();
+            document.getElementById('rid').value = '';
+            const modal = getBsModal('unitModal');
+            if (modal) modal.show();
+        }
 
         function edit(i) {
             const r = rawData[i];
@@ -2891,10 +2741,12 @@
             document.getElementById('m_l2').value = r[3] || ""; document.getElementById('m_l3').value = r[4] || ""; document.getElementById('m_l4').value = r[5] || "";
             document.getElementById('m_g').value = cleanNumber(r[6]) || ""; document.getElementById('m_n').value = cleanNumber(r[7]) || "";
             document.getElementById('m_s').value = cleanNumber(r[8]) || ""; document.getElementById('m_p').value = cleanNumber(r[9]) || "";
-            modal.show();
+
+            const modal = getBsModal('unitModal');
+            if (modal) modal.show();
         }
 
-        function save() {
+        async function save() {
             const data = {
                 rowIndex: document.getElementById('rid').value, plan: document.getElementById('m_plan').value, l0: document.getElementById('m_l0').value,
                 l1: document.getElementById('m_l1').value, l2: document.getElementById('m_l2').value, l3: document.getElementById('m_l3').value,
@@ -2903,15 +2755,21 @@
             let btn = document.querySelector('#uForm button'); let origHtml = btn.innerHTML;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...'; btn.disabled = true;
 
-            if (typeof google !== 'undefined' && google.script) {
-                google.script.run.withSuccessHandler(() => { modal.hide(); btn.innerHTML = origHtml; btn.disabled = false; loadData(true); Swal.fire({ title: 'Success', text: 'บันทึกข้อมูลเรียบร้อย', icon: 'success', timer: 1500, showConfirmButton: false }); })
-                    .withFailureHandler(err => { btn.innerHTML = origHtml; btn.disabled = false; Swal.fire('Error', err.message, 'error'); }).saveUnitData(data);
-            } else {
-                setTimeout(() => { modal.hide(); btn.innerHTML = origHtml; btn.disabled = false; Swal.fire('Demo', 'จำลองการบันทึกข้อมูลสำเร็จ', 'success'); }, 800);
+            try {
+                await fetchAPI('saveUnitData', data);
+                const modal = getBsModal('unitModal');
+                if (modal) modal.hide();
+
+                btn.innerHTML = origHtml; btn.disabled = false;
+                loadData(true);
+                Swal.fire({ title: 'Success', text: 'บันทึกข้อมูลเรียบร้อย', icon: 'success', timer: 1500, showConfirmButton: false });
+            } catch (err) {
+                btn.innerHTML = origHtml; btn.disabled = false;
+                Swal.fire('Error', err.message, 'error');
             }
         }
 
-        function exportPDFFromDrawer() {
+        async function exportPDFFromDrawer() {
             if (currentDrawerIndex === null) return;
             const r = rawData[currentDrawerIndex];
             if (r.length < 19) return Swal.fire('Error', 'ไม่พบข้อมูลแถวอ้างอิง', 'error');
@@ -2920,11 +2778,13 @@
             let btn = document.getElementById('btnExportPDF'); let origHtml = btn.innerHTML;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating...'; btn.disabled = true;
 
-            if (typeof google !== 'undefined' && google.script) {
-                google.script.run.withSuccessHandler(res => { btn.innerHTML = origHtml; btn.disabled = false; if (res.error) Swal.fire('Warning', res.error, 'warning'); else { window.open(res.url, '_blank'); } })
-                    .withFailureHandler(err => { btn.innerHTML = origHtml; btn.disabled = false; Swal.fire('Error', err.message, 'error'); }).generateSinglePDF(rowIndex);
-            } else {
-                setTimeout(() => { btn.innerHTML = origHtml; btn.disabled = false; Swal.fire('Demo', 'โหมดทดสอบ ไม่สามารถสร้าง PDF จริงได้', 'info'); }, 800);
+            try {
+                const res = await fetchAPI('generateSinglePDF', { rowIndex: rowIndex });
+                btn.innerHTML = origHtml; btn.disabled = false;
+                if (res.url) window.open(res.url, '_blank');
+            } catch (err) {
+                btn.innerHTML = origHtml; btn.disabled = false;
+                Swal.fire('Error', err.message, 'error');
             }
         }
 
@@ -3144,7 +3004,6 @@
                     tacticalMap = L.map('viewDiv', { zoomControl: false, attributionControl: false }).setView([13.7367, 100.5231], 5.8);
                     const tacticalDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png');
                     const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
-                    const topoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17 });
 
                     tacticalDark.addTo(tacticalMap); tacticalMap.addControl(L.control.zoom({ position: 'topleft' }));
                     L.control.scale({ imperial: false, metric: true, position: 'bottomright' }).addTo(tacticalMap);
@@ -3253,7 +3112,6 @@
                     console.error("Map Error:", error);
                 } finally {
                     if (loadingEl) loadingEl.style.display = 'none';
-                    // อัปเดตขนาดแผนที่ให้ถูกต้องทันทีที่โหลดเสร็จ
                     if (tacticalMap) tacticalMap.invalidateSize();
                 }
             }, 400);
@@ -3343,7 +3201,10 @@
             } catch (e) { return 0; }
         }
 
-        function openNotifDrawer() { notifOffcanvas.show(); }
+        function openNotifDrawer() {
+            const drawer = getBsOffcanvas('notifDrawer');
+            if (drawer) drawer.show();
+        }
 
         function updateNotifications() {
             let validUpdates = rawData.filter(r => r[12] && r[12].toString().includes("Updated"));
