@@ -3268,7 +3268,11 @@
         window.loadMap = function () {
             setTimeout(async function () {
                 const loadingEl = document.getElementById('loading');
-                if (tacticalMap) { tacticalMap.invalidateSize(); if (loadingEl) loadingEl.style.display = 'none'; return; }
+                if (tacticalMap) {
+                    tacticalMap.invalidateSize();
+                    if (loadingEl) loadingEl.style.setProperty('display', 'none', 'important');
+                    return;
+                }
 
                 try {
                     syncPersonnelToMap();
@@ -3412,7 +3416,7 @@
                 } catch (error) {
                     console.error("Map Error:", error);
                 } finally {
-                    if (loadingEl) loadingEl.style.display = 'none';
+                    if (loadingEl) loadingEl.style.setProperty('display', 'none', 'important');
                     if (tacticalMap) tacticalMap.invalidateSize();
                 }
             }, 400);
