@@ -1390,7 +1390,8 @@
                                     class="bi bi-pie-chart-fill me-2"></i>สัดส่วนกำลังพลภาพรวม</h6>
                             <div
                                 style="position: relative; height: 300px; display:flex; justify-content:center; align-items:center;">
-                                <canvas id="pChart"></canvas></div>
+                                <canvas id="pChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1883,6 +1884,197 @@
         </div>
     </div>
 
+    <!-- ================= DRAWER (รายละเอียดด้านขวา) ================= -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="nodeDrawer">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title fw-bold text-gold"><i class="bi bi-crosshair me-2"></i>รายละเอียดเจาะลึก</h5>
+            <button type="button" class="btn-close" style="filter: invert(1);" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body custom-scroll">
+            <div class="p-3 rounded mb-4 shadow-sm"
+                style="background: rgba(128,128,128,0.1); border: 1px solid rgba(128,128,128,0.2);">
+                <div class="drawer-label">แผนงาน</div>
+                <div class="drawer-value text-muted" id="d-plan">-</div>
+                <div class="drawer-label">ยุทธศาสตร์</div>
+                <div class="drawer-value text-info" id="d-l0">-</div>
+                <div class="drawer-label">จัดกำลัง</div>
+                <div class="drawer-value text-success" id="d-l1">-</div>
+                <div class="drawer-label">ยุทธการ</div>
+                <div class="drawer-value fs-5 text-warning" id="d-l2">-</div>
+                <div class="drawer-label">ยุทธวิธี</div>
+                <div class="drawer-value text-danger" id="d-l3">-</div>
+                <div class="drawer-label">ปฏิบัติการ</div>
+                <div class="drawer-value text-light" id="d-l4">-</div>
+            </div>
+            <h6 class="mb-3 fw-bold text-gold"><i class="bi bi-people-fill me-2"></i>กำลังพลปัจจุบัน</h6>
+            <div class="row text-center mb-2 g-2">
+                <div class="col-3">
+                    <div class="p-2 rounded border border-info border-opacity-25"
+                        style="background: rgba(13,202,240,0.05);">
+                        <div class="text-info fw-bold fs-5" id="d-g">0</div><small class="text-muted"
+                            style="font-size:0.7rem">นายพล</small>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 rounded border border-success border-opacity-25"
+                        style="background: rgba(46,204,113,0.05);">
+                        <div class="text-success fw-bold fs-5" id="d-n">0</div><small class="text-muted"
+                            style="font-size:0.7rem">น.</small>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 rounded border border-warning border-opacity-25"
+                        style="background: rgba(241,196,15,0.05);">
+                        <div class="text-warning fw-bold fs-5" id="d-s">0</div><small class="text-muted"
+                            style="font-size:0.7rem">ส.</small>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 rounded border border-danger border-opacity-25"
+                        style="background: rgba(231,76,60,0.05);">
+                        <div class="text-danger fw-bold fs-5" id="d-p">0</div><small class="text-muted"
+                            style="font-size:0.7rem">พลฯ</small>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center p-3 rounded mb-4 mt-3 shadow-sm"
+                style="background: var(--input-bg); border: 1px solid var(--gold);">
+                <small class="text-muted fw-bold">ยอดรวม</small>
+                <div class="fs-1 fw-bold mb-2 mt-1 text-gold" id="d-total">0</div>
+                <div class="pt-2 d-flex justify-content-between small fw-bold"
+                    style="border-top: 1px dashed var(--army);" id="d-compare-box"><span class="text-muted">ยอดเดิม:
+                        <span id="d-prev-total" class="text-secondary">0</span></span><span class="text-muted">ส่วนต่าง:
+                        <span id="d-diff-total">-</span></span></div>
+            </div>
+            <div class="drawer-label"><i class="bi bi-card-checklist me-1"></i>เช็ค List</div>
+            <div class="drawer-value text-muted fs-6" id="d-check">-</div>
+            <div class="drawer-label"><i class="bi bi-clock-history me-1"></i>อัปเดตล่าสุด</div>
+            <div class="drawer-value text-info fs-6" id="d-status">-</div>
+            <button class="btn btn-outline-danger w-100 mt-3 fw-bold shadow-sm" id="btnExportPDF"
+                onclick="window.exportPDFFromDrawer()"><i class="bi bi-file-earmark-pdf-fill me-2"></i>พิมพ์
+                PDF</button>
+            <button class="btn btn-warning w-100 mt-2 fw-bold shadow btn-auth-edit" id="btnEditDrawer"
+                onclick="window.editFromDrawer()"><i class="bi bi-pencil-square me-2"></i>แก้ไขข้อมูล</button>
+        </div>
+    </div>
+
+    <!-- ================= MODAL บันทึกข้อมูลหน่วย ================= -->
+    <div class="modal fade" id="unitModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content shadow-lg"
+                style="background: var(--panel); border: 1px solid var(--gold); color: var(--text);">
+                <div class="modal-body p-4 p-md-5">
+                    <div
+                        class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                        <h4 class="fw-bold mb-0 text-gold"><i class="bi bi-pencil-square me-2"></i>ฟอร์มบันทึกข้อมูล
+                        </h4><button type="button" class="btn-close" style="filter: invert(1);"
+                            data-bs-dismiss="modal"></button>
+                    </div>
+                    <form id="uForm">
+                        <input type="hidden" id="rid">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="small fw-bold mb-1 text-gold">แผนงาน (A)</label><input
+                                    list="planDataList" id="m_plan"
+                                    class="form-control border-warning shadow-sm"><datalist
+                                    id="planDataList"></datalist></div>
+                            <div class="col-md-6"><label class="small text-info fw-bold mb-1">ระดับยุทธศาสตร์
+                                    (B)</label><input type="text" id="m_l0" class="form-control border-info shadow-sm">
+                            </div>
+                            <div class="col-md-6"><label class="small text-success fw-bold mb-1">การจัดกำลัง (ตามแผน)
+                                    (C)</label><input type="text" id="m_l1" class="form-control"></div>
+                            <div class="col-md-6"><label class="small text-warning fw-bold mb-1">ระดับยุทธการ
+                                    (D)</label><input type="text" id="m_l2" class="form-control"></div>
+                            <div class="col-md-6"><label class="small text-danger fw-bold mb-1">ระดับยุทธวิธี
+                                    (E)</label><input type="text" id="m_l3" class="form-control"></div>
+                            <div class="col-md-6"><label class="small text-muted fw-bold mb-1">ปฏิบัติการหน้างาน
+                                    (F)</label><input type="text" id="m_l4" class="form-control"></div>
+                        </div>
+                        <h6 class="mt-4 mb-3 fw-bold text-gold"><i class="bi bi-person-bounding-box me-2"></i>ยอดกำลังพล
+                        </h6>
+                        <div class="row g-2 text-center p-3 rounded"
+                            style="background: rgba(128,128,128,0.1); border: 1px solid var(--army);">
+                            <div class="col-6 col-md-3"><label class="small text-info fw-bold mb-2">นายพล
+                                    (G)</label><input type="number" id="m_g"
+                                    class="form-control text-center fs-4 text-info fw-bold"></div>
+                            <div class="col-6 col-md-3"><label class="small text-success fw-bold mb-2">น.
+                                    (H)</label><input type="number" id="m_n"
+                                    class="form-control text-center fs-4 text-success fw-bold"></div>
+                            <div class="col-6 col-md-3"><label class="small text-warning fw-bold mb-2">ส.
+                                    (I)</label><input type="number" id="m_s"
+                                    class="form-control text-center fs-4 text-warning fw-bold"></div>
+                            <div class="col-6 col-md-3"><label class="small text-danger fw-bold mb-2">พลฯ
+                                    (J)</label><input type="number" id="m_p"
+                                    class="form-control text-center fs-4 text-danger fw-bold"></div>
+                        </div>
+
+                        <!-- เพิ่มช่องหมายเหตุที่หายไป -->
+                        <div class="mt-3">
+                            <label class="small text-muted fw-bold mb-1"><i
+                                    class="bi bi-card-checklist me-1"></i>หมายเหตุ / รายละเอียดเพิ่มเติม (K)</label>
+                            <textarea id="m_checklist" class="form-control shadow-sm" rows="2"
+                                placeholder="ระบุหมายเหตุ..."></textarea>
+                        </div>
+
+                        <button type="button" class="btn btn-warning text-dark w-100 mt-4 py-3 fw-bold fs-5 shadow"
+                            onclick="window.save()"><i class="bi bi-save2-fill me-2"></i>บันทึก</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL บันทึกผู้ใช้งาน (Admin) ================= -->
+    <div class="modal fade" id="userModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg"
+                style="background: var(--panel); border: 1px solid var(--gold); color: var(--text);">
+                <div class="modal-body p-4">
+                    <div
+                        class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                        <h5 class="fw-bold mb-0 text-gold"><i class="bi bi-person-badge me-2"></i>ฟอร์มผู้ใช้งาน</h5>
+                        <button type="button" class="btn-close" style="filter: invert(1);"
+                            data-bs-dismiss="modal"></button>
+                    </div>
+                    <form id="userForm">
+                        <input type="hidden" id="u_rid">
+                        <div class="mb-3">
+                            <label class="small text-muted fw-bold mb-1">Username (สำหรับล็อกอิน)</label>
+                            <input type="text" id="u_username" class="form-control border-warning shadow-sm" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small text-muted fw-bold mb-1">Password</label>
+                            <input type="text" id="u_password" class="form-control shadow-sm" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small text-muted fw-bold mb-1">ชื่อ-สกุล (แสดงผลในระบบ)</label>
+                            <input type="text" id="u_name" class="form-control shadow-sm" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="small text-muted fw-bold mb-1">ระดับสิทธิ์ (Role)</label>
+                            <select id="u_role" class="form-select shadow-sm border-info text-info fw-bold">
+                                <option value="Admin">Admin (จัดการระบบได้ทั้งหมด)</option>
+                                <option value="Editor">Editor (เพิ่ม/แก้ไขข้อมูลหน่วยได้)</option>
+                                <option value="Viewer" selected>Viewer (ดูข้อมูลได้อย่างเดียว)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-warning text-dark w-100 py-2 fw-bold shadow"
+                            onclick="window.saveUser()"><i class="bi bi-save2-fill me-2"></i>บันทึกผู้ใช้</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= DRAWER แจ้งเตือน ================= -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notifDrawer"
+        style="background: var(--panel); border-left: 2px solid var(--gold); color: var(--text); width: 380px; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
+        <div class="offcanvas-header border-bottom border-secondary pb-3">
+            <h5 class="offcanvas-title fw-bold text-gold"><i class="bi bi-bell-fill me-2"></i>แจ้งเตือนการอัปเดต</h5>
+            <button type="button" class="btn-close" style="filter: invert(1);" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body custom-scroll p-0" id="notifListContainer"></div>
+    </div>
+
     <script>
         // ==========================================
         // 🔗 API CONNECTION (ใส่ URL ตรงนี้)
@@ -2065,7 +2257,6 @@
             pillars.push({ lat: coords[coords.length - 1][0], lng: coords[coords.length - 1][1], name: "หลักหมุดที่ 73 (บ้านหาดเล็ก)" }); return pillars;
         }
 
-        // ✅ เปลี่ยนจาก window.onload เป็น DOMContentLoaded ป้องกัน Error ตอน Load
         document.addEventListener('DOMContentLoaded', function () {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.body.setAttribute('data-theme', savedTheme);
@@ -2104,9 +2295,6 @@
             }
         });
 
-        // ------------------------------------
-        // ฟังก์ชัน Demo จำลองการทำงานหากไม่มี API URL
-        // ------------------------------------
         function runDemoMode(action, data) {
             return new Promise((resolve) => {
                 setTimeout(() => {
@@ -2194,7 +2382,6 @@
                     document.getElementById('loginUser').value = '';
                     document.getElementById('loginPass').value = '';
 
-                    // ลบสถานะเปิดเมนูมือถือ
                     document.getElementById('sidebar').classList.remove('mobile-open');
                     document.getElementById('mobileOverlay').classList.remove('active');
 
@@ -2248,30 +2435,43 @@
         }
 
         window.openUserModal = function (index = null) {
-            document.getElementById('userForm').reset();
-            document.getElementById('u_rid').value = '';
-            if (index !== null) {
+            const form = document.getElementById('userForm');
+            if (form && typeof form.reset === 'function') form.reset();
+
+            const uRid = document.getElementById('u_rid');
+            if (uRid) uRid.value = '';
+
+            if (index !== null && usersData && usersData[index]) {
                 let u = usersData[index];
-                document.getElementById('u_rid').value = u.rowIndex;
-                document.getElementById('u_username').value = u.username;
-                document.getElementById('u_password').value = u.password;
-                document.getElementById('u_name').value = u.name;
-                document.getElementById('u_role').value = u.role;
+                const safeSet = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+                safeSet('u_rid', u.rowIndex);
+                safeSet('u_username', u.username);
+                safeSet('u_password', u.password);
+                safeSet('u_name', u.name);
+                safeSet('u_role', u.role);
             }
+
             const modal = window.getBsModal('userModal');
             if (modal) modal.show();
         };
 
         window.saveUser = async function () {
-            const btn = document.querySelector('#userForm button'); let orig = btn.innerHTML;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังบันทึก...'; btn.disabled = true;
+            const form = document.getElementById('userForm');
+            let btn = form ? form.querySelector('button') : null;
+            let orig = "บันทึก";
+            if (btn) {
+                orig = btn.innerHTML;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังบันทึก...';
+                btn.disabled = true;
+            }
 
+            const safeGet = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
             let data = {
-                rowIndex: document.getElementById('u_rid').value,
-                username: document.getElementById('u_username').value,
-                password: document.getElementById('u_password').value,
-                name: document.getElementById('u_name').value,
-                role: document.getElementById('u_role').value
+                rowIndex: safeGet('u_rid'),
+                username: safeGet('u_username'),
+                password: safeGet('u_password'),
+                name: safeGet('u_name'),
+                role: safeGet('u_role')
             };
 
             try {
@@ -2279,11 +2479,11 @@
                 const modal = window.getBsModal('userModal');
                 if (modal) modal.hide();
 
-                btn.innerHTML = orig; btn.disabled = false;
+                if (btn) { btn.innerHTML = orig; btn.disabled = false; }
                 Swal.fire('สำเร็จ', 'บันทึกข้อมูลผู้ใช้แล้ว', 'success');
                 loadUsers();
             } catch (err) {
-                btn.innerHTML = orig; btn.disabled = false;
+                if (btn) { btn.innerHTML = orig; btn.disabled = false; }
                 Swal.fire('ข้อผิดพลาด', err.message, 'error');
             }
         };
@@ -2384,19 +2584,20 @@
                 document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(el => el.value = val);
             }
 
-            const searchEl = document.querySelector('.filter-search');
-            const planEl = document.querySelector('.filter-plan');
-            const l0El = document.querySelector('.filter-l0');
-            const l1El = document.querySelector('.filter-l1');
-            const l2El = document.querySelector('.filter-l2');
-            const l3El = document.querySelector('.filter-l3');
+            const getActiveVal = (selector) => {
+                const els = document.querySelectorAll(selector);
+                for (let i = 0; i < els.length; i++) {
+                    if (!els[i].closest('#globalFilterTemplate')) return els[i].value;
+                }
+                return "";
+            };
 
-            filters.search = searchEl ? (searchEl.value || "").toUpperCase() : "";
-            filters.plan = planEl ? planEl.value : "";
-            filters.l0 = l0El ? l0El.value : "";
-            filters.l1 = l1El ? l1El.value : "";
-            filters.l2 = l2El ? l2El.value : "";
-            filters.l3 = l3El ? l3El.value : "";
+            filters.search = getActiveVal('.filter-search').toUpperCase();
+            filters.plan = getActiveVal('.filter-plan');
+            filters.l0 = getActiveVal('.filter-l0');
+            filters.l1 = getActiveVal('.filter-l1');
+            filters.l2 = getActiveVal('.filter-l2');
+            filters.l3 = getActiveVal('.filter-l3');
 
             renderUI();
         };
@@ -2625,7 +2826,8 @@
         window.buildTree = function () {
             let treeUnits = 0; let treePersonnel = 0; const groups = {};
 
-            rawData.forEach(function (r) {
+            // ✅ แก้ไขจุดที่ 1: เพิ่มพารามิเตอร์ i (index) ใน forEach เพื่อให้จับคู่ลำดับแถวได้แม่นยำ 100%
+            rawData.forEach(function (r, i) {
                 if (!isMatchFilter(r)) return;
 
                 let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์"; let l1 = escapeHTML(r[2]) || "ไม่ระบุการจัดกำลัง";
@@ -2634,7 +2836,7 @@
                 if (!groups[l0]) groups[l0] = {}; if (!groups[l0][l1]) groups[l0][l1] = {};
                 if (!groups[l0][l1][l2]) groups[l0][l1][l2] = {}; if (!groups[l0][l1][l2][l3]) groups[l0][l1][l2][l3] = [];
 
-                // ✅ เก็บ object พร้อม index เพื่อป้องกัน index สูญหายเมื่อ array ถูกแปลง
+                // ✅ แก้ไขจุดที่ 2: ใช้ค่า i โดยตรง ป้องกันปัญหา index สูญหายเมื่อสลับแท็บ
                 groups[l0][l1][l2][l3].push({ data: r, index: r.originalIndex });
                 treeUnits++; treePersonnel += cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
             });
@@ -2652,7 +2854,7 @@
                                 let rData = u.data;
                                 let ct = cleanNumber(rData[10]) || (cleanNumber(rData[6]) + cleanNumber(rData[7]) + cleanNumber(rData[8]) + cleanNumber(rData[9]));
                                 let nodeName = escapeHTML(rData[5]) || "ยอดกำลังพลรวม";
-                                // ✅ เรียกใช้ window.openDrawer และใช้ index ที่แมปมาอย่างถูกต้อง
+                                // ✅ เรียกใช้ window.openDrawer และแนบ u.index ได้อย่างสมบูรณ์
                                 html += `<li><div class="node-box glass-panel hover-highlight cursor-pointer" onclick="window.openDrawer(${u.index})">
                   <div class="d-flex justify-content-between align-items-center"><div class="fw-bold text-light" style="font-size:0.85rem;"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${nodeName}</div><span class="badge bg-warning text-dark">${ct.toLocaleString()}</span></div>
                   <div class="d-flex justify-content-between mt-2 pt-2 border-top border-secondary border-opacity-25" style="font-size:0.7rem;">
@@ -2772,10 +2974,20 @@
         };
 
         window.prefillModal = function (plan, l0, l1, l2) {
-            document.getElementById('uForm').reset(); document.getElementById('rid').value = '';
-            if (plan) document.getElementById('m_plan').value = plan; if (l0) document.getElementById('m_l0').value = l0;
-            if (l1) document.getElementById('m_l1').value = l1; if (l2) document.getElementById('m_l2').value = l2;
-            if (document.getElementById('m_checklist')) document.getElementById('m_checklist').value = '';
+            const form = document.getElementById('uForm');
+            if (form && typeof form.reset === 'function') form.reset();
+
+            const rid = document.getElementById('rid');
+            if (rid) rid.value = '';
+
+            const safeSetVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+
+            safeSetVal('m_plan', plan || "");
+            safeSetVal('m_l0', l0 || "");
+            safeSetVal('m_l1', l1 || "");
+            safeSetVal('m_l2', l2 || "");
+            safeSetVal('m_checklist', "");
+
             const modal = window.getBsModal('unitModal');
             if (modal) modal.show();
         };
@@ -2806,47 +3018,83 @@
         };
 
         window.openModal = function () {
-            document.getElementById('uForm').reset();
-            document.getElementById('rid').value = '';
-            if (document.getElementById('m_checklist')) document.getElementById('m_checklist').value = '';
+            const form = document.getElementById('uForm');
+            if (form && typeof form.reset === 'function') form.reset();
+
+            const rid = document.getElementById('rid');
+            if (rid) rid.value = '';
+
+            const checklist = document.getElementById('m_checklist');
+            if (checklist) checklist.value = '';
+
             const modal = window.getBsModal('unitModal');
             if (modal) modal.show();
         };
 
         window.edit = function (i) {
             const r = rawData[i];
-            if (r.length >= 19) { document.getElementById('rid').value = r[18]; }
-            document.getElementById('m_plan').value = r[0] || ""; document.getElementById('m_l0').value = r[1] || ""; document.getElementById('m_l1').value = r[2] || "";
-            document.getElementById('m_l2').value = r[3] || ""; document.getElementById('m_l3').value = r[4] || ""; document.getElementById('m_l4').value = r[5] || "";
-            document.getElementById('m_g').value = cleanNumber(r[6]) || ""; document.getElementById('m_n').value = cleanNumber(r[7]) || "";
-            document.getElementById('m_s').value = cleanNumber(r[8]) || ""; document.getElementById('m_p').value = cleanNumber(r[9]) || "";
-            if (document.getElementById('m_checklist')) document.getElementById('m_checklist').value = r[11] || "";
+            const rid = document.getElementById('rid');
+            if (r.length >= 19 && rid) { rid.value = r[18]; }
+
+            const safeSetVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+
+            safeSetVal('m_plan', r[0] || "");
+            safeSetVal('m_l0', r[1] || "");
+            safeSetVal('m_l1', r[2] || "");
+            safeSetVal('m_l2', r[3] || "");
+            safeSetVal('m_l3', r[4] || "");
+            safeSetVal('m_l4', r[5] || "");
+            safeSetVal('m_g', cleanNumber(r[6]) || "");
+            safeSetVal('m_n', cleanNumber(r[7]) || "");
+            safeSetVal('m_s', cleanNumber(r[8]) || "");
+            safeSetVal('m_p', cleanNumber(r[9]) || "");
+            safeSetVal('m_checklist', r[11] || "");
 
             const modal = window.getBsModal('unitModal');
             if (modal) modal.show();
         };
 
         window.save = async function () {
-            const checklistEl = document.getElementById('m_checklist');
+            const safeGetVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
+
             const data = {
-                rowIndex: document.getElementById('rid').value, plan: document.getElementById('m_plan').value, l0: document.getElementById('m_l0').value,
-                l1: document.getElementById('m_l1').value, l2: document.getElementById('m_l2').value, l3: document.getElementById('m_l3').value,
-                l4: document.getElementById('m_l4').value, g: document.getElementById('m_g').value, n: document.getElementById('m_n').value, s: document.getElementById('m_s').value, p: document.getElementById('m_p').value,
-                checkList: checklistEl ? checklistEl.value : ""
+                rowIndex: safeGetVal('rid'),
+                plan: safeGetVal('m_plan'),
+                l0: safeGetVal('m_l0'),
+                l1: safeGetVal('m_l1'),
+                l2: safeGetVal('m_l2'),
+                l3: safeGetVal('m_l3'),
+                l4: safeGetVal('m_l4'),
+                g: safeGetVal('m_g'),
+                n: safeGetVal('m_n'),
+                s: safeGetVal('m_s'),
+                p: safeGetVal('m_p'),
+                checkList: safeGetVal('m_checklist')
             };
-            let btn = document.querySelector('#uForm button'); let origHtml = btn.innerHTML;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...'; btn.disabled = true;
+
+            const formEl = document.getElementById('uForm');
+            let btn = null;
+            let origHtml = "บันทึก";
+
+            if (formEl) {
+                btn = formEl.querySelector('button');
+                if (btn) {
+                    origHtml = btn.innerHTML;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+                    btn.disabled = true;
+                }
+            }
 
             try {
                 await fetchAPI('saveUnitData', data);
                 const modal = window.getBsModal('unitModal');
                 if (modal) modal.hide();
 
-                btn.innerHTML = origHtml; btn.disabled = false;
+                if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
                 window.loadData(true);
                 Swal.fire({ title: 'Success', text: 'บันทึกข้อมูลเรียบร้อย', icon: 'success', timer: 1500, showConfirmButton: false });
             } catch (err) {
-                btn.innerHTML = origHtml; btn.disabled = false;
+                if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
                 Swal.fire('Error', err.message, 'error');
             }
         };
