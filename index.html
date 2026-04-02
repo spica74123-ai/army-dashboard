@@ -2190,7 +2190,7 @@
         // ==========================================
         // 🔗 API CONNECTION (ใส่ URL ตรงนี้)
         // ==========================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbz2UPi8pb5_GFVl4rvQIXT3BwLYazrgzcYenGxYie3PDAv_M6YvxoKxCyuGnX-572Fu/exec"; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbx4GfOBrL48C1r_YX6xJ2Ec1X36VMEoV6cYXAPmjfJnI_2oeX6T89g2ANwUgM4rFang/exec"; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
 
         // Core Fetch API
         async function fetchAPI(action, data = {}) {
@@ -3263,6 +3263,7 @@
                 let target = cleanNumber(p.name); // เก็บอัตรากำลังพลไว้ใน name
                 let actual = cleanNumber(p.position_normal); // เก็บบรรจุจริงไว้ใน position_normal
                 let fileName = escapeHTML(p.position_field); // เก็บชื่อไฟล์ไว้ใน position_field
+                let fileUrl = p.id_card; // 📌 ดึงลิงก์ Google Drive จาก Backend มาใช้งาน
                 let timestamp = escapeHTML(p.timestamp);
 
                 totalTarget += target;
@@ -3271,7 +3272,8 @@
                 let pct = target > 0 ? ((actual / target) * 100).toFixed(1) : 0;
                 let progressColor = pct >= 100 ? 'bg-success' : (pct >= 50 ? 'bg-warning' : 'bg-danger');
 
-                let fileBadge = fileName ? `<span class="badge bg-success bg-opacity-25 text-success border border-success"><i class="bi bi-file-earmark-excel"></i> ${fileName}</span>` : '<span class="text-muted">-</span>';
+                // 📌 เปลี่ยนป้ายชื่อไฟล์ธรรมดา ให้เป็นลิงก์คลิกเพื่อไปดาวน์โหลดไฟล์จาก Google Drive
+                let fileBadge = fileName ? `<a href="${fileUrl}" target="_blank" class="badge bg-success bg-opacity-25 text-success border border-success text-decoration-none shadow-sm" title="คลิกเพื่อโหลดไฟล์"><i class="bi bi-file-earmark-excel"></i> ${fileName}</a>` : '<span class="text-muted">-</span>';
                 let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-info rounded-circle py-0 px-2 shadow-sm" onclick="window.editPersonnel(${i})"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger rounded-circle py-0 px-2 shadow-sm ms-1" onclick="window.deletePersonnel(${p.rowIndex})"><i class="bi bi-trash"></i></button>` : '';
 
                 html += `<tr>
