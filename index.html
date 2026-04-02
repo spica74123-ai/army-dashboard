@@ -1161,7 +1161,7 @@
             <div class="logo-container mb-4">
                 <div class="logo-glow"></div><img src="./logo.png" width="90" class="logo-img">
             </div>
-            <h4 class="fw-bold mb-1 text-gold" style="letter-spacing: 1px;">ฝกพ.ศปก.ทบ.</h4>
+            <h4 class="fw-bold mb-1 text-gold" style="letter-spacing: 1px;">ศปก.ทบ.</h4>
             <p class="text-muted mb-4 small">ระบบบริหารจัดการและบัญชาการโครงสร้างหน่วย</p>
             <div class="mb-3 text-start"><label class="small text-muted fw-bold mb-1"><i
                         class="bi bi-person-fill me-1"></i>ชื่อผู้ใช้งาน</label><input type="text" id="loginUser"
@@ -2481,7 +2481,8 @@
 
                 if (btn) { btn.innerHTML = orig; btn.disabled = false; }
                 Swal.fire('สำเร็จ', 'บันทึกข้อมูลผู้ใช้แล้ว', 'success');
-                loadUsers();
+
+                setTimeout(() => { loadUsers(); }, 1000);
             } catch (err) {
                 if (btn) { btn.innerHTML = orig; btn.disabled = false; }
                 Swal.fire('ข้อผิดพลาด', err.message, 'error');
@@ -2494,7 +2495,7 @@
                     try {
                         await fetchAPI('deleteUserData', { rowIndex: rowIndex });
                         Swal.fire('ลบแล้ว!', '', 'success');
-                        loadUsers();
+                        setTimeout(() => { loadUsers(); }, 1000);
                     } catch (err) {
                         Swal.fire('Error', err.message, 'error');
                     }
@@ -3093,6 +3094,9 @@
                 if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
                 window.loadData(true);
                 Swal.fire({ title: 'Success', text: 'บันทึกข้อมูลเรียบร้อย', icon: 'success', timer: 1500, showConfirmButton: false });
+
+                // ✅ เพิ่ม Delay 1 วินาที เพื่อรอให้ Google Sheets อัปเดตข้อมูลเสร็จก่อนดึงใหม่
+                setTimeout(() => { window.loadData(true); }, 1000);
             } catch (err) {
                 if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
                 Swal.fire('Error', err.message, 'error');
