@@ -1395,7 +1395,8 @@
                                     class="bi bi-pie-chart-fill me-2"></i>สัดส่วนกำลังพลภาพรวม</h6>
                             <div
                                 style="position: relative; height: 300px; display:flex; justify-content:center; align-items:center;">
-                                <canvas id="pChart"></canvas></div>
+                                <canvas id="pChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1784,7 +1785,7 @@
                             </div>
                             <div class="d-flex justify-content-between small fw-bold">
                                 <span class="text-info"><span id="personnelEnteredCount">0</span> นาย
-                                    (ลงทะเบียนแล้ว)</span>
+                                    (ลงบันทึกแล้ว)</span>
                                 <span class="text-muted">เป้าหมาย <span id="personnelTargetCount">0</span> นาย</span>
                             </div>
                         </div>
@@ -1796,22 +1797,18 @@
                         <table class="table table-hover w-100 align-middle">
                             <thead>
                                 <tr>
-                                    <th>ยศ</th>
-                                    <th>ชื่อ-สกุล</th>
-                                    <th>ตำแหน่งปกติ</th>
-                                    <th>ตำแหน่งในสนาม</th>
-                                    <th>หมายเลข ปชช.</th>
-                                    <th>หมายเลขทหาร</th>
                                     <th>หน่วย</th>
-                                    <th>สังกัด</th>
-                                    <th>ID Line</th>
-                                    <th>วันเวลาที่ลงบันทึก</th>
+                                    <th>อัตรา</th>
+                                    <th>บรรจุจริง</th>
+                                    <th>คิดเป็น (%)</th>
+                                    <th>ไฟล์แนบ</th>
+                                    <th>อัปเดตล่าสุด</th>
                                     <th class="btn-auth-edit">จัดการ</th>
                                 </tr>
                             </thead>
                             <tbody id="personnelTableBody">
                                 <tr>
-                                    <td colspan="11" class="text-center text-muted py-4">กำลังโหลดข้อมูล...</td>
+                                    <td colspan="7" class="text-center text-muted py-4">กำลังโหลดข้อมูล...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2146,33 +2143,28 @@
                     <form id="personnelForm">
                         <input type="hidden" id="p_rid">
                         <div class="row g-3">
-                            <div class="col-md-6"><label class="small fw-bold mb-1 text-info">ยศ</label><input
-                                    type="text" id="p_rank" class="form-control shadow-sm"></div>
-                            <div class="col-md-6"><label class="small fw-bold mb-1 text-info">ชื่อ - สกุล</label><input
-                                    type="text" id="p_name" class="form-control shadow-sm"></div>
-
-                            <div class="col-md-6"><label
-                                    class="small fw-bold mb-1 text-warning">ตำแหน่งปกติ</label><input type="text"
-                                    id="p_pos_normal" class="form-control shadow-sm"></div>
-                            <div class="col-md-6"><label
-                                    class="small fw-bold mb-1 text-danger">ตำแหน่งในสนาม</label><input type="text"
-                                    id="p_pos_field" class="form-control shadow-sm"></div>
-
-                            <div class="col-md-6"><label class="small fw-bold mb-1 text-muted">หมายเลข
-                                    ปชช.</label><input type="text" id="p_id_card" class="form-control shadow-sm"></div>
-                            <div class="col-md-6"><label class="small fw-bold mb-1 text-muted">หมายเลขทหาร</label><input
-                                    type="text" id="p_mil_id" class="form-control shadow-sm"></div>
-
-                            <div class="col-md-6"><label class="small fw-bold mb-1 text-success">หน่วย
-                                    (ตามโครงสร้าง)</label><input type="text" id="p_unit" class="form-control shadow-sm">
-                            </div>
-                            <div class="col-md-6"><label class="small fw-bold mb-1 text-success">สังกัด (เช่น
-                                    กพ.ทบ.)</label><input type="text" id="p_affiliation" class="form-control shadow-sm">
+                            <div class="col-md-12">
+                                <label class="small fw-bold mb-1 text-info">หน่วย (อ้างอิงตามโครงสร้างในระบบ)</label>
+                                <select id="p_unit" class="form-select shadow-sm"></select>
                             </div>
 
-                            <div class="col-md-12"><label class="small fw-bold mb-1 text-success"><i
-                                        class="bi bi-line me-1"></i>ID Line</label><input type="text" id="p_line_id"
-                                    class="form-control shadow-sm"></div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold mb-1 text-warning">อัตรา (นาย)</label>
+                                <input type="number" id="p_target" class="form-control shadow-sm" readonly
+                                    style="background-color: var(--table-th-bg);">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold mb-1 text-success">บรรจุจริง (นาย)</label>
+                                <input type="number" id="p_actual" class="form-control shadow-sm">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="small fw-bold mb-1 text-muted"><i
+                                        class="bi bi-file-earmark-excel text-success me-1"></i>แนบไฟล์ Excel</label>
+                                <input type="file" id="p_file" class="form-control shadow-sm" accept=".xlsx, .xls">
+                                <input type="hidden" id="p_file_name_hidden">
+                                <small id="p_current_file_display" class="text-warning d-block mt-1"></small>
+                            </div>
                         </div>
 
                         <button type="button" class="btn text-white w-100 mt-4 py-3 fw-bold fs-5 shadow"
@@ -2433,9 +2425,8 @@
                     else if (action === 'getUsersData') {
                         resolve({ rows: [{ username: 'admin', password: '123', name: 'ระบบ Admin', role: 'Admin', rowIndex: 2 }] });
                     }
-                    // Mock responses for Personnel
                     else if (action === 'getPersonnelData') {
-                        resolve({ rows: [{ rank: 'พ.อ.', name: 'ตัวอย่าง สมมติ', position_normal: 'ผบ.ร.29', position_field: 'ผบ.กกล.', id_card: '1234567890123', mil_id: '98765', unit: 'กกล. สุรสีห์', affiliation: 'กพ.ทบ.', line_id: 'sample_line', timestamp: '12/10/2026 10:00:00', rowIndex: 2 }] });
+                        resolve({ rows: [{ rank: 'ร.29 พัน.1', name: '188', position_normal: '150', position_field: 'report_r29.xlsx', id_card: '', mil_id: '', unit: '', affiliation: '', line_id: '', timestamp: '12/10/2026 10:00:00', rowIndex: 2 }] });
                     }
                     else if (action === 'saveUnitData' || action === 'saveUserData' || action === 'deleteUserData' || action === 'savePersonnelData' || action === 'deletePersonnelData') {
                         resolve({ success: true });
@@ -2900,7 +2891,7 @@
                     });
                 }
 
-                syncDropdown('plan', dropPlan, '🌐 ทุกแผนงาน');
+                syncDropdown('plan', dropPlan, '🛡️ ทุกแผนงาน');
                 syncDropdown('l0', dropL0, '🛡️ ยุทธศาสตร์');
                 syncDropdown('l1', dropL1, '⚡ จัดกำลัง');
                 syncDropdown('l2', dropL2, '🎯 ยุทธการ');
@@ -3121,7 +3112,6 @@
             if (modal) modal.show();
         };
 
-        // ✅ ฟังก์ชันแสดง Drawer ผูกเข้าสู่หน้าต่าง Global
         window.openDrawer = function (index) {
             if (index === undefined || index === null) return;
             currentDrawerIndex = index; const r = rawData[index];
@@ -3251,48 +3241,66 @@
         // 👤 ระบบบันทึกนำเข้ากำลังพล (PERSONNEL ENTRY)
         // ==========================================
         window.loadPersonnel = async function () {
-            safeSetHTML('personnelTableBody', '<tr><td colspan="11" class="text-center text-warning py-4"><div class="spinner-border spinner-border-sm"></div> กำลังโหลดข้อมูล...</td></tr>');
+            safeSetHTML('personnelTableBody', '<tr><td colspan="7" class="text-center text-warning py-4"><div class="spinner-border spinner-border-sm"></div> กำลังโหลดข้อมูล...</td></tr>');
             try {
                 const res = await fetchAPI('getPersonnelData');
                 if (res.error) throw new Error(res.error);
                 personnelData = res.rows || [];
                 window.renderPersonnelTable();
             } catch (err) {
-                safeSetHTML('personnelTableBody', '<tr><td colspan="11" class="text-center text-danger">เกิดข้อผิดพลาด: ' + err.message + '</td></tr>');
+                safeSetHTML('personnelTableBody', '<tr><td colspan="7" class="text-center text-danger">เกิดข้อผิดพลาด: ' + err.message + '</td></tr>');
             }
         };
 
         window.renderPersonnelTable = function () {
             const canEdit = applyPermissions();
             let html = '';
+            let totalTarget = 0;
+            let totalActual = 0;
+
             personnelData.forEach((p, i) => {
-                let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-info rounded-circle py-0 px-2 shadow-sm" onclick="window.editPersonnel(${i})"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger rounded-circle py-0 px-2 shadow-sm" onclick="window.deletePersonnel(${p.rowIndex})"><i class="bi bi-trash"></i></button>` : '';
+                let unit = escapeHTML(p.rank); // เรา map ชื่อหน่วยไปเก็บไว้ใน rank ของ Backend เดิม
+                let target = cleanNumber(p.name); // เก็บอัตรากำลังพลไว้ใน name
+                let actual = cleanNumber(p.position_normal); // เก็บบรรจุจริงไว้ใน position_normal
+                let fileName = escapeHTML(p.position_field); // เก็บชื่อไฟล์ไว้ใน position_field
+                let timestamp = escapeHTML(p.timestamp);
+
+                totalTarget += target;
+                totalActual += actual;
+
+                let pct = target > 0 ? ((actual / target) * 100).toFixed(1) : 0;
+                let progressColor = pct >= 100 ? 'bg-success' : (pct >= 50 ? 'bg-warning' : 'bg-danger');
+
+                let fileBadge = fileName ? `<span class="badge bg-success bg-opacity-25 text-success border border-success"><i class="bi bi-file-earmark-excel"></i> ${fileName}</span>` : '<span class="text-muted">-</span>';
+                let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-info rounded-circle py-0 px-2 shadow-sm" onclick="window.editPersonnel(${i})"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger rounded-circle py-0 px-2 shadow-sm ms-1" onclick="window.deletePersonnel(${p.rowIndex})"><i class="bi bi-trash"></i></button>` : '';
 
                 html += `<tr>
-                <td class="text-info fw-bold">${escapeHTML(p.rank)}</td>
-                <td class="fw-bold">${escapeHTML(p.name)}</td>
-                <td class="text-warning">${escapeHTML(p.position_normal)}</td>
-                <td class="text-danger">${escapeHTML(p.position_field)}</td>
-                <td class="text-muted small">${escapeHTML(p.id_card)}</td>
-                <td class="text-muted small">${escapeHTML(p.mil_id)}</td>
-                <td class="text-success fw-bold">${escapeHTML(p.unit)}</td>
-                <td>${escapeHTML(p.affiliation)}</td>
-                <td class="text-success"><i class="bi bi-line"></i> ${escapeHTML(p.line_id)}</td>
-                <td class="text-muted small">${escapeHTML(p.timestamp)}</td>
+                <td class="text-info fw-bold text-start ps-3">${unit}</td>
+                <td class="fw-bold">${target.toLocaleString()}</td>
+                <td class="text-warning fw-bold">${actual.toLocaleString()}</td>
+                <td>
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <span class="small fw-bold w-25 text-end">${pct}%</span>
+                        <div class="progress" style="width: 60px; height: 8px;"><div class="progress-bar ${progressColor}" style="width: ${pct}%"></div></div>
+                    </div>
+                </td>
+                <td>${fileBadge}</td>
+                <td class="text-muted small">${timestamp}</td>
                 <td class="btn-auth-edit">${editBtnHtml}</td>
             </tr>`;
             });
 
-            safeSetHTML('personnelTableBody', html || '<tr><td colspan="11" class="text-center text-muted py-4">ยังไม่มีข้อมูลการนำเข้า</td></tr>');
+            safeSetHTML('personnelTableBody', html || '<tr><td colspan="7" class="text-center text-muted py-4">ยังไม่มีข้อมูลการนำเข้า</td></tr>');
 
-            // อัปเดต Progress Bar (เปรียบเทียบกับยอดรวม stPersonnelCount จากตารางโครงสร้าง)
-            let targetCount = window.stPersonnelCount || 0;
-            let currentCount = personnelData.length;
-            let pct = targetCount > 0 ? Math.min(100, Math.round((currentCount / targetCount) * 100)) : 0;
+            // อัปเดต Progress Bar 
+            let pctTotal = totalTarget > 0 ? Math.min(100, Math.round((totalActual / totalTarget) * 100)) : 0;
+            let mainProgressColor = pctTotal >= 100 ? 'bg-success' : (pctTotal >= 50 ? 'bg-warning' : 'bg-danger');
 
-            safeSetText('personnelEnteredCount', currentCount.toLocaleString());
-            safeSetText('personnelTargetCount', targetCount.toLocaleString());
-            safeSetStyle('personnelProgressBar', 'width', pct + '%');
+            safeSetText('personnelEnteredCount', totalActual.toLocaleString());
+            safeSetText('personnelTargetCount', totalTarget.toLocaleString());
+            safeSetStyle('personnelProgressBar', 'width', pctTotal + '%');
+            const progressBarEl = document.getElementById('personnelProgressBar');
+            if (progressBarEl) progressBarEl.className = `progress-bar ${mainProgressColor}`;
         };
 
         window.openPersonnelModal = function () {
@@ -3302,65 +3310,121 @@
             const rid = document.getElementById('p_rid');
             if (rid) rid.value = '';
 
+            const fileNameHidden = document.getElementById('p_file_name_hidden');
+            if (fileNameHidden) fileNameHidden.value = '';
+            safeSetHTML('p_current_file_display', '');
+
+            // ดึงรายการหน่วยจากโครงสร้าง rawData มาใส่ใน Dropdown
+            let unitSelect = document.getElementById('p_unit');
+            if (unitSelect) {
+                let htmlOptions = '<option value="">-- เลือกหน่วยตามโครงสร้าง --</option>';
+                let unitMap = {};
+
+                rawData.forEach(r => {
+                    if (!isMatchFilter(r)) return;
+                    let unitName = r[5] || r[4] || r[3] || r[2] || r[1]; // ดึงชื่อหน่วยระดับล่างสุดที่มี
+                    if (unitName && unitName !== "-") {
+                        let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
+                        if (!unitMap[unitName]) {
+                            unitMap[unitName] = target;
+                            htmlOptions += `<option value="${escapeHTML(unitName)}" data-target="${target}">${escapeHTML(unitName)}</option>`;
+                        }
+                    }
+                });
+
+                unitSelect.innerHTML = htmlOptions;
+
+                // ตั้งค่าให้ดึง "อัตรา" อัตโนมัติเมื่อเลือกหน่วย
+                unitSelect.onchange = function () {
+                    let selected = this.options[this.selectedIndex];
+                    let targetVal = selected.getAttribute('data-target') || 0;
+                    let pTarget = document.getElementById('p_target');
+                    if (pTarget) pTarget.value = targetVal;
+                };
+            }
+
             const modal = window.getBsModal('personnelModal');
             if (modal) modal.show();
         };
 
         window.editPersonnel = function (i) {
-            const p = personnelData[i];
-            if (!p) return;
+            window.openPersonnelModal(); // ให้ดึง dropdown หน่วยมาก่อน
+            setTimeout(() => {
+                const p = personnelData[i];
+                if (!p) return;
 
-            const safeSetVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+                const safeSetVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
 
-            safeSetVal('p_rid', p.rowIndex);
-            safeSetVal('p_rank', p.rank);
-            safeSetVal('p_name', p.name);
-            safeSetVal('p_pos_normal', p.position_normal);
-            safeSetVal('p_pos_field', p.position_field);
-            safeSetVal('p_id_card', p.id_card);
-            safeSetVal('p_mil_id', p.mil_id);
-            safeSetVal('p_unit', p.unit);
-            safeSetVal('p_affiliation', p.affiliation);
-            safeSetVal('p_line_id', p.line_id);
+                safeSetVal('p_rid', p.rowIndex);
+                safeSetVal('p_unit', p.rank); // unit ถูกเก็บใน rank
+                safeSetVal('p_target', cleanNumber(p.name)); // target ถูกเก็บใน name
+                safeSetVal('p_actual', cleanNumber(p.position_normal)); // actual ถูกเก็บใน position_normal
+                safeSetVal('p_file_name_hidden', p.position_field); // filename ถูกเก็บใน position_field
 
-            const modal = window.getBsModal('personnelModal');
-            if (modal) modal.show();
+                if (p.position_field && p.position_field !== "") {
+                    safeSetHTML('p_current_file_display', `<i class="bi bi-paperclip"></i> ไฟล์ปัจจุบัน: ${escapeHTML(p.position_field)} (อัปโหลดใหม่เพื่อทับไฟล์เดิม)`);
+                } else {
+                    safeSetHTML('p_current_file_display', '');
+                }
+            }, 100);
         };
 
         window.savePersonnel = async function () {
-            const safeGetVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
-
-            const data = {
-                rowIndex: safeGetVal('p_rid'),
-                rank: safeGetVal('p_rank'),
-                name: safeGetVal('p_name'),
-                position_normal: safeGetVal('p_pos_normal'),
-                position_field: safeGetVal('p_pos_field'),
-                id_card: safeGetVal('p_id_card'),
-                mil_id: safeGetVal('p_mil_id'),
-                unit: safeGetVal('p_unit'),
-                affiliation: safeGetVal('p_affiliation'),
-                line_id: safeGetVal('p_line_id')
-            };
-
             const formEl = document.getElementById('personnelForm');
             let btn = null; let origHtml = "บันทึกข้อมูลกำลังพล";
             if (formEl) {
                 btn = formEl.querySelector('button');
-                if (btn) { origHtml = btn.innerHTML; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...'; btn.disabled = true; }
+                if (btn) { origHtml = btn.innerHTML; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังอัปโหลด...'; btn.disabled = true; }
             }
 
-            try {
-                await fetchAPI('savePersonnelData', data);
-                const modal = window.getBsModal('personnelModal');
-                if (modal) modal.hide();
+            const safeGetVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
 
-                if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
-                Swal.fire({ title: 'Success', text: 'บันทึกข้อมูลเรียบร้อย', icon: 'success', timer: 1500, showConfirmButton: false });
-                setTimeout(() => { window.loadPersonnel(); }, 1000);
-            } catch (err) {
-                if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
-                Swal.fire('Error', err.message, 'error');
+            // เตรียมฟังก์ชันสำหรับส่ง API
+            const submitAPI = async (base64Data, fileName) => {
+                const data = {
+                    rowIndex: safeGetVal('p_rid'),
+                    rank: safeGetVal('p_unit'), // ส่งชื่อหน่วยไปเก็บในคอลัมน์ rank
+                    name: safeGetVal('p_target'), // ส่งจำนวนอัตราไปเก็บในคอลัมน์ name
+                    position_normal: safeGetVal('p_actual'), // ส่งจำนวนบรรจุจริงไปเก็บในคอลัมน์ position_normal
+                    position_field: fileName, // ส่งชื่อไฟล์
+                    id_card: base64Data, // ส่งไฟล์ Base64 กลับไปให้ Apps Script ใช้ (ถ้ามีการเขียนโค้ดรองรับ)
+                    mil_id: "", unit: "", affiliation: "", line_id: "" // ส่งค่าว่างสำหรับคอลัมน์ที่ไม่ได้ใช้แล้ว
+                };
+
+                try {
+                    await fetchAPI('savePersonnelData', data);
+                    const modal = window.getBsModal('personnelModal');
+                    if (modal) modal.hide();
+
+                    if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
+                    Swal.fire({ title: 'สำเร็จ', text: 'บันทึกข้อมูลและไฟล์เรียบร้อย', icon: 'success', timer: 1500, showConfirmButton: false });
+                    setTimeout(() => { window.loadPersonnel(); }, 1000);
+                } catch (err) {
+                    if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
+                    Swal.fire('ข้อผิดพลาด', err.message, 'error');
+                }
+            };
+
+            // ระบบแปลงไฟล์เป็น Base64
+            let fileInput = document.getElementById('p_file');
+            let fName = safeGetVal('p_file_name_hidden');
+
+            if (fileInput && fileInput.files.length > 0) {
+                let file = fileInput.files[0];
+                fName = file.name;
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    let fileB64 = reader.result.split(',')[1];
+                    submitAPI(fileB64, fName);
+                };
+                reader.onerror = function (error) {
+                    if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
+                    Swal.fire('ข้อผิดพลาด', 'ไม่สามารถอ่านไฟล์ Excel ได้', 'error');
+                };
+            } else {
+                // กรณีไม่มีการแนบไฟล์ใหม่
+                submitAPI("", fName);
             }
         };
 
@@ -3382,16 +3446,19 @@
             if (personnelData.length === 0) return Swal.fire('แจ้งเตือน', 'ไม่มีข้อมูลให้ Export', 'warning');
             Swal.fire({ title: 'Exporting...', didOpen: () => Swal.showLoading(), customClass: { popup: 'dark-swal' } });
 
-            const headers = ["ยศ", "ชื่อ-สกุล", "ตำแหน่งปกติ", "ตำแหน่งในสนาม", "หมายเลข ปชช.", "หมายเลขทหาร", "หน่วย", "สังกัด", "ID Line", "วันเวลาที่นำเข้า"];
+            const headers = ["หน่วย", "อัตรา", "บรรจุจริง", "ร้อยละ (%)", "ชื่อไฟล์แนบ", "วันเวลาที่อัปเดต"];
             const dataToExport = [headers];
 
             personnelData.forEach(p => {
-                dataToExport.push([p.rank, p.name, p.position_normal, p.position_field, p.id_card, p.mil_id, p.unit, p.affiliation, p.line_id, p.timestamp]);
+                let t = cleanNumber(p.name);
+                let a = cleanNumber(p.position_normal);
+                let pct = t > 0 ? ((a / t) * 100).toFixed(2) : 0;
+                dataToExport.push([escapeHTML(p.rank), t, a, pct, p.position_field, p.timestamp]);
             });
 
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(dataToExport), "Personnel");
-            XLSX.writeFile(wb, "ข้อมูลนำเข้ากำลังพล_ศปก_ทบ.xlsx");
+            XLSX.writeFile(wb, "รายงานยอดนำเข้ากำลังพล.xlsx");
             Swal.close();
         };
 
