@@ -1395,8 +1395,7 @@
                                     class="bi bi-pie-chart-fill me-2"></i>สัดส่วนกำลังพลภาพรวม</h6>
                             <div
                                 style="position: relative; height: 300px; display:flex; justify-content:center; align-items:center;">
-                                <canvas id="pChart"></canvas>
-                            </div>
+                                <canvas id="pChart"></canvas></div>
                         </div>
                     </div>
                 </div>
@@ -1776,8 +1775,8 @@
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                        <div class="tactical-card p-3">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="tactical-card p-3 h-100">
                             <small class="fw-bold text-muted d-block mb-2">ความคืบหน้าการนำเข้าข้อมูล
                                 (อ้างอิงจากยอดรวมโครงสร้าง)</small>
                             <div class="progress mb-2" style="height: 15px;">
@@ -1787,6 +1786,34 @@
                                 <span class="text-info"><span id="personnelEnteredCount">0</span> นาย
                                     (ลงบันทึกแล้ว)</span>
                                 <span class="text-muted">เป้าหมาย <span id="personnelTargetCount">0</span> นาย</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 📌 การ์ดแสดงสถานะหน่วย ครบ/ยืนยันแล้ว -->
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #2ecc71;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="fw-bold text-success d-block mb-1"><i
+                                            class="bi bi-check-circle-fill me-1"></i>หน่วยที่บรรจุครบ 100%
+                                        หรือยืนยันแล้ว</small>
+                                    <h3 id="unitCompleteCount" class="mb-0 fw-bold text-success">0</h3>
+                                </div>
+                                <i class="bi bi-shield-fill-check fs-1 text-success opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 📌 การ์ดแสดงสถานะหน่วย ไม่ครบและยังไม่ยืนยัน -->
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #e74c3c;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="fw-bold text-danger d-block mb-1"><i
+                                            class="bi bi-x-circle-fill me-1"></i>หน่วยที่บรรจุไม่ครบ 100%
+                                        และยังไม่ยืนยัน</small>
+                                    <h3 id="unitIncompleteCount" class="mb-0 fw-bold text-danger">0</h3>
+                                </div>
+                                <i class="bi bi-shield-fill-exclamation fs-1 text-danger opacity-50"></i>
                             </div>
                         </div>
                     </div>
@@ -1801,6 +1828,8 @@
                                     <th>อัตรา</th>
                                     <th>บรรจุจริง</th>
                                     <th>คิดเป็น (%)</th>
+                                    <th>สถานะยืนยัน</th>
+                                    <th>เจ้าหน้าที่บันทึก</th>
                                     <th>ไฟล์แนบ</th>
                                     <th>อัปเดตล่าสุด</th>
                                     <th class="btn-auth-edit">จัดการ</th>
@@ -1808,7 +1837,7 @@
                             </thead>
                             <tbody id="personnelTableBody">
                                 <tr>
-                                    <td colspan="7" class="text-center text-muted py-4">กำลังโหลดข้อมูล...</td>
+                                    <td colspan="9" class="text-center text-muted py-4">กำลังโหลดข้อมูล...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2158,6 +2187,24 @@
                                 <input type="number" id="p_actual" class="form-control shadow-sm">
                             </div>
 
+                            <!-- 📌 เพิ่มฟิลด์ใหม่: ชื่อเจ้าหน้าที่ และ Checkbox -->
+                            <div class="col-md-6">
+                                <label class="small fw-bold mb-1 text-info"><i class="bi bi-person-badge"></i>
+                                    ชื่อเจ้าหน้าที่บันทึกข้อมูล</label>
+                                <input type="text" id="p_officer_name" class="form-control shadow-sm"
+                                    placeholder="ยศ ชื่อ สกุล">
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <div class="form-check form-switch w-100 p-2 rounded shadow-sm"
+                                    style="background: rgba(128,128,128,0.1); border: 1px solid var(--army);">
+                                    <input class="form-check-input ms-1" type="checkbox" id="p_is_confirmed"
+                                        style="transform: scale(1.3); cursor: pointer;">
+                                    <label class="form-check-label ms-3 small fw-bold text-warning" for="p_is_confirmed"
+                                        style="cursor: pointer;"> ยืนยันข้อมูลถูกต้อง<br><span class="text-muted"
+                                            style="font-size:0.7rem">(แม้บรรจุไม่ครบ 100%)</span></label>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <label class="small fw-bold mb-1 text-muted"><i
                                         class="bi bi-file-earmark-excel text-success me-1"></i>แนบไฟล์ Excel</label>
@@ -2190,7 +2237,7 @@
         // ==========================================
         // 🔗 API CONNECTION (ใส่ URL ตรงนี้)
         // ==========================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbx4GfOBrL48C1r_YX6xJ2Ec1X36VMEoV6cYXAPmjfJnI_2oeX6T89g2ANwUgM4rFang/exec"; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
+        const GAS_API_URL = ""; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
 
         // Core Fetch API
         async function fetchAPI(action, data = {}) {
@@ -2426,7 +2473,7 @@
                         resolve({ rows: [{ username: 'admin', password: '123', name: 'ระบบ Admin', role: 'Admin', rowIndex: 2 }] });
                     }
                     else if (action === 'getPersonnelData') {
-                        resolve({ rows: [{ rank: 'ร.29 พัน.1', name: '188', position_normal: '150', position_field: 'report_r29.xlsx', id_card: '', mil_id: '', unit: '', affiliation: '', line_id: '', timestamp: '12/10/2026 10:00:00', rowIndex: 2 }] });
+                        resolve({ rows: [{ rank: 'ร.29 พัน.1', name: '188', position_normal: '150', position_field: 'report_r29.xlsx', id_card: '', mil_id: 'ร.อ. ตัวอย่าง ทดสอบ', unit: 'false', affiliation: '', line_id: '', timestamp: '12/10/2026 10:00:00', rowIndex: 2 }] });
                     }
                     else if (action === 'saveUnitData' || action === 'saveUserData' || action === 'deleteUserData' || action === 'savePersonnelData' || action === 'deletePersonnelData') {
                         resolve({ success: true });
@@ -3241,14 +3288,14 @@
         // 👤 ระบบบันทึกนำเข้ากำลังพล (PERSONNEL ENTRY)
         // ==========================================
         window.loadPersonnel = async function () {
-            safeSetHTML('personnelTableBody', '<tr><td colspan="7" class="text-center text-warning py-4"><div class="spinner-border spinner-border-sm"></div> กำลังโหลดข้อมูล...</td></tr>');
+            safeSetHTML('personnelTableBody', '<tr><td colspan="9" class="text-center text-warning py-4"><div class="spinner-border spinner-border-sm"></div> กำลังโหลดข้อมูล...</td></tr>');
             try {
                 const res = await fetchAPI('getPersonnelData');
                 if (res.error) throw new Error(res.error);
                 personnelData = res.rows || [];
                 window.renderPersonnelTable();
             } catch (err) {
-                safeSetHTML('personnelTableBody', '<tr><td colspan="7" class="text-center text-danger">เกิดข้อผิดพลาด: ' + err.message + '</td></tr>');
+                safeSetHTML('personnelTableBody', '<tr><td colspan="9" class="text-center text-danger">เกิดข้อผิดพลาด: ' + err.message + '</td></tr>');
             }
         };
 
@@ -3257,6 +3304,8 @@
             let html = '';
             let totalTarget = 0;
             let totalActual = 0;
+            let completeUnits = 0;
+            let incompleteUnits = 0;
 
             personnelData.forEach((p, i) => {
                 let unit = escapeHTML(p.rank); // เรา map ชื่อหน่วยไปเก็บไว้ใน rank ของ Backend เดิม
@@ -3264,6 +3313,8 @@
                 let actual = cleanNumber(p.position_normal); // เก็บบรรจุจริงไว้ใน position_normal
                 let fileName = escapeHTML(p.position_field); // เก็บชื่อไฟล์ไว้ใน position_field
                 let fileUrl = p.id_card; // 📌 ดึงลิงก์ Google Drive จาก Backend มาใช้งาน
+                let officerName = escapeHTML(p.mil_id || "-"); // 📌 ชื่อเจ้าหน้าที่
+                let isConfirmed = p.unit === "true"; // 📌 สถานะการยืนยัน
                 let timestamp = escapeHTML(p.timestamp);
 
                 totalTarget += target;
@@ -3271,6 +3322,13 @@
 
                 let pct = target > 0 ? ((actual / target) * 100).toFixed(1) : 0;
                 let progressColor = pct >= 100 ? 'bg-success' : (pct >= 50 ? 'bg-warning' : 'bg-danger');
+
+                let isFullyComplete = (pct >= 100) || isConfirmed;
+                if (isFullyComplete) completeUnits++; else incompleteUnits++;
+
+                let statusBadge = isFullyComplete
+                    ? '<span class="badge bg-success"><i class="bi bi-check-circle"></i> ยืนยันแล้ว</span>'
+                    : '<span class="badge bg-danger"><i class="bi bi-x-circle"></i> ยังไม่ยืนยัน</span>';
 
                 // 📌 เปลี่ยนป้ายชื่อไฟล์ธรรมดา ให้เป็นลิงก์คลิกเพื่อไปดาวน์โหลดไฟล์จาก Google Drive
                 let fileBadge = fileName ? `<a href="${fileUrl}" target="_blank" class="badge bg-success bg-opacity-25 text-success border border-success text-decoration-none shadow-sm" title="คลิกเพื่อโหลดไฟล์"><i class="bi bi-file-earmark-excel"></i> ${fileName}</a>` : '<span class="text-muted">-</span>';
@@ -3286,13 +3344,15 @@
                         <div class="progress" style="width: 60px; height: 8px;"><div class="progress-bar ${progressColor}" style="width: ${pct}%"></div></div>
                     </div>
                 </td>
+                <td>${statusBadge}</td>
+                <td class="text-info small">${officerName}</td>
                 <td>${fileBadge}</td>
                 <td class="text-muted small">${timestamp}</td>
                 <td class="btn-auth-edit">${editBtnHtml}</td>
             </tr>`;
             });
 
-            safeSetHTML('personnelTableBody', html || '<tr><td colspan="7" class="text-center text-muted py-4">ยังไม่มีข้อมูลการนำเข้า</td></tr>');
+            safeSetHTML('personnelTableBody', html || '<tr><td colspan="9" class="text-center text-muted py-4">ยังไม่มีข้อมูลการนำเข้า</td></tr>');
 
             // อัปเดต Progress Bar 
             let pctTotal = totalTarget > 0 ? Math.min(100, Math.round((totalActual / totalTarget) * 100)) : 0;
@@ -3303,6 +3363,10 @@
             safeSetStyle('personnelProgressBar', 'width', pctTotal + '%');
             const progressBarEl = document.getElementById('personnelProgressBar');
             if (progressBarEl) progressBarEl.className = `progress-bar ${mainProgressColor}`;
+
+            // 📌 อัปเดตยอดการ์ด
+            safeSetText('unitCompleteCount', completeUnits.toLocaleString());
+            safeSetText('unitIncompleteCount', incompleteUnits.toLocaleString());
         };
 
         window.openPersonnelModal = function () {
@@ -3315,6 +3379,12 @@
             const fileNameHidden = document.getElementById('p_file_name_hidden');
             if (fileNameHidden) fileNameHidden.value = '';
             safeSetHTML('p_current_file_display', '');
+
+            // 📌 เคลียร์ค่าเจ้าหน้าที่ และสถานะยืนยัน
+            let officerInput = document.getElementById('p_officer_name');
+            if (officerInput) officerInput.value = '';
+            let chk = document.getElementById('p_is_confirmed');
+            if (chk) chk.checked = false;
 
             // ดึงรายการหน่วยจากโครงสร้าง rawData มาใส่ใน Dropdown
             let unitSelect = document.getElementById('p_unit');
@@ -3362,6 +3432,10 @@
                 safeSetVal('p_target', cleanNumber(p.name)); // target ถูกเก็บใน name
                 safeSetVal('p_actual', cleanNumber(p.position_normal)); // actual ถูกเก็บใน position_normal
                 safeSetVal('p_file_name_hidden', p.position_field); // filename ถูกเก็บใน position_field
+                safeSetVal('p_officer_name', p.mil_id || ""); // 📌 ดึงชื่อเจ้าหน้าที่
+
+                let chk = document.getElementById('p_is_confirmed');
+                if (chk) chk.checked = (p.unit === "true"); // 📌 ดึงสถานะการยืนยัน
 
                 if (p.position_field && p.position_field !== "") {
                     safeSetHTML('p_current_file_display', `<i class="bi bi-paperclip"></i> ไฟล์ปัจจุบัน: ${escapeHTML(p.position_field)} (อัปโหลดใหม่เพื่อทับไฟล์เดิม)`);
@@ -3381,6 +3455,10 @@
 
             const safeGetVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
 
+            // 📌 เช็คสถานะ Checkbox ยืนยัน
+            let chk = document.getElementById('p_is_confirmed');
+            let isConfirmedStr = chk && chk.checked ? "true" : "false";
+
             // เตรียมฟังก์ชันสำหรับส่ง API
             const submitAPI = async (base64Data, fileName) => {
                 const data = {
@@ -3390,7 +3468,9 @@
                     position_normal: safeGetVal('p_actual'), // ส่งจำนวนบรรจุจริงไปเก็บในคอลัมน์ position_normal
                     position_field: fileName, // ส่งชื่อไฟล์
                     id_card: base64Data, // ส่งไฟล์ Base64 กลับไปให้ Apps Script ใช้ (ถ้ามีการเขียนโค้ดรองรับ)
-                    mil_id: "", unit: "", affiliation: "", line_id: "" // ส่งค่าว่างสำหรับคอลัมน์ที่ไม่ได้ใช้แล้ว
+                    mil_id: safeGetVal('p_officer_name'), // 📌 ส่งชื่อเจ้าหน้าที่
+                    unit: isConfirmedStr, // 📌 ส่งสถานะการยืนยัน
+                    affiliation: "", line_id: ""
                 };
 
                 try {
@@ -3448,14 +3528,19 @@
             if (personnelData.length === 0) return Swal.fire('แจ้งเตือน', 'ไม่มีข้อมูลให้ Export', 'warning');
             Swal.fire({ title: 'Exporting...', didOpen: () => Swal.showLoading(), customClass: { popup: 'dark-swal' } });
 
-            const headers = ["หน่วย", "อัตรา", "บรรจุจริง", "ร้อยละ (%)", "ชื่อไฟล์แนบ", "วันเวลาที่อัปเดต"];
+            // 📌 เพิ่มคอลัมน์ใน Excel
+            const headers = ["หน่วย", "อัตรา", "บรรจุจริง", "ร้อยละ (%)", "สถานะยืนยัน", "เจ้าหน้าที่บันทึก", "ชื่อไฟล์แนบ", "วันเวลาที่อัปเดต"];
             const dataToExport = [headers];
 
             personnelData.forEach(p => {
                 let t = cleanNumber(p.name);
                 let a = cleanNumber(p.position_normal);
                 let pct = t > 0 ? ((a / t) * 100).toFixed(2) : 0;
-                dataToExport.push([escapeHTML(p.rank), t, a, pct, p.position_field, p.timestamp]);
+
+                let officerName = p.mil_id || "-";
+                let isConfirmedText = p.unit === "true" || (t > 0 && a >= t) ? "ยืนยันแล้ว/ครบ 100%" : "ยังไม่ยืนยัน";
+
+                dataToExport.push([escapeHTML(p.rank), t, a, pct, isConfirmedText, officerName, p.position_field, p.timestamp]);
             });
 
             const wb = XLSX.utils.book_new();
@@ -3955,7 +4040,6 @@
                 let t = parseThaiDateStr(r[12]);
                 if (t === 0) return false;
                 let diff = now - t;
-                // ตรวจสอบว่าอัปเดตเกิดในช่วง 24 ชั่วโมงที่ผ่านมา (อนุโลมให้เป็นค่าติดลบได้กรณีตั้งเวลาเครื่องคลาดเคลื่อนเล็กน้อย)
                 return diff >= -86400000 && diff < 86400000;
             }).length;
 
