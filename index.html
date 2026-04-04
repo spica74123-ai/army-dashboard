@@ -1776,7 +1776,7 @@
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
                         <div class="tactical-card p-3 h-100">
                             <small class="fw-bold text-muted d-block mb-2">ความคืบหน้าการนำเข้าข้อมูล
                                 (อ้างอิงจากยอดรวมโครงสร้าง)</small>
@@ -1790,8 +1790,24 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 📌 การ์ดแสดงจำนวนหน่วยในโครงสร้าง (ใหม่) -->
+                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                        <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #3498db;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="w-100">
+                                    <small class="fw-bold text-info d-block mb-1"><i
+                                            class="bi bi-building me-1"></i>หน่วยทั้งหมดในโครงสร้าง</small>
+                                    <div class="d-flex align-items-end justify-content-between mt-2">
+                                        <h3 id="totalUnitStructureCount" class="mb-0 fw-bold text-info">0</h3>
+                                        <span class="small text-muted fw-bold">บันทึกแล้ว <span id="recordedUnitCount"
+                                                class="text-white">0</span> หน่วย</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- 📌 การ์ดแสดงสถานะหน่วย ครบ/ยืนยันแล้ว -->
-                    <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
                         <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #2ecc71;">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -1805,7 +1821,7 @@
                         </div>
                     </div>
                     <!-- 📌 การ์ดแสดงสถานะหน่วย ไม่ครบและยังไม่ยืนยัน -->
-                    <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
                         <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #e74c3c;">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -2896,6 +2912,7 @@
 
                 // นำยอดรวมกำลังพล (ตารางโครงสร้าง) ไปเก็บไว้เพื่อให้แถบ Progress ของหน้ากำลังพลใช้
                 window.stPersonnelCount = stPersonnelCount;
+                window.stUnitCount = stUnitCount;
 
                 let totalDataset = rawData.length;
                 let pct = totalDataset > 0 ? ((updatedCount / totalDataset) * 100).toFixed(0) : 0;
@@ -3307,9 +3324,12 @@
             let totalActual = 0;
             let completeUnits = 0;
             let incompleteUnits = 0;
+            let recordedUnits = new Set(); // เก็บรายชื่อหน่วยที่ถูกบันทึกแล้วเพื่อไม่ให้นับซ้ำ
 
             personnelData.forEach((p, i) => {
                 let unit = escapeHTML(p.rank); // เรา map ชื่อหน่วยไปเก็บไว้ใน rank ของ Backend เดิม
+                recordedUnits.add(unit); // เพิ่มรายชื่อลง Set
+
                 let target = cleanNumber(p.name); // เก็บอัตรากำลังพลไว้ใน name
                 let actual = cleanNumber(p.position_normal); // เก็บบรรจุจริงไว้ใน position_normal
                 let fileName = escapeHTML(p.position_field); // เก็บชื่อไฟล์ไว้ใน position_field
@@ -3368,6 +3388,8 @@
             // 📌 อัปเดตยอดการ์ด
             safeSetText('unitCompleteCount', completeUnits.toLocaleString());
             safeSetText('unitIncompleteCount', incompleteUnits.toLocaleString());
+            safeSetText('totalUnitStructureCount', (window.stUnitCount || 0).toLocaleString());
+            safeSetText('recordedUnitCount', recordedUnits.size.toLocaleString());
         };
 
         window.openPersonnelModal = function () {
