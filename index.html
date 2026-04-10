@@ -261,11 +261,11 @@
             transform: scale(1.1);
         }
 
-        /* 📱 การตั้งค่า Responsive เฉพาะสำหรับ Mobile */
-        @media (max-width: 768px) {
+        /* 📱 การตั้งค่า Responsive สำหรับ Mobile และ Tablet (<= 991.98px) */
+        @media (max-width: 991.98px) {
             .sidebar {
                 transform: translateX(-100%);
-                width: 270px;
+                width: 280px;
             }
 
             .sidebar.mobile-open {
@@ -289,7 +289,6 @@
                 display: block;
             }
 
-            /* จัดการขนาดฟอนต์และ UI บนมือถือ */
             .tactical-card h2 {
                 font-size: 1.8rem !important;
             }
@@ -299,7 +298,6 @@
                 -webkit-overflow-scrolling: touch;
             }
 
-            /* ปรับแผนที่และต้นไม้บนมือถือ */
             #dynamicTreeContainer {
                 padding: 10px !important;
             }
@@ -1245,27 +1243,27 @@
 
             <div id="globalFilterTemplate" style="display:none;">
                 <div class="row g-2 mb-3">
-                    <div class="col-12 col-md-2"><select class="form-select filter-plan text-warning fw-bold"
+                    <div class="col-12 col-lg-2"><select class="form-select filter-plan text-warning fw-bold"
                             data-filter="plan" onchange="window.applyGlobalFilter(this)">
                             <option value="">🌐 ทุกแผนงาน</option>
                         </select></div>
-                    <div class="col-6 col-md-2"><select class="form-select filter-l0 text-info" data-filter="l0"
-                            onchange="window.applyGlobalFilter(this)">
+                    <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-l0 text-info"
+                            data-filter="l0" onchange="window.applyGlobalFilter(this)">
                             <option value="">🛡️ ยุทธศาสตร์</option>
                         </select></div>
-                    <div class="col-6 col-md-2"><select class="form-select filter-l1 text-success" data-filter="l1"
-                            onchange="window.applyGlobalFilter(this)">
+                    <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-l1 text-success"
+                            data-filter="l1" onchange="window.applyGlobalFilter(this)">
                             <option value="">⚡ จัดกำลัง</option>
                         </select></div>
-                    <div class="col-6 col-md-2"><select class="form-select filter-l2 text-warning" data-filter="l2"
-                            onchange="window.applyGlobalFilter(this)">
+                    <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-l2 text-warning"
+                            data-filter="l2" onchange="window.applyGlobalFilter(this)">
                             <option value="">🎯 ยุทธการ</option>
                         </select></div>
-                    <div class="col-6 col-md-2"><select class="form-select filter-l3 text-danger" data-filter="l3"
-                            onchange="window.applyGlobalFilter(this)">
+                    <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-l3 text-danger"
+                            data-filter="l3" onchange="window.applyGlobalFilter(this)">
                             <option value="">⚔️ ยุทธวิธี</option>
                         </select></div>
-                    <div class="col-12 col-md-2"><input type="text" class="form-control filter-search"
+                    <div class="col-12 col-md-4 col-lg-2"><input type="text" class="form-control filter-search"
                             data-filter="search" placeholder="🔍 พิมพ์ค้นหาหน่วย..."
                             onkeyup="window.applyGlobalFilter(this)"></div>
                 </div>
@@ -1284,34 +1282,34 @@
                 </div>
                 <div id="dashboardFilterContainer"></div>
                 <div class="row g-3 mb-4 text-center justify-content-center">
-                    <div class="col-6 col-md">
+                    <div class="col-12 col-sm-6 col-lg">
                         <div class="tactical-card py-4"><small class="fw-bold text-muted">รวมทั้งสิ้น (นาย)</small>
                             <h2 id="v-total" class="fw-bold mt-1 mb-0" style="font-size: 2.2rem;">0</h2>
                             <div id="diff-total" class="mt-1" style="min-height: 20px;"></div>
                         </div>
                     </div>
-                    <div class="col-6 col-md">
+                    <div class="col-12 col-sm-6 col-lg">
                         <div class="tactical-card py-4" style="border-bottom: 4px solid #0dcaf0;"><small
                                 class="fw-bold text-info">นายพล</small>
                             <h2 id="v-g" class="fw-bold mt-1 mb-0 text-info" style="font-size: 2.2rem;">0</h2>
                             <div id="diff-g" class="mt-1" style="min-height: 20px;"></div>
                         </div>
                     </div>
-                    <div class="col-6 col-md">
+                    <div class="col-12 col-sm-6 col-lg">
                         <div class="tactical-card py-4" style="border-bottom: 4px solid #2ecc71;"><small
                                 class="fw-bold text-success">น. (สัญญาบัตร)</small>
                             <h2 id="v-n" class="fw-bold mt-1 mb-0 text-success" style="font-size: 2.2rem;">0</h2>
                             <div id="diff-n" class="mt-1" style="min-height: 20px;"></div>
                         </div>
                     </div>
-                    <div class="col-6 col-md">
+                    <div class="col-12 col-sm-6 col-lg">
                         <div class="tactical-card py-4" style="border-bottom: 4px solid #f1c40f;"><small
                                 class="fw-bold text-warning">ส. (ประทวน)</small>
                             <h2 id="v-s" class="fw-bold mt-1 mb-0 text-warning" style="font-size: 2.2rem;">0</h2>
                             <div id="diff-s" class="mt-1" style="min-height: 20px;"></div>
                         </div>
                     </div>
-                    <div class="col-12 col-md">
+                    <div class="col-12 col-sm-6 col-lg">
                         <div class="tactical-card py-4" style="border-bottom: 4px solid #e74c3c;"><small
                                 class="fw-bold text-danger">พลฯ</small>
                             <h2 id="v-p" class="fw-bold mt-1 mb-0 text-danger" style="font-size: 2.2rem;">0</h2>
@@ -1322,31 +1320,31 @@
                 <h6 class="fw-bold mb-3 mt-5 text-gold"><i
                         class="bi bi-building-fill text-warning me-2"></i>สรุปจำนวนหน่วยแยกตามระดับ</h6>
                 <div class="row g-2 mb-5 text-center">
-                    <div class="col-6 col-md">
+                    <div class="col-6 col-sm-4 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l0" class="fw-bold text-info mb-0">0</h2><small
                                 class="text-muted fw-bold">ยุทธศาสตร์</small>
                         </div>
                     </div>
-                    <div class="col-6 col-md">
+                    <div class="col-6 col-sm-4 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l1" class="fw-bold text-success mb-0">0</h2><small
                                 class="text-muted fw-bold">จัดกำลัง</small>
                         </div>
                     </div>
-                    <div class="col-4 col-md">
+                    <div class="col-6 col-sm-4 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l2" class="fw-bold text-warning mb-0">0</h2><small
                                 class="text-muted fw-bold">ยุทธการ</small>
                         </div>
                     </div>
-                    <div class="col-4 col-md">
+                    <div class="col-6 col-sm-6 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l3" class="fw-bold text-danger mb-0">0</h2><small
                                 class="text-muted fw-bold">ยุทธวิธี</small>
                         </div>
                     </div>
-                    <div class="col-4 col-md">
+                    <div class="col-12 col-sm-6 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l4" class="fw-bold mb-0 text-muted">0</h2><small
                                 class="text-muted fw-bold">ปฏิบัติการ</small>
@@ -1429,46 +1427,46 @@
                 </div>
                 <div id="tableFilterContainer"></div>
                 <div class="row g-2 mb-3">
-                    <div class="col-4 col-md-2">
+                    <div class="col-6 col-md-4 col-lg-2">
                         <div class="glass-panel py-2 text-center"><small class="text-info fw-bold"
                                 style="font-size:0.7rem">หน่วยที่พบ</small>
                             <h5 id="st-unit-count" class="text-info mb-0 fw-bold">0</h5>
                         </div>
                     </div>
-                    <div class="col-4 col-md-2">
+                    <div class="col-6 col-md-4 col-lg-2">
                         <div class="glass-panel py-2 text-center"><small class="text-white fw-bold"
                                 style="font-size:0.7rem">พลรวม (นาย)</small>
                             <h5 id="st-personnel-count" class="text-white mb-0 fw-bold">0</h5>
                         </div>
                     </div>
-                    <div class="col-4 col-md-2">
+                    <div class="col-6 col-md-4 col-lg-2">
                         <div class="glass-panel py-2 text-center"><small class="text-info fw-bold"
                                 style="font-size:0.7rem">ยอด นายพล</small>
                             <h5 id="st-g" class="text-info mb-0 fw-bold">0</h5>
                         </div>
                     </div>
-                    <div class="col-4 col-md-2">
+                    <div class="col-6 col-md-4 col-lg-2">
                         <div class="glass-panel py-2 text-center"><small class="text-success fw-bold"
                                 style="font-size:0.7rem">ยอด น.</small>
                             <h5 id="st-n" class="text-success mb-0 fw-bold">0</h5>
                         </div>
                     </div>
-                    <div class="col-4 col-md-2">
+                    <div class="col-6 col-md-4 col-lg-2">
                         <div class="glass-panel py-2 text-center"><small class="text-warning fw-bold"
                                 style="font-size:0.7rem">ยอด ส.</small>
                             <h5 id="st-s" class="text-warning mb-0 fw-bold">0</h5>
                         </div>
                     </div>
-                    <div class="col-4 col-md-2">
+                    <div class="col-6 col-md-4 col-lg-2">
                         <div class="glass-panel py-2 text-center"><small class="text-danger fw-bold"
                                 style="font-size:0.7rem">ยอด พลฯ</small>
                             <h5 id="st-p" class="text-danger mb-0 fw-bold">0</h5>
                         </div>
                     </div>
                 </div>
-                <div class="table-container table-responsive">
-                    <div class="table-scroll custom-scroll" style="min-width: 900px;">
-                        <table class="table table-hover w-100">
+                <div class="table-container">
+                    <div class="table-scroll custom-scroll">
+                        <table class="table table-hover w-100" style="min-width: 1000px;">
                             <thead>
                                 <tr>
                                     <th class="td-left">แผนงาน</th>
@@ -1740,9 +1738,9 @@
                             class="bi bi-person-plus-fill me-1"></i> เพิ่มผู้ใช้ใหม่</button>
                 </div>
 
-                <div class="table-container table-responsive">
-                    <div class="table-scroll custom-scroll" style="min-width: 600px;">
-                        <table class="table table-hover w-100">
+                <div class="table-container">
+                    <div class="table-scroll custom-scroll">
+                        <table class="table table-hover w-100" style="min-width: 700px;">
                             <thead>
                                 <tr>
                                     <th>Username</th>
@@ -1884,9 +1882,9 @@
                     </div>
                 </div>
 
-                <div class="table-container table-responsive">
-                    <div class="table-scroll custom-scroll" style="min-width: 1000px;">
-                        <table class="table table-hover w-100 align-middle">
+                <div class="table-container">
+                    <div class="table-scroll custom-scroll">
+                        <table class="table table-hover w-100 align-middle" style="min-width: 1100px;">
                             <thead>
                                 <tr>
                                     <th>หน่วย</th>
@@ -2771,7 +2769,7 @@
             const selectedSection = document.getElementById(p + 'Section');
             if (selectedSection) selectedSection.style.display = 'block';
 
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth < 992) {
                 document.getElementById('sidebar').classList.remove('mobile-open');
                 document.getElementById('mobileOverlay').classList.remove('active');
             }
@@ -3378,11 +3376,6 @@
         window.renderPersonnelTable = function () {
             const canEdit = applyPermissions();
             let html = '';
-            let totalTarget = 0;
-            let totalActual = 0;
-            let completeUnits = 0;
-            let incompleteUnits = 0;
-            let recordedUnits = new Set();
 
             const searchTerm = (document.getElementById('personnelSearchInput')?.value || '').toLowerCase();
             const searchL0 = document.getElementById('pFilterL0')?.value || '';
@@ -3390,17 +3383,21 @@
             const searchL2 = document.getElementById('pFilterL2')?.value || '';
             const searchL3 = document.getElementById('pFilterL3')?.value || '';
 
-            let structSummary = {};
             let recordedMap = {};
-            let unitInfoMap = {};
-
-            let setL0 = new Set(), setL1 = new Set(), setL2 = new Set(), setL3 = new Set();
-
             personnelData.forEach(p => { recordedMap[p.rank] = p; });
 
-            rawData.forEach(r => {
-                if (!isMatchFilter(r)) return;
+            let unitInfoMap = {};
+            let setL0 = new Set(), setL1 = new Set(), setL2 = new Set(), setL3 = new Set();
+            let structSummary = {};
 
+            let validUnits = 0;
+            let targetSum = 0;
+            let actualSum = 0;
+            let recordedUnitsCount = 0;
+            let completeUnits = 0;
+            let incompleteUnits = 0;
+
+            rawData.forEach(r => {
                 let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์";
                 let l1 = escapeHTML(r[2]) || "ไม่ระบุการจัดกำลัง";
                 let l2 = escapeHTML(r[3]) || "-";
@@ -3411,8 +3408,8 @@
                 unitInfoMap[unitName] = { l0, l1, l2, l3 };
 
                 // Populate Dropdown Sets based on previous level selections
-                setL0.add(l0);
-                if (!searchL0 || l0 === searchL0) setL1.add(l1);
+                if (l0 !== "-" && l0 !== "ไม่ระบุยุทธศาสตร์") setL0.add(l0);
+                if ((!searchL0 || l0 === searchL0) && l1 !== "-" && l1 !== "ไม่ระบุการจัดกำลัง") setL1.add(l1);
                 if ((!searchL0 || l0 === searchL0) && (!searchL1 || l1 === searchL1) && l2 !== "-") setL2.add(l2);
                 if ((!searchL0 || l0 === searchL0) && (!searchL1 || l1 === searchL1) && (!searchL2 || l2 === searchL2) && l3 !== "-") setL3.add(l3);
 
@@ -3423,21 +3420,42 @@
                 if (searchL3 && l3 !== searchL3) return;
 
                 if (unitName !== "-" && target > 0) {
+                    // Global metrics calculation
+                    validUnits++;
+                    targetSum += target;
+
+                    let actual = 0;
+                    let isConfirmed = false;
+                    let p = recordedMap[unitName];
+                    if (p) {
+                        recordedUnitsCount++;
+                        actual = cleanNumber(p.position_normal);
+                        actualSum += actual;
+                        isConfirmed = p.unit === "true";
+                    }
+
+                    let pct = target > 0 ? ((actual / target) * 100).toFixed(1) : 0;
+                    if (pct >= 100 || isConfirmed) {
+                        completeUnits++;
+                    } else {
+                        incompleteUnits++;
+                    }
+
                     // Group summary by the highest selected filter to provide drill-down view
                     let groupKey = l0;
-                    if (searchL3) groupKey = l3;
-                    else if (searchL2) groupKey = l2;
-                    else if (searchL1) groupKey = l1;
+                    if (searchL3) groupKey = unitName;
+                    else if (searchL2) groupKey = l3 !== "-" ? l3 : unitName;
+                    else if (searchL1) groupKey = l2 !== "-" ? l2 : unitName;
+                    else if (searchL0) groupKey = l1 !== "-" ? l1 : unitName;
 
                     if (!structSummary[groupKey]) {
                         structSummary[groupKey] = { title: groupKey, totalUnits: 0, recordedUnits: 0, targetSum: 0, actualSum: 0 };
                     }
                     structSummary[groupKey].totalUnits++;
                     structSummary[groupKey].targetSum += target;
-
-                    if (recordedMap[unitName]) {
+                    if (p) {
                         structSummary[groupKey].recordedUnits++;
-                        structSummary[groupKey].actualSum += cleanNumber(recordedMap[unitName].position_normal);
+                        structSummary[groupKey].actualSum += actual;
                     }
                 }
             });
@@ -3470,6 +3488,9 @@
                 let colorClass = unitPct >= 100 ? 'success' : (unitPct >= 50 ? 'warning' : 'danger');
                 let popColorClass = popPct >= 100 ? 'success' : (popPct >= 50 ? 'info' : 'danger');
 
+                let progressWidthUnit = Math.min(100, unitPct);
+                let progressWidthPop = Math.min(100, popPct);
+
                 summaryHtml += `
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="tactical-card p-3 h-100" style="border-left: 4px solid var(--bs-${colorClass});">
@@ -3480,7 +3501,7 @@
                             <span class="fw-bold text-${colorClass}">${data.recordedUnits} / ${data.totalUnits} <small>หน่วย</small> (${unitPct}%)</span>
                         </div>
                         <div class="progress mb-3" style="height: 6px; background: rgba(255,255,255,0.1);">
-                            <div class="progress-bar bg-${colorClass}" style="width: ${unitPct}%"></div>
+                            <div class="progress-bar bg-${colorClass}" style="width: ${progressWidthUnit}%"></div>
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-end small border-top border-secondary border-opacity-25 pt-2 mb-1">
@@ -3488,7 +3509,7 @@
                             <span class="text-gold fw-bold">${data.actualSum.toLocaleString()} <span class="text-muted fw-normal">/ ${data.targetSum.toLocaleString()} <small>นาย</small></span> (${popPct}%)</span>
                         </div>
                          <div class="progress" style="height: 4px; background: rgba(255,255,255,0.1);">
-                            <div class="progress-bar bg-${popColorClass}" style="width: ${popPct}%"></div>
+                            <div class="progress-bar bg-${popColorClass}" style="width: ${progressWidthPop}%"></div>
                         </div>
                     </div>
                 </div>`;
@@ -3496,23 +3517,19 @@
             safeSetHTML('personnelStructureSummary', summaryHtml || '<div class="col-12 text-center text-muted py-3">ไม่มีข้อมูลโครงสร้างที่สอดคล้อง</div>');
 
             // 📌 วาดตารางบันทึก
-            let filteredStructureUnits = 0;
-            for (let k in structSummary) filteredStructureUnits += structSummary[k].totalUnits;
-
             personnelData.forEach((p, i) => {
                 let unit = escapeHTML(p.rank);
                 let p_officerName = escapeHTML(p.mil_id || "-");
                 let uInfo = unitInfoMap[unit] || { l0: "", l1: "", l2: "", l3: "" };
 
-                // กรองข้อมูลตาราง
+                // กรองข้อมูลตารางตามโครงสร้าง
                 if (searchL0 && uInfo.l0 !== searchL0) return;
                 if (searchL1 && uInfo.l1 !== searchL1) return;
                 if (searchL2 && uInfo.l2 !== searchL2) return;
                 if (searchL3 && uInfo.l3 !== searchL3) return;
 
+                // กรองค้นหาข้อความ
                 if (searchTerm && !unit.toLowerCase().includes(searchTerm) && !p_officerName.toLowerCase().includes(searchTerm)) return;
-
-                recordedUnits.add(unit);
 
                 let target = cleanNumber(p.name);
                 let actual = cleanNumber(p.position_normal);
@@ -3521,20 +3538,20 @@
                 let isConfirmed = p.unit === "true";
                 let timestamp = escapeHTML(p.timestamp);
 
-                totalTarget += target;
-                totalActual += actual;
-
                 let pct = target > 0 ? ((actual / target) * 100).toFixed(1) : 0;
                 let progressColor = pct >= 100 ? 'bg-success' : (pct >= 50 ? 'bg-warning' : 'bg-danger');
+                let progressWidth = Math.min(100, pct); // จำกัดไม่ให้ล้นหลอด
 
                 let isFullyComplete = (pct >= 100) || isConfirmed;
-                if (isFullyComplete) completeUnits++; else incompleteUnits++;
-
                 let statusBadge = isFullyComplete
                     ? '<span class="badge bg-success"><i class="bi bi-check-circle"></i> ยืนยันแล้ว</span>'
                     : '<span class="badge bg-danger"><i class="bi bi-x-circle"></i> ยังไม่ยืนยัน</span>';
 
-                let fileBadge = fileName ? `<a href="${fileUrl}" target="_blank" class="badge bg-success bg-opacity-25 text-success border border-success text-decoration-none shadow-sm" title="คลิกเพื่อโหลดไฟล์"><i class="bi bi-file-earmark-excel"></i> ${fileName}</a>` : '<span class="text-muted">-</span>';
+                let fileBadge = fileName && fileName !== "-" ? `
+                    <div class="d-flex flex-column align-items-center gap-1">
+                        <a href="${fileUrl}" target="_blank" class="badge bg-success bg-opacity-25 text-success border border-success text-decoration-none shadow-sm text-truncate" style="max-width: 140px;" title="คลิกเพื่อดาวน์โหลด/เปิดดูไฟล์"><i class="bi bi-file-earmark-excel"></i> ${fileName}</a>
+                        ${canEdit ? `<span class="badge bg-warning bg-opacity-10 text-warning border border-warning" style="font-size: 0.65rem; cursor: pointer;" onclick="window.editPersonnel(${i})" title="อัปโหลดไฟล์ใหม่เพื่อแก้ไข/ทับไฟล์เดิม"><i class="bi bi-cloud-upload"></i> อัปเดตไฟล์</span>` : ''}
+                    </div>` : '<span class="text-muted">-</span>';
                 let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-info rounded-circle py-0 px-2 shadow-sm" onclick="window.editPersonnel(${i})"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger rounded-circle py-0 px-2 shadow-sm ms-1" onclick="window.deletePersonnel(${p.rowIndex})"><i class="bi bi-trash"></i></button>` : '';
 
                 html += `<tr>
@@ -3542,9 +3559,9 @@
                 <td class="fw-bold">${target.toLocaleString()}</td>
                 <td class="text-warning fw-bold">${actual.toLocaleString()}</td>
                 <td>
-                    <div class="d-flex align-items-center justify-content-center gap-2">
-                        <span class="small fw-bold w-25 text-end">${pct}%</span>
-                        <div class="progress" style="width: 60px; height: 8px;"><div class="progress-bar ${progressColor}" style="width: ${pct}%"></div></div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <span class="small fw-bold text-end me-2" style="min-width: 45px;">${pct}%</span>
+                        <div class="progress" style="width: 60px; height: 8px;"><div class="progress-bar ${progressColor}" style="width: ${progressWidth}%"></div></div>
                     </div>
                 </td>
                 <td>${statusBadge}</td>
@@ -3557,19 +3574,20 @@
 
             safeSetHTML('personnelTableBody', html || '<tr><td colspan="9" class="text-center text-muted py-4">ไม่พบข้อมูลที่ตรงกับเงื่อนไข</td></tr>');
 
-            let pctTotal = totalTarget > 0 ? Math.min(100, Math.round((totalActual / totalTarget) * 100)) : 0;
+            let pctTotal = targetSum > 0 ? Math.min(100, Math.round((actualSum / targetSum) * 100)) : 0;
             let mainProgressColor = pctTotal >= 100 ? 'bg-success' : (pctTotal >= 50 ? 'bg-warning' : 'bg-danger');
 
-            safeSetText('personnelEnteredCount', totalActual.toLocaleString());
-            safeSetText('personnelTargetCount', totalTarget.toLocaleString());
+            safeSetText('personnelEnteredCount', actualSum.toLocaleString());
+            safeSetText('personnelTargetCount', targetSum.toLocaleString());
             safeSetStyle('personnelProgressBar', 'width', pctTotal + '%');
             const progressBarEl = document.getElementById('personnelProgressBar');
             if (progressBarEl) progressBarEl.className = `progress-bar ${mainProgressColor}`;
 
+            // 📌 อัปเดตยอดการ์ด
             safeSetText('unitCompleteCount', completeUnits.toLocaleString());
             safeSetText('unitIncompleteCount', incompleteUnits.toLocaleString());
-            safeSetText('totalUnitStructureCount', filteredStructureUnits.toLocaleString());
-            safeSetText('recordedUnitCount', recordedUnits.size.toLocaleString());
+            safeSetText('totalUnitStructureCount', validUnits.toLocaleString());
+            safeSetText('recordedUnitCount', recordedUnitsCount.toLocaleString());
         };
 
         window.openPersonnelModal = function () {
@@ -3640,8 +3658,17 @@
                 let chk = document.getElementById('p_is_confirmed');
                 if (chk) chk.checked = (p.unit === "true"); // 📌 ดึงสถานะการยืนยัน
 
+                // 📌 ปรับปรุงคำแนะนำวิธีการแก้ไขไฟล์แนบในหน้าต่าง Modal
                 if (p.position_field && p.position_field !== "") {
-                    safeSetHTML('p_current_file_display', `<i class="bi bi-paperclip"></i> ไฟล์ปัจจุบัน: ${escapeHTML(p.position_field)} (อัปโหลดใหม่เพื่อทับไฟล์เดิม)`);
+                    safeSetHTML('p_current_file_display', `
+                        <div class="d-flex align-items-start mt-2 p-2 rounded" style="background: rgba(255, 193, 7, 0.05); border: 1px dashed var(--gold);">
+                            <i class="bi bi-file-earmark-check fs-4 text-success me-2 mt-1"></i>
+                            <div>
+                                <span class="d-block text-light small mb-1">ไฟล์แนบปัจจุบัน: <strong class="text-warning">${escapeHTML(p.position_field)}</strong></span>
+                                <span class="text-muted d-block" style="font-size: 0.7rem; line-height: 1.4;"><i class="bi bi-info-circle text-info"></i> <strong>วิธีแก้ไขข้อมูลในไฟล์:</strong> ให้ดาวน์โหลดไฟล์จากตารางไปแก้ไขให้เรียบร้อย จากนั้นนำมา <strong>"อัปโหลดใหม่"</strong> ในช่องด้านบนเพื่อบันทึกทับไฟล์เดิม</span>
+                            </div>
+                        </div>
+                    `);
                 } else {
                     safeSetHTML('p_current_file_display', '');
                 }
@@ -4171,74 +4198,6 @@
                     if (tacticalMap) tacticalMap.invalidateSize();
                 }
             }, 400);
-        };
-
-        window.highlightForce = function (forceId) {
-            if (activeForceId && activeForceId !== forceId) return;
-            document.querySelectorAll('.force-card-ui').forEach(card => { if (card.dataset.forceId === forceId) { card.classList.add('active'); card.classList.remove('dimmed'); } else { card.classList.remove('active'); card.classList.add('dimmed'); } });
-            if (geojsonLayer) { geojsonLayer.eachLayer(layer => { let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || ""; const force = getTaskForceForProvince(thaiName); if (force && force.id === forceId) { layer.setStyle({ weight: 2.5, color: '#f59e0b', fillOpacity: 0.6 }); layer.bringToFront(); } else { layer.setStyle({ weight: 1, color: '#4b5563', fillOpacity: force ? 0.15 : 0.05 }); } }); }
-            document.querySelectorAll(`.label-group-${forceId}`).forEach(el => el.classList.add('show'));
-        };
-
-        window.resetHighlight = function () {
-            if (activeForceId) return;
-            document.querySelectorAll('.force-card-ui').forEach(card => card.classList.remove('active', 'dimmed'));
-            if (geojsonLayer) { geojsonLayer.eachLayer(layer => { let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || ""; const force = getTaskForceForProvince(thaiName); layer.setStyle({ weight: 1, color: '#4b5563', fillOpacity: force ? 0.35 : 0.1 }); }); }
-            document.querySelectorAll('.province-label-container').forEach(el => el.classList.remove('show'));
-        };
-
-        window.zoomToForce = function (forceId) {
-            if (!geojsonLayer) return; const force = taskForces.find(tf => tf.id === forceId); if (!force) return;
-            activeForceId = forceId; document.getElementById('custom-tooltip').style.opacity = 0; window.highlightForce(forceId);
-            distanceLineGroup.clearLayers(); resetAllPopups();
-            const forceLayers = []; geojsonLayer.eachLayer(layer => { let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || ""; const f = getTaskForceForProvince(thaiName); if (f && f.id === forceId) forceLayers.push(layer); });
-            if (forceLayers.length > 0) { tacticalMap.fitBounds(new L.featureGroup(forceLayers).getBounds(), { paddingTopLeft: [20, 20], paddingBottomRight: window.innerWidth < 768 ? [20, 20] : [340, 20], maxZoom: 8, animate: true, duration: 0.8 }); }
-            showSidePanel(force);
-        };
-
-        function showSidePanel(force) {
-            const panel = document.getElementById('side-panel-map');
-            const layerToggles = document.getElementById('layer-toggles');
-            if (layerToggles) { layerToggles.style.opacity = '0'; layerToggles.style.pointerEvents = 'none'; layerToggles.style.transform = 'translateX(10px)'; }
-
-            document.getElementById('panel-title').innerText = force.name; document.getElementById('panel-title').style.color = force.color;
-
-            const hqEl = document.getElementById('panel-hq');
-            hqEl.innerHTML = `<div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-warning" style="width:15px;"></i> <span class="font-medium text-white">${force.hq}</span></div><i class="fas fa-location-arrow text-secondary"></i>`;
-            hqEl.setAttribute('onclick', `window.focusHQ('${force.id}')`);
-
-            document.getElementById('panel-length').innerText = force.length;
-            document.getElementById('panel-stars').innerHTML = Array(force.stars).fill('<i class="fas fa-star text-warning"></i>').join(' ');
-
-            let pTotal = document.getElementById('panel-total-personnel');
-            if (pTotal) pTotal.innerText = force.currentPersonnel > 0 ? force.currentPersonnel.toLocaleString() + ' นาย' : 'ไม่พบข้อมูล';
-
-            const milList = document.getElementById('panel-hospitals');
-            if (force.hospitals && force.hospitals.length > 0) {
-                milList.innerHTML = force.hospitals.map((h, index) => `<li class="cursor-pointer bg-dark bg-opacity-50 p-2 rounded border border-secondary transition-all d-flex align-items-center justify-content-between gap-2 mb-1" onclick="window.focusHospital('${force.id}', 'mil', ${index})" onmouseover="this.style.borderColor='#ef4444'" onmouseout="this.style.borderColor='var(--bs-secondary)'"><div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-danger" style="width:15px;"></i> ${h.name}</div><i class="fas fa-location-arrow text-secondary"></i></li>`).join('');
-            } else { milList.innerHTML = `<li class="text-muted fst-italic p-2" style="font-size:0.8rem;">ไม่มีข้อมูลสถานพยาบาล</li>`; }
-
-            const govList = document.getElementById('panel-gov-hospitals');
-            if (force.govHospitals && force.govHospitals.length > 0) {
-                govList.innerHTML = force.govHospitals.map((h, index) => `<li class="cursor-pointer bg-dark bg-opacity-50 p-2 rounded border border-secondary transition-all d-flex align-items-center justify-content-between gap-2 mb-1" onclick="window.focusHospital('${force.id}', 'gov', ${index})" onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='var(--bs-secondary)'"><div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-success" style="width:15px;"></i> ${h.name}</div><i class="fas fa-location-arrow text-secondary"></i></li>`).join('');
-            } else { govList.innerHTML = `<li class="text-muted fst-italic p-2" style="font-size:0.8rem;">ไม่มีข้อมูลสถานพยาบาล</li>`; }
-
-            document.getElementById('panel-desc').innerText = force.detailedDesc;
-            panel.classList.add('show');
-        }
-
-        window.resetMap = function () {
-            activeForceId = null;
-            if (tacticalMap) tacticalMap.closePopup();
-            distanceLineGroup.clearLayers();
-            resetAllPopups();
-
-            const layerToggles = document.getElementById('layer-toggles');
-            if (layerToggles) { layerToggles.style.opacity = '1'; layerToggles.style.pointerEvents = 'auto'; layerToggles.style.transform = 'none'; }
-
-            document.getElementById('side-panel-map').classList.remove('show');
-            if (tacticalMap) { tacticalMap.setView([13.7367, 100.5231], 5.8, { animate: true, duration: 0.8 }); }
-            window.resetHighlight();
         };
 
         // ==========================================
