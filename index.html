@@ -1836,6 +1836,29 @@
                     </div>
                 </div>
 
+                <div class="row mb-3 mt-4">
+                    <div class="col-12">
+                        <h5 class="text-gold fw-bold mb-3"><i
+                                class="bi bi-bar-chart-steps me-2"></i>สรุปการนำเข้าแยกตามยุทธศาสตร์ (โครงสร้าง)</h5>
+                        <div class="row g-3" id="personnelStructureSummary">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap justify-content-between align-items-end mb-2 mt-4 gap-2">
+                    <h5 class="text-info fw-bold mb-0"><i class="bi bi-list-ul me-2"></i>รายการบันทึกกำลังพล</h5>
+                    <div style="width: 300px; max-width: 100%;">
+                        <div class="input-group input-group-sm shadow-sm">
+                            <span class="input-group-text bg-dark border-secondary text-muted"><i
+                                    class="bi bi-search"></i></span>
+                            <input type="text" id="personnelSearchInput"
+                                class="form-control bg-dark text-white border-secondary"
+                                placeholder="ค้นหาชื่อหน่วย, เจ้าหน้าที่..." onkeyup="window.renderPersonnelTable()">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="table-container table-responsive">
                     <div class="table-scroll custom-scroll" style="min-width: 1000px;">
                         <table class="table table-hover w-100 align-middle">
@@ -2254,7 +2277,7 @@
         // ==========================================
         // 🔗 API CONNECTION (ใส่ URL ตรงนี้)
         // ==========================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbx4GfOBrL48C1r_YX6xJ2Ec1X36VMEoV6cYXAPmjfJnI_2oeX6T89g2ANwUgM4rFang/exec"; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxeqzIIIgM6Y-hzvGhJEUsMn1oQNz07BgIYXI6Z7H_K2Enbbjv9mlZnShk5Yk56CH4M/exec"; // <-- นำ URL เว็บแอปจาก Google Apps Script มาใส่ในเครื่องหมายคำพูดนี้
 
         // Core Fetch API
         async function fetchAPI(action, data = {}) {
@@ -2269,7 +2292,6 @@
                     body: JSON.stringify({ action: action, data: data })
                 });
                 const result = await response.json();
-                if (result.error) throw new Error(result.error);
                 return result;
             } catch (error) {
                 console.error("API Error:", error);
@@ -2653,7 +2675,8 @@
             };
 
             try {
-                await fetchAPI('saveUserData', data);
+                const res = await fetchAPI('saveUserData', data);
+                if (res.error) throw new Error(res.error);
                 const modal = window.getBsModal('userModal');
                 if (modal) modal.hide();
 
@@ -2671,7 +2694,8 @@
             Swal.fire({ title: 'ลบผู้ใช้?', text: "ไม่สามารถกู้คืนได้", icon: 'warning', showCancelButton: true, confirmButtonText: 'ลบข้อมูล', customClass: { popup: 'dark-swal' } }).then(async result => {
                 if (result.isConfirmed) {
                     try {
-                        await fetchAPI('deleteUserData', { rowIndex: rowIndex });
+                        const res = await fetchAPI('deleteUserData', { rowIndex: rowIndex });
+                        if (res.error) throw new Error(res.error);
                         Swal.fire('ลบแล้ว!', '', 'success');
                         setTimeout(() => { loadUsers(); }, 1000);
                     } catch (err) {
@@ -3270,7 +3294,8 @@
             }
 
             try {
-                await fetchAPI('saveUnitData', data);
+                const res = await fetchAPI('saveUnitData', data);
+                if (res.error) throw new Error(res.error);
                 const modal = window.getBsModal('unitModal');
                 if (modal) modal.hide();
 
@@ -3294,6 +3319,7 @@
 
             try {
                 const res = await fetchAPI('generateSinglePDF', { rowIndex: rowIndex });
+                if (res.error) throw new Error(res.error);
                 btn.innerHTML = origHtml; btn.disabled = false;
                 if (res.url) window.open(res.url, '_blank');
             } catch (err) {
@@ -3326,15 +3352,77 @@
             let incompleteUnits = 0;
             let recordedUnits = new Set(); // เก็บรายชื่อหน่วยที่ถูกบันทึกแล้วเพื่อไม่ให้นับซ้ำ
 
+            const searchTerm = (document.getElementById('personnelSearchInput')?.value || '').toLowerCase();
+
+            // 📌 สร้าง Map สำหรับนับโครงสร้าง
+            let structSummary = {};
+            let recordedMap = {};
+            personnelData.forEach(p => { recordedMap[p.rank] = p; });
+
+            rawData.forEach(r => {
+                if (!isMatchFilter(r)) return; // อิงตามฟิลเตอร์หลัก (ถ้ามี)
+
+                let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์";
+                let unitName = escapeHTML(r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-");
+                let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
+
+                if (unitName !== "-" && target > 0) {
+                    if (!structSummary[l0]) {
+                        structSummary[l0] = { totalUnits: 0, recordedUnits: 0, targetSum: 0, actualSum: 0 };
+                    }
+                    structSummary[l0].totalUnits++;
+                    structSummary[l0].targetSum += target;
+
+                    if (recordedMap[unitName]) {
+                        structSummary[l0].recordedUnits++;
+                        structSummary[l0].actualSum += cleanNumber(recordedMap[unitName].position_normal);
+                    }
+                }
+            });
+
+            // 📌 วาดการ์ดสรุปโครงสร้าง
+            let summaryHtml = '';
+            for (let l0 in structSummary) {
+                let data = structSummary[l0];
+                if (data.totalUnits === 0) continue;
+                let unitPct = Math.round((data.recordedUnits / data.totalUnits) * 100);
+                let colorClass = unitPct >= 100 ? 'success' : (unitPct >= 50 ? 'warning' : 'danger');
+
+                summaryHtml += `
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="tactical-card p-3 h-100" style="border-left: 4px solid var(--bs-${colorClass});">
+                        <h6 class="fw-bold text-white text-truncate mb-3" title="${l0}" style="font-size:0.9rem;">${l0}</h6>
+                        <div class="d-flex justify-content-between align-items-center small text-muted mb-1">
+                            <span>ความคืบหน้าหน่วย</span>
+                            <span class="fw-bold text-${colorClass}">${data.recordedUnits} / ${data.totalUnits}</span>
+                        </div>
+                        <div class="progress mb-3" style="height: 5px;">
+                            <div class="progress-bar bg-${colorClass}" style="width: ${unitPct}%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-end small border-top border-secondary border-opacity-25 pt-2">
+                            <span class="text-muted" style="font-size:0.75rem;">ยอดกำลังพล</span>
+                            <span class="text-gold fw-bold">${data.actualSum.toLocaleString()} <span class="text-muted fw-normal">/ ${data.targetSum.toLocaleString()}</span></span>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            safeSetHTML('personnelStructureSummary', summaryHtml || '<div class="col-12 text-center text-muted py-3">ไม่มีข้อมูลโครงสร้างที่สอดคล้อง</div>');
+
             personnelData.forEach((p, i) => {
                 let unit = escapeHTML(p.rank); // เรา map ชื่อหน่วยไปเก็บไว้ใน rank ของ Backend เดิม
+                let p_officerName = escapeHTML(p.mil_id || "-"); // 📌 ชื่อเจ้าหน้าที่
+
+                // 📌 กรองข้อมูลตามช่องค้นหา
+                if (searchTerm && !unit.toLowerCase().includes(searchTerm) && !p_officerName.toLowerCase().includes(searchTerm)) {
+                    return; // ข้ามการแสดงผลแถวนี้
+                }
+
                 recordedUnits.add(unit); // เพิ่มรายชื่อลง Set
 
                 let target = cleanNumber(p.name); // เก็บอัตรากำลังพลไว้ใน name
                 let actual = cleanNumber(p.position_normal); // เก็บบรรจุจริงไว้ใน position_normal
                 let fileName = escapeHTML(p.position_field); // เก็บชื่อไฟล์ไว้ใน position_field
                 let fileUrl = p.id_card; // 📌 ดึงลิงก์ Google Drive จาก Backend มาใช้งาน
-                let officerName = escapeHTML(p.mil_id || "-"); // 📌 ชื่อเจ้าหน้าที่
                 let isConfirmed = p.unit === "true"; // 📌 สถานะการยืนยัน
                 let timestamp = escapeHTML(p.timestamp);
 
@@ -3366,7 +3454,7 @@
                     </div>
                 </td>
                 <td>${statusBadge}</td>
-                <td class="text-info small">${officerName}</td>
+                <td class="text-info small">${p_officerName}</td>
                 <td>${fileBadge}</td>
                 <td class="text-muted small">${timestamp}</td>
                 <td class="btn-auth-edit">${editBtnHtml}</td>
@@ -3497,7 +3585,8 @@
                 };
 
                 try {
-                    await fetchAPI('savePersonnelData', data);
+                    const res = await fetchAPI('savePersonnelData', data);
+                    if (res.error) throw new Error(res.error);
                     const modal = window.getBsModal('personnelModal');
                     if (modal) modal.hide();
 
@@ -3537,7 +3626,8 @@
             Swal.fire({ title: 'ลบข้อมูล?', text: "ไม่สามารถกู้คืนได้", icon: 'warning', showCancelButton: true, confirmButtonText: 'ลบ', customClass: { popup: 'dark-swal' } }).then(async result => {
                 if (result.isConfirmed) {
                     try {
-                        await fetchAPI('deletePersonnelData', { rowIndex: rowIndex });
+                        const res = await fetchAPI('deletePersonnelData', { rowIndex: rowIndex });
+                        if (res.error) throw new Error(res.error);
                         Swal.fire('ลบแล้ว!', '', 'success');
                         setTimeout(() => { window.loadPersonnel(); }, 1000);
                     } catch (err) {
@@ -3560,10 +3650,10 @@
                 let a = cleanNumber(p.position_normal);
                 let pct = t > 0 ? ((a / t) * 100).toFixed(2) : 0;
 
-                let officerName = p.mil_id || "-";
+                let p_officerName = p.mil_id || "-";
                 let isConfirmedText = p.unit === "true" || (t > 0 && a >= t) ? "ยืนยันแล้ว/ครบ 100%" : "ยังไม่ยืนยัน";
 
-                dataToExport.push([escapeHTML(p.rank), t, a, pct, isConfirmedText, officerName, p.position_field, p.timestamp]);
+                dataToExport.push([escapeHTML(p.rank), t, a, pct, isConfirmedText, p_officerName, p.position_field, p.timestamp]);
             });
 
             const wb = XLSX.utils.book_new();
@@ -4022,12 +4112,10 @@
         }
 
         window.openNotifDrawer = function () {
-            // สั่งปิดเมนูด้านข้างบนมือถือก่อนเปิดหน้าต่างแจ้งเตือน
             if (window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('mobile-open');
                 document.getElementById('mobileOverlay').classList.remove('active');
             }
-
             const drawer = window.getBsOffcanvas('notifDrawer');
             if (drawer) drawer.show();
         };
