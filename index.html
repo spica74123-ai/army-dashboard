@@ -1243,13 +1243,13 @@
 
             <div id="globalFilterTemplate" style="display:none;">
                 <div class="row g-2 mb-3">
-                    <div class="col-12 col-lg-2"><select class="form-select filter-plan text-warning fw-bold"
+                    <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-plan text-warning fw-bold"
                             data-filter="plan" onchange="window.applyGlobalFilter(this)">
-                            <option value="">🌐 ทุกแผนงาน</option>
+                            <option value="">🌐 ทุกแผนยุทธศาสตร์</option>
                         </select></div>
                     <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-l0 text-info"
                             data-filter="l0" onchange="window.applyGlobalFilter(this)">
-                            <option value="">🛡️ ยุทธศาสตร์</option>
+                            <option value="">🛡️ ส่วนภูมิภาค</option>
                         </select></div>
                     <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-l1 text-success"
                             data-filter="l1" onchange="window.applyGlobalFilter(this)">
@@ -1257,13 +1257,27 @@
                         </select></div>
                     <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-l2 text-warning"
                             data-filter="l2" onchange="window.applyGlobalFilter(this)">
-                            <option value="">🎯 ยุทธการ</option>
+                            <option value="">🎯 กองกำลัง</option>
                         </select></div>
                     <div class="col-6 col-md-4 col-lg-2"><select class="form-select filter-l3 text-danger"
                             data-filter="l3" onchange="window.applyGlobalFilter(this)">
-                            <option value="">⚔️ ยุทธวิธี</option>
+                            <option value="">⚔️ หน่วยเฉพาะกิจ</option>
                         </select></div>
-                    <div class="col-12 col-md-4 col-lg-2"><input type="text" class="form-control filter-search"
+                    <div class="col-6 col-md-4 col-lg-2"><select
+                            class="form-select filter-l4 text-light border-secondary" data-filter="l4"
+                            onchange="window.applyGlobalFilter(this)">
+                            <option value="">🏢 ทุกหน่วย</option>
+                        </select></div>
+                    <div class="col-6 col-md-4 col-lg-2"><select
+                            class="form-select filter-rank text-primary border-secondary fw-bold" data-filter="rank"
+                            onchange="window.applyGlobalFilter(this)">
+                            <option value="">👮 ทุกชั้นยศ</option>
+                            <option value="g">เฉพาะ นายพล</option>
+                            <option value="n">เฉพาะ น.</option>
+                            <option value="s">เฉพาะ ส.</option>
+                            <option value="p">เฉพาะ พลฯ</option>
+                        </select></div>
+                    <div class="col-12 col-md-8 col-lg-3"><input type="text" class="form-control filter-search"
                             data-filter="search" placeholder="🔍 พิมพ์ค้นหาหน่วย..."
                             onkeyup="window.applyGlobalFilter(this)"></div>
                 </div>
@@ -1323,7 +1337,7 @@
                     <div class="col-6 col-sm-4 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l0" class="fw-bold text-info mb-0">0</h2><small
-                                class="text-muted fw-bold">ยุทธศาสตร์</small>
+                                class="text-muted fw-bold">ส่วนภูมิภาค</small>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-lg">
@@ -1335,19 +1349,19 @@
                     <div class="col-6 col-sm-4 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l2" class="fw-bold text-warning mb-0">0</h2><small
-                                class="text-muted fw-bold">ยุทธการ</small>
+                                class="text-muted fw-bold">กองกำลัง</small>
                         </div>
                     </div>
                     <div class="col-6 col-sm-6 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l3" class="fw-bold text-danger mb-0">0</h2><small
-                                class="text-muted fw-bold">ยุทธวิธี</small>
+                                class="text-muted fw-bold">หน่วยเฉพาะกิจ</small>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-lg">
                         <div class="tactical-card py-3">
                             <h2 id="c-l4" class="fw-bold mb-0 text-muted">0</h2><small
-                                class="text-muted fw-bold">ปฏิบัติการ</small>
+                                class="text-muted fw-bold">หน่วย</small>
                         </div>
                     </div>
                 </div>
@@ -1373,7 +1387,7 @@
                             <div class="text-center small text-muted mb-4">ความสำเร็จ: <span id="updatePct"
                                     class="fw-bold text-success">0%</span></div>
                             <h6 class="mt-4 mb-3 border-bottom pb-2 text-gold"><i
-                                    class="bi bi-journal-text me-2"></i>สรุปตามแผนงาน</h6>
+                                    class="bi bi-journal-text me-2"></i>สรุปตามแผนยุทธศาสตร์</h6>
                             <div id="planSummaryBox" class="small custom-scroll"
                                 style="max-height: 180px; overflow-y: auto;"></div>
                         </div>
@@ -1404,7 +1418,7 @@
                         <div class="tactical-card">
                             <h6 class="fw-bold mb-3 text-gold"><i
                                     class="bi bi-bar-chart-fill me-2"></i>เปรียบเทียบยอดกำลังพล อดีต - ปัจจุบัน
-                                (จำแนกตามยุทธศาสตร์/ปี)</h6>
+                                (จำแนกตามส่วนภูมิภาค/ปี)</h6>
                             <div style="position: relative; height: 350px; width: 100%;"><canvas
                                     id="yearlyCompareChart"></canvas></div>
                         </div>
@@ -1469,9 +1483,9 @@
                         <table class="table table-hover w-100" style="min-width: 1000px;">
                             <thead>
                                 <tr>
-                                    <th class="td-left">แผนงาน</th>
-                                    <th class="td-left">ยุทธศาสตร์ - จัดกำลัง</th>
-                                    <th class="td-left">ยุทธการ > ยุทธวิธี > ปฏิบัติการ</th>
+                                    <th class="td-left">แผนยุทธศาสตร์</th>
+                                    <th class="td-left">ส่วนภูมิภาค - จัดกำลัง</th>
+                                    <th class="td-left">กองกำลัง > หน่วยเฉพาะกิจ > หน่วย</th>
                                     <th style="color:#0dcaf0">นายพล</th>
                                     <th style="color:#2ecc71">น.</th>
                                     <th style="color:#f1c40f">ส.</th>
@@ -1842,7 +1856,7 @@
                 <div class="row mb-3 mt-4">
                     <div class="col-12">
                         <h5 class="text-gold fw-bold mb-3"><i
-                                class="bi bi-bar-chart-steps me-2"></i>สรุปการนำเข้าภาพรวมตามโครงสร้างยุทธศาสตร์</h5>
+                                class="bi bi-bar-chart-steps me-2"></i>สรุปการนำเข้าภาพรวมตามโครงสร้างส่วนภูมิภาค</h5>
                         <div class="row g-3" id="personnelStructureSummary">
                             <!-- Populated by JS -->
                         </div>
@@ -1851,12 +1865,13 @@
 
                 <div class="mb-3 mt-4">
                     <h5 class="text-info fw-bold mb-3"><i class="bi bi-list-ul me-2"></i>รายการบันทึกกำลังพล</h5>
+
                     <div class="row g-2 align-items-center">
                         <div class="col-6 col-md-3 col-lg-2">
                             <select id="pFilterL0"
                                 class="form-select form-select-sm bg-dark text-info border-secondary fw-bold w-100"
                                 onchange="window.renderPersonnelTable()">
-                                <option value="">🛡️ ทุกยุทธศาสตร์</option>
+                                <option value="">🛡️ ทุกส่วนภูมิภาค</option>
                             </select>
                         </div>
                         <div class="col-6 col-md-3 col-lg-2">
@@ -1870,17 +1885,35 @@
                             <select id="pFilterL2"
                                 class="form-select form-select-sm bg-dark text-warning border-secondary fw-bold w-100"
                                 onchange="window.renderPersonnelTable()">
-                                <option value="">🎯 ทุกยุทธการ</option>
+                                <option value="">🎯 ทุกกองกำลัง</option>
                             </select>
                         </div>
                         <div class="col-6 col-md-3 col-lg-2">
                             <select id="pFilterL3"
                                 class="form-select form-select-sm bg-dark text-danger border-secondary fw-bold w-100"
                                 onchange="window.renderPersonnelTable()">
-                                <option value="">⚔️ ทุกยุทธวิธี</option>
+                                <option value="">⚔️ ทุกหน่วยเฉพาะกิจ</option>
                             </select>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <select id="pFilterL4"
+                                class="form-select form-select-sm bg-dark text-light border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">🏢 ทุกหน่วย</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <select id="pFilterRank"
+                                class="form-select form-select-sm bg-dark text-primary border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">👮 ทุกชั้นยศ</option>
+                                <option value="g">เฉพาะ นายพล</option>
+                                <option value="n">เฉพาะ น.</option>
+                                <option value="s">เฉพาะ ส.</option>
+                                <option value="p">เฉพาะ พลฯ</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-lg-4 mt-2 mt-lg-0">
                             <div class="input-group input-group-sm shadow-sm w-100">
                                 <span class="input-group-text bg-dark border-secondary text-muted"><i
                                         class="bi bi-search"></i></span>
@@ -1983,14 +2016,14 @@
                     </div>
 
                     <h6 class="fw-bold text-dark mb-3"><i class="fas fa-list-ul me-2"></i>สรุปผลการนำเข้า
-                        จำแนกตามยุทธศาสตร์</h6>
+                        จำแนกตามส่วนภูมิภาค</h6>
                     <div class="table-responsive">
                         <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
                             style="font-size: 0.95rem;">
                             <thead class="table-light border-dark text-dark">
                                 <tr>
                                     <th rowspan="2" class="align-middle" style="width: 5%;">ลำดับ</th>
-                                    <th rowspan="2" class="align-middle" style="width: 35%;">ยุทธศาสตร์ / กองกำลัง</th>
+                                    <th rowspan="2" class="align-middle" style="width: 35%;">ส่วนภูมิภาค / กองกำลัง</th>
                                     <th colspan="2">ข้อมูลหน่วย (หน่วย)</th>
                                     <th colspan="3">ข้อมูลกำลังพล (นาย)</th>
                                 </tr>
@@ -2057,13 +2090,13 @@
                     </div>
 
                     <h6 class="fw-bold text-dark mb-3"><i class="fas fa-list-ul me-2"></i>สรุปแยกตามกองกำลัง /
-                        ยุทธศาสตร์</h6>
+                        ส่วนภูมิภาค</h6>
                     <div class="table-responsive">
                         <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
                             style="font-size: 0.9rem; min-width: 600px;">
                             <thead class="table-light border-dark text-dark">
                                 <tr>
-                                    <th rowspan="2" class="align-middle w-25">กองกำลัง / ยุทธศาสตร์</th>
+                                    <th rowspan="2" class="align-middle w-25">กองกำลัง / ส่วนภูมิภาค</th>
                                     <th colspan="4">ปฏิบัติจริงแยกประเภท (นาย)</th>
                                     <th rowspan="2" class="align-middle">ยอดรวม<br>ปฏิบัติจริง</th>
                                     <th rowspan="2" class="align-middle">ยอดรวม<br>อนุมัติ</th>
@@ -2176,17 +2209,17 @@
         <div class="offcanvas-body custom-scroll">
             <div class="p-3 rounded mb-4 shadow-sm"
                 style="background: rgba(128,128,128,0.1); border: 1px solid rgba(128,128,128,0.2);">
-                <div class="drawer-label">แผนงาน</div>
+                <div class="drawer-label">แผนยุทธศาสตร์</div>
                 <div class="drawer-value text-muted" id="d-plan">-</div>
-                <div class="drawer-label">ยุทธศาสตร์</div>
+                <div class="drawer-label">ส่วนภูมิภาค</div>
                 <div class="drawer-value text-info" id="d-l0">-</div>
                 <div class="drawer-label">จัดกำลัง</div>
                 <div class="drawer-value text-success" id="d-l1">-</div>
-                <div class="drawer-label">ยุทธการ</div>
+                <div class="drawer-label">กองกำลัง</div>
                 <div class="drawer-value fs-5 text-warning" id="d-l2">-</div>
-                <div class="drawer-label">ยุทธวิธี</div>
+                <div class="drawer-label">หน่วยเฉพาะกิจ</div>
                 <div class="drawer-value text-danger" id="d-l3">-</div>
-                <div class="drawer-label">ปฏิบัติการ</div>
+                <div class="drawer-label">หน่วย</div>
                 <div class="drawer-value text-light" id="d-l4">-</div>
             </div>
             <h6 class="mb-3 fw-bold text-gold"><i class="bi bi-people-fill me-2"></i>กำลังพลปัจจุบัน</h6>
@@ -2256,20 +2289,20 @@
                     <form id="uForm">
                         <input type="hidden" id="rid">
                         <div class="row g-3">
-                            <div class="col-md-6"><label class="small fw-bold mb-1 text-gold">แผนงาน (A)</label><input
-                                    list="planDataList" id="m_plan"
+                            <div class="col-md-6"><label class="small fw-bold mb-1 text-gold">แผนยุทธศาสตร์
+                                    (A)</label><input list="planDataList" id="m_plan"
                                     class="form-control border-warning shadow-sm"><datalist
                                     id="planDataList"></datalist></div>
-                            <div class="col-md-6"><label class="small text-info fw-bold mb-1">ระดับยุทธศาสตร์
+                            <div class="col-md-6"><label class="small text-info fw-bold mb-1">ระดับส่วนภูมิภาค
                                     (B)</label><input type="text" id="m_l0" class="form-control border-info shadow-sm">
                             </div>
                             <div class="col-md-6"><label class="small text-success fw-bold mb-1">การจัดกำลัง (ตามแผน)
                                     (C)</label><input type="text" id="m_l1" class="form-control"></div>
-                            <div class="col-md-6"><label class="small text-warning fw-bold mb-1">ระดับยุทธการ
+                            <div class="col-md-6"><label class="small text-warning fw-bold mb-1">ระดับกองกำลัง
                                     (D)</label><input type="text" id="m_l2" class="form-control"></div>
-                            <div class="col-md-6"><label class="small text-danger fw-bold mb-1">ระดับยุทธวิธี
+                            <div class="col-md-6"><label class="small text-danger fw-bold mb-1">ระดับหน่วยเฉพาะกิจ
                                     (E)</label><input type="text" id="m_l3" class="form-control"></div>
-                            <div class="col-md-6"><label class="small text-muted fw-bold mb-1">ปฏิบัติการหน้างาน
+                            <div class="col-md-6"><label class="small text-muted fw-bold mb-1">ระดับหน่วย
                                     (F)</label><input type="text" id="m_l4" class="form-control"></div>
                         </div>
                         <h6 class="mt-4 mb-3 fw-bold text-gold"><i class="bi bi-person-bounding-box me-2"></i>ยอดกำลังพล
@@ -2365,7 +2398,9 @@
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <label class="small fw-bold mb-1 text-info">หน่วย (อ้างอิงตามโครงสร้างในระบบ)</label>
-                                <select id="p_unit" class="form-select shadow-sm"></select>
+                                <input type="text" list="p_unit_list" id="p_unit" class="form-control shadow-sm"
+                                    placeholder="พิมพ์เพื่อค้นหาชื่อหน่วย..." autocomplete="off">
+                                <datalist id="p_unit_list"></datalist>
                             </div>
 
                             <div class="col-md-6">
@@ -2462,7 +2497,7 @@
         // ==========================================
         let rawData = [], usersData = [], personnelData = [], pChart, yearlyChart;
         let currentDrawerIndex = null;
-        let filters = { search: '', plan: '', l0: '', l1: '', l2: '', l3: '', l4: '' };
+        let filters = { search: '', plan: '', l0: '', l1: '', l2: '', l3: '', l4: '', rank: '' };
 
         let tacticalMap = null, drawnItems = null, geojsonLayer = null, activeForceId = null;
         let hqLayerGroup, higherHqLayerGroup, hospitalLayerGroup, borderLayerGroup, strategicLayerGroup, pillarLayerGroup, distanceLineGroup;
@@ -2961,6 +2996,8 @@
             filters.l1 = getActiveVal('.filter-l1');
             filters.l2 = getActiveVal('.filter-l2');
             filters.l3 = getActiveVal('.filter-l3');
+            filters.l4 = getActiveVal('.filter-l4');
+            filters.rank = getActiveVal('.filter-rank');
 
             renderUI();
         };
@@ -2973,6 +3010,16 @@
             if (filters.l1 && r[2] !== filters.l1) return false;
             if (filters.l2 && r[3] !== filters.l2) return false;
             if (filters.l3 && r[4] !== filters.l3) return false;
+            if (filters.l4 && r[5] !== filters.l4) return false;
+
+            // ตรวจสอบตัวกรองยศ
+            if (filters.rank) {
+                if (filters.rank === 'g' && cleanNumber(r[6]) <= 0) return false;
+                if (filters.rank === 'n' && cleanNumber(r[7]) <= 0) return false;
+                if (filters.rank === 's' && cleanNumber(r[8]) <= 0) return false;
+                if (filters.rank === 'p' && cleanNumber(r[9]) <= 0) return false;
+            }
+
             return true;
         }
 
@@ -2987,7 +3034,7 @@
                 let updatedCount = 0; let pendingCount = 0;
                 let plansStats = {}; let structStats = {};
                 let stUnitCount = 0, stPersonnelCount = 0, stG = 0, stN = 0, stS = 0, stP = 0, stPlanCount = {};
-                let dropPlan = new Set(), dropL0 = new Set(), dropL1 = new Set(), dropL2 = new Set(), dropL3 = new Set();
+                let dropPlan = new Set(), dropL0 = new Set(), dropL1 = new Set(), dropL2 = new Set(), dropL3 = new Set(), dropL4 = new Set();
 
                 if (!rawData || rawData.length === 0) {
                     safeSetHTML('tableBody', '<tr><td colspan="11" class="text-center text-muted py-5"><i class="bi bi-inbox fs-1 d-block mb-3"></i>ไม่มีข้อมูลในระบบ หรือกำลังโหลดข้อมูล...</td></tr>');
@@ -3002,7 +3049,7 @@
                     safeSetText('updatePct', "0%"); safeSetStyle('updateProgressBar', 'width', "0%");
                     safeSetText('stat-updated', "0"); safeSetText('stat-pending', "0");
 
-                    safeSetHTML('planSummaryBox', '<div class="text-muted text-center mt-3">ไม่มีข้อมูลแผนงาน</div>');
+                    safeSetHTML('planSummaryBox', '<div class="text-muted text-center mt-3">ไม่มีข้อมูลแผนยุทธศาสตร์</div>');
                     safeSetHTML('structurePersonnelBox', '<div class="text-muted text-center mt-3">ไม่มีข้อมูลโครงสร้าง</div>');
                     return;
                 }
@@ -3019,8 +3066,8 @@
 
                     let isUpdated = r[12] && r[12].toString().includes("Updated");
 
-                    let planName = escapeHTML(r[0]) || "ไม่ระบุแผนงาน";
-                    let l0Name = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์";
+                    let planName = escapeHTML(r[0]) || "ไม่ระบุแผนยุทธศาสตร์";
+                    let l0Name = escapeHTML(r[1]) || "ไม่ระบุส่วนภูมิภาค";
                     let l1Name = escapeHTML(r[2]) || "ไม่ระบุการจัดกำลัง";
                     let l2Name = escapeHTML(r[3]) || "";
 
@@ -3029,7 +3076,7 @@
                     if (r[2]) { uniqueL1.add(r[1] + r[2]); dropL1.add(r[2]); }
                     if (r[3]) { uniqueL2.add(r[2] + r[3]); dropL2.add(r[3]); }
                     if (r[4]) { uniqueL3.add(r[3] + r[4]); dropL3.add(r[4]); }
-                    if (r[5]) uniqueL4.add(r[4] + r[5]);
+                    if (r[5]) { uniqueL4.add(r[4] + r[5]); dropL4.add(r[5]); }
 
                     if (isUpdated) updatedCount++; else pendingCount++;
 
@@ -3106,7 +3153,7 @@
                 for (let key in plansStats) {
                     planHtml += '<div class="list-group-item-custom"><span style="color:var(--text);"><i class="bi bi-journal-text text-muted me-2"></i>' + key + '</span><span class="fw-bold text-muted">' + plansStats[key].units + ' หน่วย / <span class="text-gold">' + plansStats[key].personnel.toLocaleString() + '</span></span></div>';
                 }
-                safeSetHTML('planSummaryBox', planHtml || '<div class="text-muted text-center mt-3">ไม่มีข้อมูลแผนงาน</div>');
+                safeSetHTML('planSummaryBox', planHtml || '<div class="text-muted text-center mt-3">ไม่มีข้อมูลแผนยุทธศาสตร์</div>');
 
                 let structHtml = '';
                 for (let l0 in structStats) {
@@ -3139,11 +3186,12 @@
                     });
                 }
 
-                syncDropdown('plan', dropPlan, '🛡️ ทุกแผนงาน');
-                syncDropdown('l0', dropL0, '🛡️ ยุทธศาสตร์');
+                syncDropdown('plan', dropPlan, '🌐 ทุกแผนยุทธศาสตร์');
+                syncDropdown('l0', dropL0, '🛡️ ส่วนภูมิภาค');
                 syncDropdown('l1', dropL1, '⚡ จัดกำลัง');
-                syncDropdown('l2', dropL2, '🎯 ยุทธการ');
-                syncDropdown('l3', dropL3, '⚔️ ยุทธวิธี');
+                syncDropdown('l2', dropL2, '🎯 กองกำลัง');
+                syncDropdown('l3', dropL3, '⚔️ หน่วยเฉพาะกิจ');
+                syncDropdown('l4', dropL4, '🏢 ทุกหน่วย');
 
                 const planDataList = document.getElementById('planDataList');
                 if (planDataList) {
@@ -3194,17 +3242,15 @@
         window.buildTree = function () {
             let treeUnits = 0; let treePersonnel = 0; const groups = {};
 
-            // ✅ แก้ไขจุดที่ 1: เพิ่มพารามิเตอร์ i (index) ใน forEach เพื่อให้จับคู่ลำดับแถวได้แม่นยำ 100%
             rawData.forEach(function (r, i) {
                 if (!isMatchFilter(r)) return;
 
-                let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์"; let l1 = escapeHTML(r[2]) || "ไม่ระบุการจัดกำลัง";
-                let l2 = escapeHTML(r[3]) || "ไม่ระบุยุทธการ"; let l3 = escapeHTML(r[4]) || "ส่วนบังคับบัญชา (ยุทธวิธี)";
+                let l0 = escapeHTML(r[1]) || "ไม่ระบุส่วนภูมิภาค"; let l1 = escapeHTML(r[2]) || "ไม่ระบุการจัดกำลัง";
+                let l2 = escapeHTML(r[3]) || "ไม่ระบุกองกำลัง"; let l3 = escapeHTML(r[4]) || "ส่วนบังคับบัญชา (หน่วยเฉพาะกิจ)";
 
                 if (!groups[l0]) groups[l0] = {}; if (!groups[l0][l1]) groups[l0][l1] = {};
                 if (!groups[l0][l1][l2]) groups[l0][l1][l2] = {}; if (!groups[l0][l1][l2][l3]) groups[l0][l1][l2][l3] = [];
 
-                // ✅ แก้ไขจุดที่ 2: ใช้ค่า i โดยตรง ป้องกันปัญหา index สูญหายเมื่อสลับแท็บ
                 groups[l0][l1][l2][l3].push({ data: r, index: r.originalIndex });
                 treeUnits++; treePersonnel += cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
             });
@@ -3222,7 +3268,6 @@
                                 let rData = u.data;
                                 let ct = cleanNumber(rData[10]) || (cleanNumber(rData[6]) + cleanNumber(rData[7]) + cleanNumber(rData[8]) + cleanNumber(rData[9]));
                                 let nodeName = escapeHTML(rData[5]) || "ยอดกำลังพลรวม";
-                                // ✅ เรียกใช้ window.openDrawer และแนบ u.index ได้อย่างสมบูรณ์
                                 html += `<li><div class="node-box glass-panel hover-highlight cursor-pointer" onclick="window.openDrawer(${u.index})">
                   <div class="d-flex justify-content-between align-items-center"><div class="fw-bold text-light" style="font-size:0.85rem;"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${nodeName}</div><span class="badge bg-warning text-dark">${ct.toLocaleString()}</span></div>
                   <div class="d-flex justify-content-between mt-2 pt-2 border-top border-secondary border-opacity-25" style="font-size:0.7rem;">
@@ -3310,13 +3355,13 @@
                 let addBtn = (title, p1, p2, p3, p4) => canEdit ? `<button class="btn btn-sm btn-dark border-secondary btn-inline-add shadow-sm" onclick="window.prefillModal('${escapeHTML(p1)}','${escapeHTML(p2)}','${escapeHTML(p3)}','${escapeHTML(p4)}'); event.preventDefault();">+ ${title}</button>` : '';
                 let html = '';
                 for (let plan in hierarchy) {
-                    html += `<details><summary><span class="text-warning"><i class="bi bi-journal-text me-2"></i>${plan}</span> ${addBtn('ยุทธศาสตร์', plan, '', '', '')}</summary><div class="details-content">`;
+                    html += `<details><summary><span class="text-warning"><i class="bi bi-journal-text me-2"></i>${plan}</span> ${addBtn('ส่วนภูมิภาค', plan, '', '', '')}</summary><div class="details-content">`;
                     for (let l0 in hierarchy[plan]) {
                         html += `<details><summary><span class="text-info"><i class="bi bi-shield-fill-check me-2"></i>${l0}</span> ${addBtn('จัดกำลัง', plan, l0, '', '')}</summary><div class="details-content">`;
                         for (let l1 in hierarchy[plan][l0]) {
-                            html += `<details><summary><span class="text-success"><i class="bi bi-diagram-2 me-2"></i>${l1}</span> ${addBtn('ยุทธการ', plan, l0, l1, '')}</summary><div class="details-content">`;
+                            html += `<details><summary><span class="text-success"><i class="bi bi-diagram-2 me-2"></i>${l1}</span> ${addBtn('กองกำลัง', plan, l0, l1, '')}</summary><div class="details-content">`;
                             for (let l2 in hierarchy[plan][l0][l1]) {
-                                html += `<details><summary><span class="text-warning"><i class="bi bi-crosshair me-2"></i>${l2}</span> ${addBtn('ปฏิบัติการ', plan, l0, l1, l2)}</summary><div class="details-content">`;
+                                html += `<details><summary><span class="text-warning"><i class="bi bi-crosshair me-2"></i>${l2}</span> ${addBtn('หน่วย', plan, l0, l1, l2)}</summary><div class="details-content">`;
                                 hierarchy[plan][l0][l1][l2].forEach(unit => {
                                     let name = (unit.l3 !== "-" ? unit.l3 : "") + (unit.l4 !== "-" ? " > " + unit.l4 : ""); if (name === "" || name === " > ") name = "หน่วยฐาน";
                                     let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-warning rounded-circle py-0 px-1" onclick="window.edit(${unit.index})"><i class="bi bi-pencil"></i></button>` : '';
@@ -3511,12 +3556,14 @@
             const searchL1 = document.getElementById('pFilterL1')?.value || '';
             const searchL2 = document.getElementById('pFilterL2')?.value || '';
             const searchL3 = document.getElementById('pFilterL3')?.value || '';
+            const searchL4 = document.getElementById('pFilterL4')?.value || '';
+            const searchRank = document.getElementById('pFilterRank')?.value || '';
 
             let recordedMap = {};
             personnelData.forEach(p => { recordedMap[p.rank] = p; });
 
             let unitInfoMap = {};
-            let setL0 = new Set(), setL1 = new Set(), setL2 = new Set(), setL3 = new Set();
+            let setL0 = new Set(), setL1 = new Set(), setL2 = new Set(), setL3 = new Set(), setL4 = new Set();
             let structSummary = {};
 
             let validUnits = 0;
@@ -3527,40 +3574,56 @@
             let incompleteUnits = 0;
 
             rawData.forEach(r => {
-                let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์";
+                if (!isMatchFilter(r)) return;
+
+                let l0 = escapeHTML(r[1]) || "ไม่ระบุส่วนภูมิภาค";
                 let l1 = escapeHTML(r[2]) || "ไม่ระบุการจัดกำลัง";
                 let l2 = escapeHTML(r[3]) || "-";
                 let l3 = escapeHTML(r[4]) || "-";
+                let l4 = escapeHTML(r[5]) || "-";
                 let unitName = escapeHTML(r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-");
                 let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
 
-                unitInfoMap[unitName] = { l0, l1, l2, l3 };
+                let g = cleanNumber(r[6]);
+                let n = cleanNumber(r[7]);
+                let s = cleanNumber(r[8]);
+                let p = cleanNumber(r[9]);
+
+                unitInfoMap[unitName] = { l0, l1, l2, l3, l4, g, n, s, p };
 
                 // Populate Dropdown Sets based on previous level selections
-                if (l0 !== "-" && l0 !== "ไม่ระบุยุทธศาสตร์") setL0.add(l0);
+                if (l0 !== "-" && l0 !== "ไม่ระบุส่วนภูมิภาค") setL0.add(l0);
                 if ((!searchL0 || l0 === searchL0) && l1 !== "-" && l1 !== "ไม่ระบุการจัดกำลัง") setL1.add(l1);
                 if ((!searchL0 || l0 === searchL0) && (!searchL1 || l1 === searchL1) && l2 !== "-") setL2.add(l2);
                 if ((!searchL0 || l0 === searchL0) && (!searchL1 || l1 === searchL1) && (!searchL2 || l2 === searchL2) && l3 !== "-") setL3.add(l3);
+                if ((!searchL0 || l0 === searchL0) && (!searchL1 || l1 === searchL1) && (!searchL2 || l2 === searchL2) && (!searchL3 || l3 === searchL3) && l4 !== "-") setL4.add(l4);
 
                 // Apply Structure Filters for Summary calculation
                 if (searchL0 && l0 !== searchL0) return;
                 if (searchL1 && l1 !== searchL1) return;
                 if (searchL2 && l2 !== searchL2) return;
                 if (searchL3 && l3 !== searchL3) return;
+                if (searchL4 && l4 !== searchL4) return;
+
+                if (searchRank) {
+                    if (searchRank === 'g' && g <= 0) return;
+                    if (searchRank === 'n' && n <= 0) return;
+                    if (searchRank === 's' && s <= 0) return;
+                    if (searchRank === 'p' && p <= 0) return;
+                }
 
                 if (unitName !== "-" && target > 0) {
-                    // Global metrics calculation
                     validUnits++;
                     targetSum += target;
 
                     let actual = 0;
                     let isConfirmed = false;
-                    let p = recordedMap[unitName];
-                    if (p) {
+                    let pr = recordedMap[unitName];
+                    if (pr) {
                         recordedUnitsCount++;
-                        actual = cleanNumber(p.position_normal);
+                        actual = cleanNumber(pr.position_normal);
                         actualSum += actual;
-                        isConfirmed = p.unit === "true";
+                        isConfirmed = pr.unit === "true";
                     }
 
                     let pct = target > 0 ? ((actual / target) * 100).toFixed(1) : 0;
@@ -3582,14 +3645,13 @@
                     }
                     structSummary[groupKey].totalUnits++;
                     structSummary[groupKey].targetSum += target;
-                    if (p) {
+                    if (pr) {
                         structSummary[groupKey].recordedUnits++;
                         structSummary[groupKey].actualSum += actual;
                     }
                 }
             });
 
-            // 📌 ซิงค์ข้อมูลเข้า Dropdowns
             function syncPSelect(id, setObj, defaultText, currentVal) {
                 let el = document.getElementById(id);
                 if (!el) return;
@@ -3602,12 +3664,12 @@
                     el.value = currentVal;
                 }
             }
-            syncPSelect('pFilterL0', setL0, '🛡️ ทุกยุทธศาสตร์', searchL0);
+            syncPSelect('pFilterL0', setL0, '🛡️ ทุกส่วนภูมิภาค', searchL0);
             syncPSelect('pFilterL1', setL1, '⚡ ทุกการจัดกำลัง', searchL1);
-            syncPSelect('pFilterL2', setL2, '🎯 ทุกยุทธการ', searchL2);
-            syncPSelect('pFilterL3', setL3, '⚔️ ทุกยุทธวิธี', searchL3);
+            syncPSelect('pFilterL2', setL2, '🎯 ทุกกองกำลัง', searchL2);
+            syncPSelect('pFilterL3', setL3, '⚔️ ทุกหน่วยเฉพาะกิจ', searchL3);
+            syncPSelect('pFilterL4', setL4, '🏢 ทุกหน่วย', searchL4);
 
-            // 📌 วาดการ์ดสรุปโครงสร้างแบบมี %
             let summaryHtml = '';
             for (let key in structSummary) {
                 let data = structSummary[key];
@@ -3645,19 +3707,27 @@
             }
             safeSetHTML('personnelStructureSummary', summaryHtml || '<div class="col-12 text-center text-muted py-3">ไม่มีข้อมูลโครงสร้างที่สอดคล้อง</div>');
 
-            // 📌 วาดตารางบันทึก
+            let filteredStructureUnits = 0;
+            for (let k in structSummary) filteredStructureUnits += structSummary[k].totalUnits;
+
             personnelData.forEach((p, i) => {
                 let unit = escapeHTML(p.rank);
                 let p_officerName = escapeHTML(p.mil_id || "-");
-                let uInfo = unitInfoMap[unit] || { l0: "", l1: "", l2: "", l3: "" };
+                let uInfo = unitInfoMap[unit] || { l0: "", l1: "", l2: "", l3: "", l4: "", g: 0, n: 0, s: 0, p: 0 };
 
-                // กรองข้อมูลตารางตามโครงสร้าง
                 if (searchL0 && uInfo.l0 !== searchL0) return;
                 if (searchL1 && uInfo.l1 !== searchL1) return;
                 if (searchL2 && uInfo.l2 !== searchL2) return;
                 if (searchL3 && uInfo.l3 !== searchL3) return;
+                if (searchL4 && uInfo.l4 !== searchL4) return;
 
-                // กรองค้นหาข้อความ
+                if (searchRank) {
+                    if (searchRank === 'g' && uInfo.g <= 0) return;
+                    if (searchRank === 'n' && uInfo.n <= 0) return;
+                    if (searchRank === 's' && uInfo.s <= 0) return;
+                    if (searchRank === 'p' && uInfo.p <= 0) return;
+                }
+
                 if (searchTerm && !unit.toLowerCase().includes(searchTerm) && !p_officerName.toLowerCase().includes(searchTerm)) return;
 
                 let target = cleanNumber(p.name);
@@ -3669,7 +3739,7 @@
 
                 let pct = target > 0 ? ((actual / target) * 100).toFixed(1) : 0;
                 let progressColor = pct >= 100 ? 'bg-success' : (pct >= 50 ? 'bg-warning' : 'bg-danger');
-                let progressWidth = Math.min(100, pct); // จำกัดไม่ให้ล้นหลอด
+                let progressWidth = Math.min(100, pct);
 
                 let isFullyComplete = (pct >= 100) || isConfirmed;
                 let statusBadge = isFullyComplete
@@ -3712,7 +3782,6 @@
             const progressBarEl = document.getElementById('personnelProgressBar');
             if (progressBarEl) progressBarEl.className = `progress-bar ${mainProgressColor}`;
 
-            // 📌 อัปเดตยอดการ์ด
             safeSetText('unitCompleteCount', completeUnits.toLocaleString());
             safeSetText('unitIncompleteCount', incompleteUnits.toLocaleString());
             safeSetText('totalUnitStructureCount', validUnits.toLocaleString());
@@ -3730,39 +3799,47 @@
             if (fileNameHidden) fileNameHidden.value = '';
             safeSetHTML('p_current_file_display', '');
 
-            // 📌 เคลียร์ค่าเจ้าหน้าที่ และสถานะยืนยัน
             let officerInput = document.getElementById('p_officer_name');
             if (officerInput) officerInput.value = '';
             let chk = document.getElementById('p_is_confirmed');
             if (chk) chk.checked = false;
 
-            // ดึงรายการหน่วยจากโครงสร้าง rawData มาใส่ใน Dropdown
-            let unitSelect = document.getElementById('p_unit');
-            if (unitSelect) {
-                let htmlOptions = '<option value="">-- เลือกหน่วยตามโครงสร้าง --</option>';
-                let unitMap = {};
+            // 📌 เปลี่ยนการทำงานของการดึงหน่วยให้รองรับช่องค้นหาแบบ DataList
+            let unitInput = document.getElementById('p_unit');
+            let unitList = document.getElementById('p_unit_list');
+
+            if (unitInput) unitInput.value = ''; // เคลียร์ช่องค้นหา
+
+            if (unitList) {
+                let htmlOptions = '';
+                window.personnelUnitMap = {}; // เก็บความสัมพันธ์ของหน่วยกับอัตราเพื่อเอาไว้ดึงออโต้
 
                 rawData.forEach(r => {
                     if (!isMatchFilter(r)) return;
-                    let unitName = r[5] || r[4] || r[3] || r[2] || r[1]; // ดึงชื่อหน่วยระดับล่างสุดที่มี
+                    let unitName = r[5] || r[4] || r[3] || r[2] || r[1];
                     if (unitName && unitName !== "-") {
                         let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
-                        if (!unitMap[unitName]) {
-                            unitMap[unitName] = target;
-                            htmlOptions += `<option value="${escapeHTML(unitName)}" data-target="${target}">${escapeHTML(unitName)}</option>`;
+                        if (!window.personnelUnitMap[unitName]) {
+                            window.personnelUnitMap[unitName] = target;
+                            htmlOptions += `<option value="${escapeHTML(unitName)}">`;
                         }
                     }
                 });
 
-                unitSelect.innerHTML = htmlOptions;
+                unitList.innerHTML = htmlOptions;
 
-                // ตั้งค่าให้ดึง "อัตรา" อัตโนมัติเมื่อเลือกหน่วย
-                unitSelect.onchange = function () {
-                    let selected = this.options[this.selectedIndex];
-                    let targetVal = selected.getAttribute('data-target') || 0;
-                    let pTarget = document.getElementById('p_target');
-                    if (pTarget) pTarget.value = targetVal;
-                };
+                // เมื่อพิมพ์หรือเลือกหน่วยจากรายการให้ดึง "อัตรา" มาใส่ช่องอัตโนมัติ
+                if (unitInput) {
+                    unitInput.oninput = function () {
+                        let selectedVal = this.value.trim();
+                        let pTarget = document.getElementById('p_target');
+                        if (window.personnelUnitMap && window.personnelUnitMap[selectedVal] !== undefined) {
+                            if (pTarget) pTarget.value = window.personnelUnitMap[selectedVal];
+                        } else {
+                            if (pTarget) pTarget.value = 0; // ถ้าพิมพ์มั่วหรือไม่เจอ ให้เป็น 0
+                        }
+                    };
+                }
             }
 
             const modal = window.getBsModal('personnelModal');
@@ -3770,7 +3847,7 @@
         };
 
         window.editPersonnel = function (i) {
-            window.openPersonnelModal(); // ให้ดึง dropdown หน่วยมาก่อน
+            window.openPersonnelModal();
             setTimeout(() => {
                 const p = personnelData[i];
                 if (!p) return;
@@ -3778,16 +3855,15 @@
                 const safeSetVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
 
                 safeSetVal('p_rid', p.rowIndex);
-                safeSetVal('p_unit', p.rank); // unit ถูกเก็บใน rank
-                safeSetVal('p_target', cleanNumber(p.name)); // target ถูกเก็บใน name
-                safeSetVal('p_actual', cleanNumber(p.position_normal)); // actual ถูกเก็บใน position_normal
-                safeSetVal('p_file_name_hidden', p.position_field); // filename ถูกเก็บใน position_field
-                safeSetVal('p_officer_name', p.mil_id || ""); // 📌 ดึงชื่อเจ้าหน้าที่
+                safeSetVal('p_unit', p.rank);
+                safeSetVal('p_target', cleanNumber(p.name));
+                safeSetVal('p_actual', cleanNumber(p.position_normal));
+                safeSetVal('p_file_name_hidden', p.position_field);
+                safeSetVal('p_officer_name', p.mil_id || "");
 
                 let chk = document.getElementById('p_is_confirmed');
-                if (chk) chk.checked = (p.unit === "true"); // 📌 ดึงสถานะการยืนยัน
+                if (chk) chk.checked = (p.unit === "true");
 
-                // 📌 ปรับปรุงคำแนะนำวิธีการแก้ไขไฟล์แนบในหน้าต่าง Modal
                 if (p.position_field && p.position_field !== "") {
                     safeSetHTML('p_current_file_display', `
                         <div class="d-flex align-items-start mt-2 p-2 rounded" style="background: rgba(255, 193, 7, 0.05); border: 1px dashed var(--gold);">
@@ -3814,21 +3890,19 @@
 
             const safeGetVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
 
-            // 📌 เช็คสถานะ Checkbox ยืนยัน
             let chk = document.getElementById('p_is_confirmed');
             let isConfirmedStr = chk && chk.checked ? "true" : "false";
 
-            // เตรียมฟังก์ชันสำหรับส่ง API
             const submitAPI = async (base64Data, fileName) => {
                 const data = {
                     rowIndex: safeGetVal('p_rid'),
-                    rank: safeGetVal('p_unit'), // ส่งชื่อหน่วยไปเก็บในคอลัมน์ rank
-                    name: safeGetVal('p_target'), // ส่งจำนวนอัตราไปเก็บในคอลัมน์ name
-                    position_normal: safeGetVal('p_actual'), // ส่งจำนวนบรรจุจริงไปเก็บในคอลัมน์ position_normal
-                    position_field: fileName, // ส่งชื่อไฟล์
-                    id_card: base64Data, // ส่งไฟล์ Base64 กลับไปให้ Apps Script ใช้ (ถ้ามีการเขียนโค้ดรองรับ)
-                    mil_id: safeGetVal('p_officer_name'), // 📌 ส่งชื่อเจ้าหน้าที่
-                    unit: isConfirmedStr, // 📌 ส่งสถานะการยืนยัน
+                    rank: safeGetVal('p_unit'),
+                    name: safeGetVal('p_target'),
+                    position_normal: safeGetVal('p_actual'),
+                    position_field: fileName,
+                    id_card: base64Data,
+                    mil_id: safeGetVal('p_officer_name'),
+                    unit: isConfirmedStr,
                     affiliation: "", line_id: ""
                 };
 
@@ -3847,7 +3921,6 @@
                 }
             };
 
-            // ระบบแปลงไฟล์เป็น Base64
             let fileInput = document.getElementById('p_file');
             let fName = safeGetVal('p_file_name_hidden');
 
@@ -3885,82 +3958,6 @@
             });
         };
 
-        // 📌 ฟังก์ชันสร้างรายงาน PDF ผลนำเข้ากำลังพล
-        window.openPersonnelReport = function () {
-            // 1. ซ่อนทุกหน้า แล้วเปิดหน้า personnelReportSection
-            ['dashboard', 'structure', 'tree', 'dynamic', 'map', 'admin', 'dailyReport', 'kp4Report', 'personnelEntry'].forEach(function (s) {
-                let sec = document.getElementById(s + 'Section');
-                if (sec) sec.style.display = 'none';
-            });
-            document.getElementById('personnelReportSection').style.display = 'block';
-
-            // 2. คำนวณข้อมูล (อิงจากข้อมูลโครงสร้างปัจจุบัน)
-            let exportSummary = {};
-            let recordedMap = {};
-            personnelData.forEach(p => { recordedMap[p.rank] = p; });
-
-            let totalTarget = 0;
-            let totalActual = 0;
-            let totalUnits = 0;
-            let totalRecordedUnits = 0;
-
-            rawData.forEach(r => {
-                if (!isMatchFilter(r)) return;
-                let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์";
-                let unitName = escapeHTML(r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-");
-                let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
-
-                if (unitName !== "-" && target > 0) {
-                    totalUnits++;
-                    totalTarget += target;
-
-                    if (!exportSummary[l0]) {
-                        exportSummary[l0] = { l0: l0, totalUnits: 0, recordedUnits: 0, targetSum: 0, actualSum: 0 };
-                    }
-                    exportSummary[l0].totalUnits++;
-                    exportSummary[l0].targetSum += target;
-
-                    if (recordedMap[unitName]) {
-                        totalRecordedUnits++;
-                        let actual = cleanNumber(recordedMap[unitName].position_normal);
-                        totalActual += actual;
-                        exportSummary[l0].recordedUnits++;
-                        exportSummary[l0].actualSum += actual;
-                    }
-                }
-            });
-
-            // 3. นำข้อมูลลง HTML
-            let today = new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('pr-date').innerText = today;
-
-            document.getElementById('pr-total-target').innerText = totalTarget.toLocaleString();
-            document.getElementById('pr-total-actual').innerText = totalActual.toLocaleString();
-            let totalPct = totalTarget > 0 ? ((totalActual / totalTarget) * 100).toFixed(1) : 0;
-            document.getElementById('pr-total-pct').innerText = totalPct + '%';
-
-            let tbody = '';
-            let index = 1;
-            for (let l0 in exportSummary) {
-                let d = exportSummary[l0];
-                let popPct = d.targetSum > 0 ? ((d.actualSum / d.targetSum) * 100).toFixed(1) : 0;
-                let popColor = popPct >= 100 ? 'text-success' : (popPct >= 50 ? 'text-warning text-dark' : 'text-danger');
-
-                tbody += `
-                    <tr>
-                        <td>${index++}</td>
-                        <td class="text-start fw-bold">${d.l0}</td>
-                        <td>${d.totalUnits.toLocaleString()}</td>
-                        <td class="text-success">${d.recordedUnits.toLocaleString()}</td>
-                        <td>${d.targetSum.toLocaleString()}</td>
-                        <td class="text-primary">${d.actualSum.toLocaleString()}</td>
-                        <td class="fw-bold ${popColor}">${popPct}%</td>
-                    </tr>
-                `;
-            }
-            safeSetHTML('pr-table-body', tbody || '<tr><td colspan="7" class="text-center">ไม่มีข้อมูล</td></tr>');
-        };
-
         // 📌 ออกรายงานภาพรวมการบันทึกกำลังพล (Summary Excel)
         window.exportPersonnelSummaryExcel = function () {
             Swal.fire({ title: 'กำลังสร้างรายงาน...', didOpen: () => Swal.showLoading(), customClass: { popup: 'dark-swal' } });
@@ -3994,7 +3991,7 @@
                 }
             });
 
-            const headers = ["ยุทธศาสตร์", "การจัดกำลัง", "ยุทธการ", "ยุทธวิธี", "จำนวนหน่วยในโครงสร้าง", "หน่วยที่บันทึกแล้ว", "ร้อยละการบันทึกหน่วย(%)", "อัตรากำลังพลรวม", "บรรจุจริงรวม", "ร้อยละการบรรจุกำลังพล(%)"];
+            const headers = ["ส่วนภูมิภาค", "การจัดกำลัง", "กองกำลัง", "หน่วยเฉพาะกิจ", "จำนวนหน่วยในโครงสร้าง", "หน่วยที่บันทึกแล้ว", "ร้อยละการบันทึกหน่วย(%)", "อัตรากำลังพลรวม", "บรรจุจริงรวม", "ร้อยละการบรรจุกำลังพล(%)"];
             const dataToExport = [headers];
 
             for (let key in exportSummary) {
@@ -4064,7 +4061,7 @@
                 let currData = [];
 
                 for (let l0 in structStats) {
-                    if (l0 !== "ไม่ระบุยุทธศาสตร์" && l0 !== "-") {
+                    if (l0 !== "ไม่ระบุส่วนภูมิภาค" && l0 !== "-") {
                         labels.push(l0);
                         prevData.push(structStats[l0].prevTotal);
                         currData.push(structStats[l0].total);
@@ -4094,7 +4091,7 @@
 
         window.exportExcel = function () {
             Swal.fire({ title: 'Exporting...', didOpen: () => Swal.showLoading(), customClass: { popup: 'dark-swal' } });
-            const headers = ["แผนงาน", "ยุทธศาสตร์", "จัดกำลัง", "ยุทธการ", "ยุทธวิธี", "ปฏิบัติการ", "นายพล", "น.", "ส.", "พลฯ", "รวม", "Check List", "อัปเดต", "นายพล(เดิม)", "น.(เดิม)", "ส.(เดิม)", "พลฯ(เดิม)", "รวม(เดิม)"];
+            const headers = ["แผนยุทธศาสตร์", "ส่วนภูมิภาค", "จัดกำลัง", "กองกำลัง", "หน่วยเฉพาะกิจ", "หน่วย", "นายพล", "น.", "ส.", "พลฯ", "รวม", "Check List", "อัปเดต", "นายพล(เดิม)", "น.(เดิม)", "ส.(เดิม)", "พลฯ(เดิม)", "รวม(เดิม)"];
             const dataToExport = [headers, ...rawData.map(r => r.slice(0, 18))];
             const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(dataToExport), "DB"); XLSX.writeFile(wb, "บัญชีโครงสร้าง_ศปก_ทบ.xlsx");
             Swal.close();
@@ -4261,7 +4258,6 @@
                     syncPersonnelToMap();
                     tacticalMap = L.map('viewDiv', { zoomControl: false, attributionControl: false }).setView([13.7367, 100.5231], 5.8);
 
-                    /* 📌 แก้ไขบัคแผนที่: ใช้ URL แบบเสถียรและกำหนด subdomains */
                     const tacticalDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', { subdomains: 'abcd', maxZoom: 19 });
                     const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
 
@@ -4336,7 +4332,6 @@
                                         }
                                         tooltip.style.opacity = 1;
 
-                                        // 📌 ป้องกัน Tooltip ล้นจอ
                                         let x = e.originalEvent.pageX;
                                         if (x + tooltip.offsetWidth + 20 > window.innerWidth) x = window.innerWidth - tooltip.offsetWidth - 20;
                                         tooltip.style.transform = `translate(${x}px, ${e.originalEvent.pageY}px)`;
@@ -4405,7 +4400,6 @@
             }, 400);
         };
 
-        // 📌 [START] ฟังก์ชันแผนที่ยุทธวิธีที่ขาดหายไป
         window.highlightForce = function (forceId) {
             if (activeForceId && activeForceId !== forceId) return;
             document.querySelectorAll('.force-card-ui').forEach(card => { if (card.dataset.forceId === forceId) { card.classList.add('active'); card.classList.remove('dimmed'); } else { card.classList.remove('active'); card.classList.add('dimmed'); } });
@@ -4473,7 +4467,6 @@
             if (tacticalMap) { tacticalMap.setView([13.7367, 100.5231], 5.8, { animate: true, duration: 0.8 }); }
             window.resetHighlight();
         };
-        // 📌 [END] ฟังก์ชันแผนที่ยุทธวิธีที่ขาดหายไป
 
         // ==========================================
         // 🔔 NOTIFICATIONS & REPORTS SYSTEM
@@ -4550,7 +4543,7 @@
             rawData.forEach(r => {
                 if (!isMatchFilter(r)) return;
 
-                let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์";
+                let l0 = escapeHTML(r[1]) || "ไม่ระบุส่วนภูมิภาค";
                 let g = cleanNumber(r[6]); let n = cleanNumber(r[7]); let s = cleanNumber(r[8]); let p = cleanNumber(r[9]);
                 let ct = cleanNumber(r[10]) || (g + n + s + p);
                 let pt = r[17] ? cleanNumber(r[17]) : ct;
