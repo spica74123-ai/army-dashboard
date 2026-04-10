@@ -1847,37 +1847,46 @@
                     </div>
                 </div>
 
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-3 mt-4 gap-3">
-                    <h5 class="text-info fw-bold mb-0"><i class="bi bi-list-ul me-2"></i>รายการบันทึกกำลังพล</h5>
-
-                    <div class="d-flex flex-wrap gap-2 align-items-center">
-                        <select id="pFilterL0"
-                            class="form-select form-select-sm bg-dark text-info border-secondary fw-bold"
-                            style="width: auto;" onchange="window.renderPersonnelTable()">
-                            <option value="">🛡️ ทุกยุทธศาสตร์</option>
-                        </select>
-                        <select id="pFilterL1"
-                            class="form-select form-select-sm bg-dark text-success border-secondary fw-bold"
-                            style="width: auto;" onchange="window.renderPersonnelTable()">
-                            <option value="">⚡ ทุกการจัดกำลัง</option>
-                        </select>
-                        <select id="pFilterL2"
-                            class="form-select form-select-sm bg-dark text-warning border-secondary fw-bold"
-                            style="width: auto;" onchange="window.renderPersonnelTable()">
-                            <option value="">🎯 ทุกยุทธการ</option>
-                        </select>
-                        <select id="pFilterL3"
-                            class="form-select form-select-sm bg-dark text-danger border-secondary fw-bold"
-                            style="width: auto;" onchange="window.renderPersonnelTable()">
-                            <option value="">⚔️ ทุกยุทธวิธี</option>
-                        </select>
-
-                        <div class="input-group input-group-sm shadow-sm" style="width: 250px;">
-                            <span class="input-group-text bg-dark border-secondary text-muted"><i
-                                    class="bi bi-search"></i></span>
-                            <input type="text" id="personnelSearchInput"
-                                class="form-control bg-dark text-white border-secondary"
-                                placeholder="ค้นหาชื่อหน่วย, เจ้าหน้าที่..." onkeyup="window.renderPersonnelTable()">
+                <div class="mb-3 mt-4">
+                    <h5 class="text-info fw-bold mb-3"><i class="bi bi-list-ul me-2"></i>รายการบันทึกกำลังพล</h5>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <select id="pFilterL0"
+                                class="form-select form-select-sm bg-dark text-info border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">🛡️ ทุกยุทธศาสตร์</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <select id="pFilterL1"
+                                class="form-select form-select-sm bg-dark text-success border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">⚡ ทุกการจัดกำลัง</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <select id="pFilterL2"
+                                class="form-select form-select-sm bg-dark text-warning border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">🎯 ทุกยุทธการ</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <select id="pFilterL3"
+                                class="form-select form-select-sm bg-dark text-danger border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">⚔️ ทุกยุทธวิธี</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="input-group input-group-sm shadow-sm w-100">
+                                <span class="input-group-text bg-dark border-secondary text-muted"><i
+                                        class="bi bi-search"></i></span>
+                                <input type="text" id="personnelSearchInput"
+                                    class="form-control bg-dark text-white border-secondary"
+                                    placeholder="ค้นหาชื่อหน่วย, เจ้าหน้าที่..."
+                                    onkeyup="window.renderPersonnelTable()">
+                            </div>
                         </div>
                     </div>
                 </div>
