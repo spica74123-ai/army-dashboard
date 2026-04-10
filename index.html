@@ -1768,11 +1768,13 @@
                         <button class="btn btn-warning fw-bold shadow-sm btn-auth-edit"
                             onclick="window.openPersonnelModal()"><i class="bi bi-person-plus-fill me-1"></i>
                             นำเข้า</button>
+                        <button class="btn btn-danger fw-bold shadow-sm" onclick="window.openPersonnelReport()"><i
+                                class="bi bi-file-earmark-pdf-fill me-1"></i> รายงาน PDF</button>
                         <button class="btn btn-info fw-bold shadow-sm text-dark"
                             onclick="window.exportPersonnelSummaryExcel()"><i class="bi bi-bar-chart-fill me-1"></i>
-                            สรุป</button>
+                            สรุป (Excel)</button>
                         <button class="btn btn-success fw-bold shadow-sm" onclick="window.exportPersonnelExcel()"><i
-                                class="bi bi-file-earmark-excel me-1"></i> ข้อมูล</button>
+                                class="bi bi-file-earmark-excel me-1"></i> ข้อมูล (Excel)</button>
                     </div>
                 </div>
 
@@ -1917,6 +1919,108 @@
                 </div>
             </div>
 
+            <!-- 📌 หน้าต่างรายงาน PDF นำเข้ากำลังพล (ใหม่) -->
+            <div id="personnelReportSection" style="display:none;">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3 no-print">
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-outline-secondary me-3 shadow-sm"
+                            onclick="window.showPage('personnelEntry')"><i class="bi bi-arrow-left"></i> กลับ</button>
+                        <h2 class="mb-0 fw-bold"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>รายงานผลการนำเข้ากำลังพล</h2>
+                    </div>
+                    <button class="btn btn-danger fw-bold shadow-sm" onclick="window.print()"><i
+                            class="bi bi-printer-fill me-1"></i> พิมพ์ / เซฟเป็น PDF</button>
+                </div>
+
+                <div class="bg-white text-dark p-4 p-md-5 rounded-4 shadow-sm report-paper"
+                    style="max-width: 210mm; margin: auto; min-height: 297mm;">
+
+                    <!-- ส่วนหัวเอกสารแบบทางการ -->
+                    <div class="text-center mb-4">
+                        <img src="./logo.png" width="60" style="filter: grayscale(100%); margin-bottom: 10px;">
+                        <h4 class="fw-bold mb-1">บันทึกข้อความ</h4>
+                    </div>
+                    <div class="row mb-2" style="font-size: 1.1rem;">
+                        <div class="col-8"><span class="fw-bold">ส่วนราชการ</span> ศูนย์ปฏิบัติการกองทัพบก (ฝกพ.ศปก.ทบ.)
+                        </div>
+                        <div class="col-4 text-end"><span class="fw-bold">วันที่</span> <span id="pr-date"></span></div>
+                    </div>
+                    <div class="row mb-4" style="font-size: 1.1rem;">
+                        <div class="col-12"><span class="fw-bold">เรื่อง</span>
+                            รายงานสรุปความคืบหน้าการนำเข้าข้อมูลกำลังพลประจำวัน</div>
+                    </div>
+                    <hr class="border-dark opacity-100" style="border-width: 2px;">
+
+                    <!-- เนื้อหา -->
+                    <div class="mt-4" style="font-size: 1.1rem; line-height: 1.8;">
+                        <p><span class="fw-bold">เรียน</span> ผอ.ฝกพ.ศปก.ทบ.</p>
+                        <p style="text-indent: 2.5em;">ตามที่ ฝ่ายกำลังพล ศูนย์ปฏิบัติการกองทัพบก
+                            ได้ดำเนินการนำเข้าและตรวจสอบยอดกำลังพลปฏิบัติงานจริงเข้าสู่ <span
+                                class="fw-bold">"ระบบบริหารจัดการและบัญชาการโครงสร้างหน่วย ศปก.ทบ."</span>
+                            เพื่อให้ข้อมูลมีความถูกต้องและเป็นปัจจุบัน นั้น</p>
+                        <p style="text-indent: 2.5em;">บัดนี้ ขอรายงานสรุปความคืบหน้าผลการนำเข้าข้อมูลกำลังพล
+                            (อ้างอิงตามฐานข้อมูลโครงสร้างปัจจุบัน) โดยมีรายละเอียดสรุปภาพรวมดังต่อไปนี้</p>
+                    </div>
+
+                    <!-- สรุปตัวเลข -->
+                    <div class="row text-center mb-4 mt-4 p-3 rounded"
+                        style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+                        <div class="col-4 border-end border-dark border-opacity-25">
+                            <h6 class="fw-bold text-muted mb-2">อัตราตามโครงสร้างรวม</h6>
+                            <h4 class="fw-bold text-dark mb-0"><span id="pr-total-target">0</span> <span
+                                    class="fs-6 fw-normal">นาย</span></h4>
+                        </div>
+                        <div class="col-4 border-end border-dark border-opacity-25">
+                            <h6 class="fw-bold text-muted mb-2">บรรจุจริง (บันทึกแล้ว)</h6>
+                            <h4 class="fw-bold text-success mb-0"><span id="pr-total-actual">0</span> <span
+                                    class="fs-6 fw-normal">นาย</span></h4>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="fw-bold text-muted mb-2">คิดเป็นร้อยละ</h6>
+                            <h4 class="fw-bold text-primary mb-0" id="pr-total-pct">0%</h4>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-dark mb-3"><i class="fas fa-list-ul me-2"></i>สรุปผลการนำเข้า
+                        จำแนกตามยุทธศาสตร์</h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
+                            style="font-size: 0.95rem;">
+                            <thead class="table-light border-dark text-dark">
+                                <tr>
+                                    <th rowspan="2" class="align-middle" style="width: 5%;">ลำดับ</th>
+                                    <th rowspan="2" class="align-middle" style="width: 35%;">ยุทธศาสตร์ / กองกำลัง</th>
+                                    <th colspan="2">ข้อมูลหน่วย (หน่วย)</th>
+                                    <th colspan="3">ข้อมูลกำลังพล (นาย)</th>
+                                </tr>
+                                <tr>
+                                    <th>โครงสร้าง</th>
+                                    <th>บันทึกแล้ว</th>
+                                    <th>อัตรา</th>
+                                    <th>บรรจุจริง</th>
+                                    <th>ร้อยละ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pr-table-body" class="text-dark">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ลายเซ็น -->
+                    <div class="mt-5 pt-5 row">
+                        <div class="col-6"></div>
+                        <div class="col-6 text-center" style="font-size: 1.1rem;">
+                            <p class="mb-5">(ลงชื่อ).........................................................</p>
+                            <p class="mb-1">(.........................................................)</p>
+                            <p class="text-muted">เจ้าหน้าที่บันทึกข้อมูล/ผู้รายงาน</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <div id="dailyReportSection" style="display:none;">
                 <div
                     class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3 no-print">
@@ -2044,6 +2148,21 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 📌 Footer (เพิ่มใหม่) -->
+            <footer class="mt-5 pt-4 pb-3 border-top border-secondary border-opacity-25 text-center no-print">
+                <div
+                    class="text-muted small mb-0 d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 gap-md-3">
+                    <a href="https://pfm.rta.mi.th/" target="_blank" class="text-info text-decoration-none fw-bold"
+                        style="transition: 0.3s;" onmouseover="this.style.color='var(--gold)'"
+                        onmouseout="this.style.color='var(--bs-info)'">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>ช่องทางเข้าระบบ PFM (https://pfm.rta.mi.th/)
+                    </a>
+                    <span class="d-none d-md-inline text-secondary">|</span>
+                    <span>Developed By <span class="text-gold fw-bold"><i
+                                class="bi bi-code-slash me-1"></i>SpikeKub</span></span>
+                </div>
+            </footer>
 
         </div>
     </div>
@@ -2771,7 +2890,8 @@
         window.showPage = function (p, el) {
             document.querySelectorAll('.nav-link').forEach(function (n) { n.classList.remove('active'); });
             if (el) el.classList.add('active');
-            ['dashboard', 'structure', 'tree', 'dynamic', 'map', 'admin', 'dailyReport', 'kp4Report', 'personnelEntry'].forEach(function (s) {
+            // 📌 เพิ่ม 'personnelReport' เข้าไปในรายการหน้าจอที่ต้องซ่อน
+            ['dashboard', 'structure', 'tree', 'dynamic', 'map', 'admin', 'dailyReport', 'kp4Report', 'personnelEntry', 'personnelReport'].forEach(function (s) {
                 let sec = document.getElementById(s + 'Section');
                 if (sec) sec.style.display = 'none';
             });
@@ -3765,7 +3885,83 @@
             });
         };
 
-        // 📌 ออกรายงานภาพรวมการบันทึกกำลังพล (Summary)
+        // 📌 ฟังก์ชันสร้างรายงาน PDF ผลนำเข้ากำลังพล
+        window.openPersonnelReport = function () {
+            // 1. ซ่อนทุกหน้า แล้วเปิดหน้า personnelReportSection
+            ['dashboard', 'structure', 'tree', 'dynamic', 'map', 'admin', 'dailyReport', 'kp4Report', 'personnelEntry'].forEach(function (s) {
+                let sec = document.getElementById(s + 'Section');
+                if (sec) sec.style.display = 'none';
+            });
+            document.getElementById('personnelReportSection').style.display = 'block';
+
+            // 2. คำนวณข้อมูล (อิงจากข้อมูลโครงสร้างปัจจุบัน)
+            let exportSummary = {};
+            let recordedMap = {};
+            personnelData.forEach(p => { recordedMap[p.rank] = p; });
+
+            let totalTarget = 0;
+            let totalActual = 0;
+            let totalUnits = 0;
+            let totalRecordedUnits = 0;
+
+            rawData.forEach(r => {
+                if (!isMatchFilter(r)) return;
+                let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์";
+                let unitName = escapeHTML(r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-");
+                let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
+
+                if (unitName !== "-" && target > 0) {
+                    totalUnits++;
+                    totalTarget += target;
+
+                    if (!exportSummary[l0]) {
+                        exportSummary[l0] = { l0: l0, totalUnits: 0, recordedUnits: 0, targetSum: 0, actualSum: 0 };
+                    }
+                    exportSummary[l0].totalUnits++;
+                    exportSummary[l0].targetSum += target;
+
+                    if (recordedMap[unitName]) {
+                        totalRecordedUnits++;
+                        let actual = cleanNumber(recordedMap[unitName].position_normal);
+                        totalActual += actual;
+                        exportSummary[l0].recordedUnits++;
+                        exportSummary[l0].actualSum += actual;
+                    }
+                }
+            });
+
+            // 3. นำข้อมูลลง HTML
+            let today = new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('pr-date').innerText = today;
+
+            document.getElementById('pr-total-target').innerText = totalTarget.toLocaleString();
+            document.getElementById('pr-total-actual').innerText = totalActual.toLocaleString();
+            let totalPct = totalTarget > 0 ? ((totalActual / totalTarget) * 100).toFixed(1) : 0;
+            document.getElementById('pr-total-pct').innerText = totalPct + '%';
+
+            let tbody = '';
+            let index = 1;
+            for (let l0 in exportSummary) {
+                let d = exportSummary[l0];
+                let popPct = d.targetSum > 0 ? ((d.actualSum / d.targetSum) * 100).toFixed(1) : 0;
+                let popColor = popPct >= 100 ? 'text-success' : (popPct >= 50 ? 'text-warning text-dark' : 'text-danger');
+
+                tbody += `
+                    <tr>
+                        <td>${index++}</td>
+                        <td class="text-start fw-bold">${d.l0}</td>
+                        <td>${d.totalUnits.toLocaleString()}</td>
+                        <td class="text-success">${d.recordedUnits.toLocaleString()}</td>
+                        <td>${d.targetSum.toLocaleString()}</td>
+                        <td class="text-primary">${d.actualSum.toLocaleString()}</td>
+                        <td class="fw-bold ${popColor}">${popPct}%</td>
+                    </tr>
+                `;
+            }
+            safeSetHTML('pr-table-body', tbody || '<tr><td colspan="7" class="text-center">ไม่มีข้อมูล</td></tr>');
+        };
+
+        // 📌 ออกรายงานภาพรวมการบันทึกกำลังพล (Summary Excel)
         window.exportPersonnelSummaryExcel = function () {
             Swal.fire({ title: 'กำลังสร้างรายงาน...', didOpen: () => Swal.showLoading(), customClass: { popup: 'dark-swal' } });
 
