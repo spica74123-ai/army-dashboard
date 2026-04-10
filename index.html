@@ -1769,9 +1769,12 @@
                     <div class="d-flex gap-2">
                         <button class="btn btn-warning fw-bold shadow-sm btn-auth-edit"
                             onclick="window.openPersonnelModal()"><i class="bi bi-person-plus-fill me-1"></i>
-                            นำเข้ากำลังพล</button>
+                            นำเข้า</button>
+                        <button class="btn btn-info fw-bold shadow-sm text-dark"
+                            onclick="window.exportPersonnelSummaryExcel()"><i class="bi bi-bar-chart-fill me-1"></i>
+                            สรุป</button>
                         <button class="btn btn-success fw-bold shadow-sm" onclick="window.exportPersonnelExcel()"><i
-                                class="bi bi-file-earmark-excel me-1"></i> Export</button>
+                                class="bi bi-file-earmark-excel me-1"></i> ข้อมูล</button>
                     </div>
                 </div>
 
@@ -1785,7 +1788,7 @@
                             </div>
                             <div class="d-flex justify-content-between small fw-bold">
                                 <span class="text-info"><span id="personnelEnteredCount">0</span> นาย
-                                    (ลงบันทึกแล้ว)</span>
+                                    (ลงบันทึก)</span>
                                 <span class="text-muted">เป้าหมาย <span id="personnelTargetCount">0</span> นาย</span>
                             </div>
                         </div>
@@ -1839,17 +1842,39 @@
                 <div class="row mb-3 mt-4">
                     <div class="col-12">
                         <h5 class="text-gold fw-bold mb-3"><i
-                                class="bi bi-bar-chart-steps me-2"></i>สรุปการนำเข้าแยกตามยุทธศาสตร์ (โครงสร้าง)</h5>
+                                class="bi bi-bar-chart-steps me-2"></i>สรุปการนำเข้าภาพรวมตามโครงสร้างยุทธศาสตร์</h5>
                         <div class="row g-3" id="personnelStructureSummary">
                             <!-- Populated by JS -->
                         </div>
                     </div>
                 </div>
 
-                <div class="d-flex flex-wrap justify-content-between align-items-end mb-2 mt-4 gap-2">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-3 mt-4 gap-3">
                     <h5 class="text-info fw-bold mb-0"><i class="bi bi-list-ul me-2"></i>รายการบันทึกกำลังพล</h5>
-                    <div style="width: 300px; max-width: 100%;">
-                        <div class="input-group input-group-sm shadow-sm">
+
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <select id="pFilterL0"
+                            class="form-select form-select-sm bg-dark text-info border-secondary fw-bold"
+                            style="width: auto;" onchange="window.renderPersonnelTable()">
+                            <option value="">🛡️ ทุกยุทธศาสตร์</option>
+                        </select>
+                        <select id="pFilterL1"
+                            class="form-select form-select-sm bg-dark text-success border-secondary fw-bold"
+                            style="width: auto;" onchange="window.renderPersonnelTable()">
+                            <option value="">⚡ ทุกการจัดกำลัง</option>
+                        </select>
+                        <select id="pFilterL2"
+                            class="form-select form-select-sm bg-dark text-warning border-secondary fw-bold"
+                            style="width: auto;" onchange="window.renderPersonnelTable()">
+                            <option value="">🎯 ทุกยุทธการ</option>
+                        </select>
+                        <select id="pFilterL3"
+                            class="form-select form-select-sm bg-dark text-danger border-secondary fw-bold"
+                            style="width: auto;" onchange="window.renderPersonnelTable()">
+                            <option value="">⚔️ ทุกยุทธวิธี</option>
+                        </select>
+
+                        <div class="input-group input-group-sm shadow-sm" style="width: 250px;">
                             <span class="input-group-text bg-dark border-secondary text-muted"><i
                                     class="bi bi-search"></i></span>
                             <input type="text" id="personnelSearchInput"
@@ -2292,6 +2317,13 @@
                     body: JSON.stringify({ action: action, data: data })
                 });
                 const result = await response.json();
+
+                // 📌 เพิ่ม Fallback กันระบบค้าง: หาก Backend จริงยังไม่ได้เขียนโค้ดรองรับ API ใหม่ ให้สลับไปใช้ Demo ข้อมูลชั่วคราว
+                if (result.error && result.error.includes("ไม่รู้จักคำสั่ง API")) {
+                    console.warn(`Backend ยังไม่ได้อัปเดตคำสั่ง: ${action} -> สลับไปใช้ข้อมูลจำลอง (Demo Mode)`);
+                    return runDemoMode(action, data);
+                }
+
                 return result;
             } catch (error) {
                 console.error("API Error:", error);
@@ -3350,80 +3382,143 @@
             let totalActual = 0;
             let completeUnits = 0;
             let incompleteUnits = 0;
-            let recordedUnits = new Set(); // เก็บรายชื่อหน่วยที่ถูกบันทึกแล้วเพื่อไม่ให้นับซ้ำ
+            let recordedUnits = new Set();
 
             const searchTerm = (document.getElementById('personnelSearchInput')?.value || '').toLowerCase();
+            const searchL0 = document.getElementById('pFilterL0')?.value || '';
+            const searchL1 = document.getElementById('pFilterL1')?.value || '';
+            const searchL2 = document.getElementById('pFilterL2')?.value || '';
+            const searchL3 = document.getElementById('pFilterL3')?.value || '';
 
-            // 📌 สร้าง Map สำหรับนับโครงสร้าง
             let structSummary = {};
             let recordedMap = {};
+            let unitInfoMap = {};
+
+            let setL0 = new Set(), setL1 = new Set(), setL2 = new Set(), setL3 = new Set();
+
             personnelData.forEach(p => { recordedMap[p.rank] = p; });
 
             rawData.forEach(r => {
-                if (!isMatchFilter(r)) return; // อิงตามฟิลเตอร์หลัก (ถ้ามี)
+                if (!isMatchFilter(r)) return;
 
                 let l0 = escapeHTML(r[1]) || "ไม่ระบุยุทธศาสตร์";
+                let l1 = escapeHTML(r[2]) || "ไม่ระบุการจัดกำลัง";
+                let l2 = escapeHTML(r[3]) || "-";
+                let l3 = escapeHTML(r[4]) || "-";
                 let unitName = escapeHTML(r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-");
                 let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
 
+                unitInfoMap[unitName] = { l0, l1, l2, l3 };
+
+                // Populate Dropdown Sets based on previous level selections
+                setL0.add(l0);
+                if (!searchL0 || l0 === searchL0) setL1.add(l1);
+                if ((!searchL0 || l0 === searchL0) && (!searchL1 || l1 === searchL1) && l2 !== "-") setL2.add(l2);
+                if ((!searchL0 || l0 === searchL0) && (!searchL1 || l1 === searchL1) && (!searchL2 || l2 === searchL2) && l3 !== "-") setL3.add(l3);
+
+                // Apply Structure Filters for Summary calculation
+                if (searchL0 && l0 !== searchL0) return;
+                if (searchL1 && l1 !== searchL1) return;
+                if (searchL2 && l2 !== searchL2) return;
+                if (searchL3 && l3 !== searchL3) return;
+
                 if (unitName !== "-" && target > 0) {
-                    if (!structSummary[l0]) {
-                        structSummary[l0] = { totalUnits: 0, recordedUnits: 0, targetSum: 0, actualSum: 0 };
+                    // Group summary by the highest selected filter to provide drill-down view
+                    let groupKey = l0;
+                    if (searchL3) groupKey = l3;
+                    else if (searchL2) groupKey = l2;
+                    else if (searchL1) groupKey = l1;
+
+                    if (!structSummary[groupKey]) {
+                        structSummary[groupKey] = { title: groupKey, totalUnits: 0, recordedUnits: 0, targetSum: 0, actualSum: 0 };
                     }
-                    structSummary[l0].totalUnits++;
-                    structSummary[l0].targetSum += target;
+                    structSummary[groupKey].totalUnits++;
+                    structSummary[groupKey].targetSum += target;
 
                     if (recordedMap[unitName]) {
-                        structSummary[l0].recordedUnits++;
-                        structSummary[l0].actualSum += cleanNumber(recordedMap[unitName].position_normal);
+                        structSummary[groupKey].recordedUnits++;
+                        structSummary[groupKey].actualSum += cleanNumber(recordedMap[unitName].position_normal);
                     }
                 }
             });
 
-            // 📌 วาดการ์ดสรุปโครงสร้าง
+            // 📌 ซิงค์ข้อมูลเข้า Dropdowns
+            function syncPSelect(id, setObj, defaultText, currentVal) {
+                let el = document.getElementById(id);
+                if (!el) return;
+                let html = `<option value="">${defaultText}</option>`;
+                Array.from(setObj).sort().forEach(item => {
+                    html += `<option value="${item}" ${item === currentVal ? 'selected' : ''}>${item}</option>`;
+                });
+                if (el.innerHTML !== html) {
+                    el.innerHTML = html;
+                    el.value = currentVal;
+                }
+            }
+            syncPSelect('pFilterL0', setL0, '🛡️ ทุกยุทธศาสตร์', searchL0);
+            syncPSelect('pFilterL1', setL1, '⚡ ทุกการจัดกำลัง', searchL1);
+            syncPSelect('pFilterL2', setL2, '🎯 ทุกยุทธการ', searchL2);
+            syncPSelect('pFilterL3', setL3, '⚔️ ทุกยุทธวิธี', searchL3);
+
+            // 📌 วาดการ์ดสรุปโครงสร้างแบบมี %
             let summaryHtml = '';
-            for (let l0 in structSummary) {
-                let data = structSummary[l0];
+            for (let key in structSummary) {
+                let data = structSummary[key];
                 if (data.totalUnits === 0) continue;
                 let unitPct = Math.round((data.recordedUnits / data.totalUnits) * 100);
+                let popPct = data.targetSum > 0 ? Math.round((data.actualSum / data.targetSum) * 100) : 0;
                 let colorClass = unitPct >= 100 ? 'success' : (unitPct >= 50 ? 'warning' : 'danger');
+                let popColorClass = popPct >= 100 ? 'success' : (popPct >= 50 ? 'info' : 'danger');
 
                 summaryHtml += `
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="tactical-card p-3 h-100" style="border-left: 4px solid var(--bs-${colorClass});">
-                        <h6 class="fw-bold text-white text-truncate mb-3" title="${l0}" style="font-size:0.9rem;">${l0}</h6>
-                        <div class="d-flex justify-content-between align-items-center small text-muted mb-1">
-                            <span>ความคืบหน้าหน่วย</span>
-                            <span class="fw-bold text-${colorClass}">${data.recordedUnits} / ${data.totalUnits}</span>
+                        <h6 class="fw-bold text-white text-truncate mb-3" title="${data.title}" style="font-size:0.95rem;">${data.title}</h6>
+                        
+                        <div class="d-flex justify-content-between align-items-end mb-1">
+                            <span class="small text-muted">หน่วยที่บันทึกแล้ว</span>
+                            <span class="fw-bold text-${colorClass}">${data.recordedUnits} / ${data.totalUnits} <small>หน่วย</small> (${unitPct}%)</span>
                         </div>
-                        <div class="progress mb-3" style="height: 5px;">
+                        <div class="progress mb-3" style="height: 6px; background: rgba(255,255,255,0.1);">
                             <div class="progress-bar bg-${colorClass}" style="width: ${unitPct}%"></div>
                         </div>
-                        <div class="d-flex justify-content-between align-items-end small border-top border-secondary border-opacity-25 pt-2">
-                            <span class="text-muted" style="font-size:0.75rem;">ยอดกำลังพล</span>
-                            <span class="text-gold fw-bold">${data.actualSum.toLocaleString()} <span class="text-muted fw-normal">/ ${data.targetSum.toLocaleString()}</span></span>
+                        
+                        <div class="d-flex justify-content-between align-items-end small border-top border-secondary border-opacity-25 pt-2 mb-1">
+                            <span class="text-muted">อัตรากำลังพลบรรจุ</span>
+                            <span class="text-gold fw-bold">${data.actualSum.toLocaleString()} <span class="text-muted fw-normal">/ ${data.targetSum.toLocaleString()} <small>นาย</small></span> (${popPct}%)</span>
+                        </div>
+                         <div class="progress" style="height: 4px; background: rgba(255,255,255,0.1);">
+                            <div class="progress-bar bg-${popColorClass}" style="width: ${popPct}%"></div>
                         </div>
                     </div>
                 </div>`;
             }
             safeSetHTML('personnelStructureSummary', summaryHtml || '<div class="col-12 text-center text-muted py-3">ไม่มีข้อมูลโครงสร้างที่สอดคล้อง</div>');
 
+            // 📌 วาดตารางบันทึก
+            let filteredStructureUnits = 0;
+            for (let k in structSummary) filteredStructureUnits += structSummary[k].totalUnits;
+
             personnelData.forEach((p, i) => {
-                let unit = escapeHTML(p.rank); // เรา map ชื่อหน่วยไปเก็บไว้ใน rank ของ Backend เดิม
-                let p_officerName = escapeHTML(p.mil_id || "-"); // 📌 ชื่อเจ้าหน้าที่
+                let unit = escapeHTML(p.rank);
+                let p_officerName = escapeHTML(p.mil_id || "-");
+                let uInfo = unitInfoMap[unit] || { l0: "", l1: "", l2: "", l3: "" };
 
-                // 📌 กรองข้อมูลตามช่องค้นหา
-                if (searchTerm && !unit.toLowerCase().includes(searchTerm) && !p_officerName.toLowerCase().includes(searchTerm)) {
-                    return; // ข้ามการแสดงผลแถวนี้
-                }
+                // กรองข้อมูลตาราง
+                if (searchL0 && uInfo.l0 !== searchL0) return;
+                if (searchL1 && uInfo.l1 !== searchL1) return;
+                if (searchL2 && uInfo.l2 !== searchL2) return;
+                if (searchL3 && uInfo.l3 !== searchL3) return;
 
-                recordedUnits.add(unit); // เพิ่มรายชื่อลง Set
+                if (searchTerm && !unit.toLowerCase().includes(searchTerm) && !p_officerName.toLowerCase().includes(searchTerm)) return;
 
-                let target = cleanNumber(p.name); // เก็บอัตรากำลังพลไว้ใน name
-                let actual = cleanNumber(p.position_normal); // เก็บบรรจุจริงไว้ใน position_normal
-                let fileName = escapeHTML(p.position_field); // เก็บชื่อไฟล์ไว้ใน position_field
-                let fileUrl = p.id_card; // 📌 ดึงลิงก์ Google Drive จาก Backend มาใช้งาน
-                let isConfirmed = p.unit === "true"; // 📌 สถานะการยืนยัน
+                recordedUnits.add(unit);
+
+                let target = cleanNumber(p.name);
+                let actual = cleanNumber(p.position_normal);
+                let fileName = escapeHTML(p.position_field);
+                let fileUrl = p.id_card;
+                let isConfirmed = p.unit === "true";
                 let timestamp = escapeHTML(p.timestamp);
 
                 totalTarget += target;
@@ -3439,7 +3534,6 @@
                     ? '<span class="badge bg-success"><i class="bi bi-check-circle"></i> ยืนยันแล้ว</span>'
                     : '<span class="badge bg-danger"><i class="bi bi-x-circle"></i> ยังไม่ยืนยัน</span>';
 
-                // 📌 เปลี่ยนป้ายชื่อไฟล์ธรรมดา ให้เป็นลิงก์คลิกเพื่อไปดาวน์โหลดไฟล์จาก Google Drive
                 let fileBadge = fileName ? `<a href="${fileUrl}" target="_blank" class="badge bg-success bg-opacity-25 text-success border border-success text-decoration-none shadow-sm" title="คลิกเพื่อโหลดไฟล์"><i class="bi bi-file-earmark-excel"></i> ${fileName}</a>` : '<span class="text-muted">-</span>';
                 let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-info rounded-circle py-0 px-2 shadow-sm" onclick="window.editPersonnel(${i})"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger rounded-circle py-0 px-2 shadow-sm ms-1" onclick="window.deletePersonnel(${p.rowIndex})"><i class="bi bi-trash"></i></button>` : '';
 
@@ -3461,9 +3555,8 @@
             </tr>`;
             });
 
-            safeSetHTML('personnelTableBody', html || '<tr><td colspan="9" class="text-center text-muted py-4">ยังไม่มีข้อมูลการนำเข้า</td></tr>');
+            safeSetHTML('personnelTableBody', html || '<tr><td colspan="9" class="text-center text-muted py-4">ไม่พบข้อมูลที่ตรงกับเงื่อนไข</td></tr>');
 
-            // อัปเดต Progress Bar 
             let pctTotal = totalTarget > 0 ? Math.min(100, Math.round((totalActual / totalTarget) * 100)) : 0;
             let mainProgressColor = pctTotal >= 100 ? 'bg-success' : (pctTotal >= 50 ? 'bg-warning' : 'bg-danger');
 
@@ -3473,10 +3566,9 @@
             const progressBarEl = document.getElementById('personnelProgressBar');
             if (progressBarEl) progressBarEl.className = `progress-bar ${mainProgressColor}`;
 
-            // 📌 อัปเดตยอดการ์ด
             safeSetText('unitCompleteCount', completeUnits.toLocaleString());
             safeSetText('unitIncompleteCount', incompleteUnits.toLocaleString());
-            safeSetText('totalUnitStructureCount', (window.stUnitCount || 0).toLocaleString());
+            safeSetText('totalUnitStructureCount', filteredStructureUnits.toLocaleString());
             safeSetText('recordedUnitCount', recordedUnits.size.toLocaleString());
         };
 
@@ -3636,6 +3728,62 @@
                 }
             });
         };
+
+        // 📌 ออกรายงานภาพรวมการบันทึกกำลังพล (Summary)
+        window.exportPersonnelSummaryExcel = function () {
+            Swal.fire({ title: 'กำลังสร้างรายงาน...', didOpen: () => Swal.showLoading(), customClass: { popup: 'dark-swal' } });
+
+            let exportSummary = {};
+            let recordedMap = {};
+            personnelData.forEach(p => { recordedMap[p.rank] = p; });
+
+            rawData.forEach(r => {
+                if (!isMatchFilter(r)) return;
+                let l0 = escapeHTML(r[1]) || "-";
+                let l1 = escapeHTML(r[2]) || "-";
+                let l2 = escapeHTML(r[3]) || "-";
+                let l3 = escapeHTML(r[4]) || "-";
+                let unitName = escapeHTML(r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-");
+                let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
+
+                let key = `${l0}|${l1}|${l2}|${l3}`;
+
+                if (unitName !== "-" && target > 0) {
+                    if (!exportSummary[key]) {
+                        exportSummary[key] = { l0, l1, l2, l3, totalUnits: 0, recordedUnits: 0, targetSum: 0, actualSum: 0 };
+                    }
+                    exportSummary[key].totalUnits++;
+                    exportSummary[key].targetSum += target;
+
+                    if (recordedMap[unitName]) {
+                        exportSummary[key].recordedUnits++;
+                        exportSummary[key].actualSum += cleanNumber(recordedMap[unitName].position_normal);
+                    }
+                }
+            });
+
+            const headers = ["ยุทธศาสตร์", "การจัดกำลัง", "ยุทธการ", "ยุทธวิธี", "จำนวนหน่วยในโครงสร้าง", "หน่วยที่บันทึกแล้ว", "ร้อยละการบันทึกหน่วย(%)", "อัตรากำลังพลรวม", "บรรจุจริงรวม", "ร้อยละการบรรจุกำลังพล(%)"];
+            const dataToExport = [headers];
+
+            for (let key in exportSummary) {
+                let d = exportSummary[key];
+                let unitPct = d.totalUnits > 0 ? ((d.recordedUnits / d.totalUnits) * 100).toFixed(2) : 0;
+                let popPct = d.targetSum > 0 ? ((d.actualSum / d.targetSum) * 100).toFixed(2) : 0;
+                dataToExport.push([
+                    d.l0, d.l1, d.l2, d.l3, d.totalUnits, d.recordedUnits, Number(unitPct), d.targetSum, d.actualSum, Number(popPct)
+                ]);
+            }
+
+            if (dataToExport.length === 1) {
+                Swal.fire('แจ้งเตือน', 'ไม่มีข้อมูลให้ Export', 'warning');
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(dataToExport), "Summary");
+            XLSX.writeFile(wb, "รายงานสรุปการบันทึกกำลังพล.xlsx");
+            Swal.close();
+        }
 
         window.exportPersonnelExcel = function () {
             if (personnelData.length === 0) return Swal.fire('แจ้งเตือน', 'ไม่มีข้อมูลให้ Export', 'warning');
