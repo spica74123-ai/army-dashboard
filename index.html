@@ -24,6 +24,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 📌 เพิ่ม LIFF SDK สำหรับระบบ LINE Login -->
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap');
@@ -1175,6 +1177,19 @@
                 <i class="bi bi-box-arrow-in-right fs-5 d-flex align-items-center"></i>
                 <span>เข้าสู่ระบบ</span>
             </button>
+
+            <div class="my-3 text-muted small position-relative text-center">
+                <hr class="border-secondary opacity-50">
+                <span class="position-absolute top-50 start-50 translate-middle px-2"
+                    style="background: var(--panel);">หรือ</span>
+            </div>
+
+            <button
+                class="btn w-100 fw-bold py-2 shadow d-flex justify-content-center align-items-center gap-2 text-white"
+                onclick="window.loginWithLine()" id="btnLineLogin" style="background-color: #06C755;">
+                <i class="bi bi-line fs-5 d-flex align-items-center"></i>
+                <span>เข้าสู่ระบบด้วย LINE</span>
+            </button>
         </div>
     </div>
 
@@ -1189,10 +1204,18 @@
                 </div>
                 <h5 class="mt-3 fw-bold logo-title text-gold">ฝกพ.ศปก.ทบ.</h5>
             </div>
-            <div class="text-center mb-4 pb-3 border-bottom border-secondary user-info"><small
-                    class="text-muted d-block"><i class="bi bi-person-circle me-1"></i>ผู้ใช้งาน</small><strong
-                    id="userDisplay" class="text-white fs-5">User</strong><br><span id="userRoleBadge"
-                    class="badge bg-secondary mt-1 shadow-sm" style="font-size:0.65rem;">Role</span></div>
+            <div class="text-center mb-4 pb-3 border-bottom border-secondary user-info">
+                <!-- 📌 เพิ่มส่วนแสดงรูปโปรไฟล์ -->
+                <div class="mb-2">
+                    <img id="userProfilePic" src="" class="rounded-circle border border-2 border-warning"
+                        style="width: 60px; height: 60px; object-fit: cover; display: none;">
+                    <i id="userProfileIcon" class="bi bi-person-circle fs-1 text-muted"
+                        style="display: inline-block;"></i>
+                </div>
+                <strong id="userDisplay" class="text-white fs-5">User</strong><br>
+                <span id="userRoleBadge" class="badge bg-secondary mt-1 shadow-sm"
+                    style="font-size:0.65rem;">Role</span>
+            </div>
 
             <div class="flex-grow-1 custom-scroll" style="overflow-y: auto; overflow-x: hidden;">
                 <a class="nav-link active" onclick="window.showPage('dashboard', this)"><i
@@ -1281,7 +1304,7 @@
                             <option value="s">ส.</option>
                             <option value="p">พลฯ</option>
                         </select></div>
-                    <div class="col-6 col-sm-6 col-md-3 col-xl-2"><input type="text"
+                    <div class="col-12 col-md-6 col-xl mt-2 mt-xl-0"><input type="text"
                             class="form-control form-control-sm filter-search" data-filter="search"
                             placeholder="🔍 ค้นหา..." onkeyup="window.applyGlobalFilter(this)"></div>
                 </div>
@@ -2437,6 +2460,82 @@
         </div>
     </div>
 
+    <!-- 📌 MODAL ลงทะเบียนด้วย LINE -->
+    <div class="modal fade" id="lineRegisterModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg"
+                style="background: var(--panel); border: 1px solid #06C755; color: var(--text);">
+                <div class="modal-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-line text-success" style="font-size: 3rem;"></i>
+                        <h4 class="fw-bold mt-2" style="color: #06C755;">ลงทะเบียนผู้ใช้งานใหม่</h4>
+                        <p class="small text-muted mb-0">กรุณากรอกข้อมูลเพื่อผูกบัญชี LINE ของท่าน</p>
+                    </div>
+                    <form id="lineRegisterForm">
+                        <input type="hidden" id="reg_line_id">
+
+                        <!-- อัปโหลดรูปภาพ -->
+                        <div class="text-center mb-3">
+                            <label for="reg_profile_pic" class="cursor-pointer position-relative d-inline-block">
+                                <img id="reg_pic_preview" src="https://via.placeholder.com/100"
+                                    class="rounded-circle border border-2 border-success"
+                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                <div class="position-absolute bottom-0 end-0 bg-success text-white rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 30px; height: 30px; border: 2px solid var(--panel);">
+                                    <i class="bi bi-camera-fill"></i>
+                                </div>
+                            </label>
+                            <input type="file" id="reg_profile_pic" class="d-none" accept="image/*"
+                                onchange="window.previewProfilePic(this)">
+                            <div class="small text-muted mt-1">แตะเพื่ออัปโหลดรูปภาพ</div>
+                            <input type="hidden" id="reg_pic_base64">
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <label class="small text-muted fw-bold mb-1">ยศ</label>
+                                <input type="text" id="reg_rank" class="form-control shadow-sm" placeholder="เช่น ร.อ."
+                                    required>
+                            </div>
+                            <div class="col-8">
+                                <label class="small text-muted fw-bold mb-1">ชื่อ - สกุล</label>
+                                <input type="text" id="reg_name" class="form-control shadow-sm" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="small text-muted fw-bold mb-1">ตำแหน่ง</label>
+                                <input type="text" id="reg_position" class="form-control shadow-sm" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="small text-muted fw-bold mb-1">สังกัด</label>
+                                <input type="text" id="reg_affiliation" class="form-control shadow-sm" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="small text-muted fw-bold mb-1">หน่วย</label>
+                                <input type="text" id="reg_unit" class="form-control shadow-sm" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="small text-muted fw-bold mb-1">เบอร์โทรศัพท์</label>
+                                <input type="tel" id="reg_phone" class="form-control shadow-sm" required>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="small text-muted fw-bold mb-1">อีเมล</label>
+                                <input type="email" id="reg_email" class="form-control shadow-sm">
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn text-white w-100 py-2 fw-bold shadow"
+                            style="background-color: #06C755;" onclick="window.submitLineRegistration()"
+                            id="btnSubmitReg">
+                            <i class="bi bi-person-check-fill me-2"></i>ลงทะเบียน
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary w-100 mt-2 py-2 fw-bold"
+                            onclick="window.cancelLineLogin()">ยกเลิก</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ================= DRAWER แจ้งเตือน ================= -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="notifDrawer"
         style="background: var(--panel); border-left: 2px solid var(--gold); color: var(--text); width: 380px; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
@@ -2489,132 +2588,8 @@
         let hqLayerGroup, higherHqLayerGroup, hospitalLayerGroup, borderLayerGroup, strategicLayerGroup, pillarLayerGroup, distanceLineGroup;
         let isMapLoading = false;
 
-        // 📌 ฟังก์ชันจัดการแผนที่ (เพิ่มใหม่)
-        window.highlightForce = function (forceId) {
-            if (activeForceId && activeForceId !== forceId) return;
-            document.querySelectorAll('.force-card-ui').forEach(card => {
-                if (card.dataset.forceId === forceId) {
-                    card.classList.add('active');
-                    card.classList.remove('dimmed');
-                } else {
-                    card.classList.remove('active');
-                    card.classList.add('dimmed');
-                }
-            });
-            if (geojsonLayer) {
-                geojsonLayer.eachLayer(layer => {
-                    let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || "";
-                    const force = getTaskForceForProvince(thaiName);
-                    if (force && force.id === forceId) {
-                        layer.setStyle({ weight: 2.5, color: '#f59e0b', fillOpacity: 0.6 });
-                        layer.bringToFront();
-                    } else {
-                        layer.setStyle({ weight: 1, color: '#4b5563', fillOpacity: force ? 0.15 : 0.05 });
-                    }
-                });
-            }
-            document.querySelectorAll(`.label-group-${forceId}`).forEach(el => el.classList.add('show'));
-        };
-
-        window.resetHighlight = function () {
-            if (activeForceId) return;
-            document.querySelectorAll('.force-card-ui').forEach(card => card.classList.remove('active', 'dimmed'));
-            if (geojsonLayer) {
-                geojsonLayer.eachLayer(layer => {
-                    let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || "";
-                    const force = getTaskForceForProvince(thaiName);
-                    layer.setStyle({ weight: 1, color: '#4b5563', fillOpacity: force ? 0.35 : 0.1 });
-                });
-            }
-            document.querySelectorAll('.province-label-container').forEach(el => el.classList.remove('show'));
-        };
-
-        window.zoomToForce = function (forceId) {
-            if (!geojsonLayer || !tacticalMap) return;
-            const force = taskForces.find(tf => tf.id === forceId);
-            if (!force) return;
-            activeForceId = forceId;
-            document.getElementById('custom-tooltip').style.opacity = 0;
-            window.highlightForce(forceId);
-            distanceLineGroup.clearLayers();
-            resetAllPopups();
-
-            const forceLayers = [];
-            geojsonLayer.eachLayer(layer => {
-                let thaiName = engToThaiProv[layer.feature.properties.NAME_1 || layer.feature.properties.name || ""] || "";
-                const f = getTaskForceForProvince(thaiName);
-                if (f && f.id === forceId) forceLayers.push(layer);
-            });
-
-            if (forceLayers.length > 0) {
-                tacticalMap.fitBounds(new L.featureGroup(forceLayers).getBounds(), {
-                    paddingTopLeft: [20, 20],
-                    paddingBottomRight: window.innerWidth < 768 ? [20, 20] : [340, 20],
-                    maxZoom: 8,
-                    animate: true,
-                    duration: 0.8
-                });
-            }
-            showSidePanel(force);
-        };
-
-        function showSidePanel(force) {
-            const panel = document.getElementById('side-panel-map');
-            const layerToggles = document.getElementById('layer-toggles');
-            if (layerToggles) {
-                layerToggles.style.opacity = '0';
-                layerToggles.style.pointerEvents = 'none';
-                layerToggles.style.transform = 'translateX(10px)';
-            }
-
-            document.getElementById('panel-title').innerText = force.name;
-            document.getElementById('panel-title').style.color = force.color;
-
-            const hqEl = document.getElementById('panel-hq');
-            hqEl.innerHTML = `<div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-warning" style="width:15px;"></i> <span class="font-medium text-white">${force.hq}</span></div><i class="fas fa-location-arrow text-secondary"></i>`;
-            hqEl.setAttribute('onclick', `window.focusHQ('${force.id}')`);
-
-            document.getElementById('panel-length').innerText = force.length;
-            document.getElementById('panel-stars').innerHTML = Array(force.stars).fill('<i class="fas fa-star text-warning"></i>').join(' ');
-
-            let pTotal = document.getElementById('panel-total-personnel');
-            if (pTotal) pTotal.innerText = force.currentPersonnel > 0 ? force.currentPersonnel.toLocaleString() + ' นาย' : 'ไม่พบข้อมูล';
-
-            const milList = document.getElementById('panel-hospitals');
-            if (force.hospitals && force.hospitals.length > 0) {
-                milList.innerHTML = force.hospitals.map((h, index) => `<li class="cursor-pointer bg-dark bg-opacity-50 p-2 rounded border border-secondary transition-all d-flex align-items-center justify-content-between gap-2 mb-1" onclick="window.focusHospital('${force.id}', 'mil', ${index})" onmouseover="this.style.borderColor='#ef4444'" onmouseout="this.style.borderColor='var(--bs-secondary)'"><div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-danger" style="width:15px;"></i> ${h.name}</div><i class="fas fa-location-arrow text-secondary"></i></li>`).join('');
-            } else {
-                milList.innerHTML = `<li class="text-muted fst-italic p-2" style="font-size:0.8rem;">ไม่มีข้อมูลสถานพยาบาล</li>`;
-            }
-
-            const govList = document.getElementById('panel-gov-hospitals');
-            if (force.govHospitals && force.govHospitals.length > 0) {
-                govList.innerHTML = force.govHospitals.map((h, index) => `<li class="cursor-pointer bg-dark bg-opacity-50 p-2 rounded border border-secondary transition-all d-flex align-items-center justify-content-between gap-2 mb-1" onclick="window.focusHospital('${force.id}', 'gov', ${index})" onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='var(--bs-secondary)'"><div class="d-flex align-items-center gap-2"><i class="fas fa-map-marker-alt text-success" style="width:15px;"></i> ${h.name}</div><i class="fas fa-location-arrow text-secondary"></i></li>`).join('');
-            } else {
-                govList.innerHTML = `<li class="text-muted fst-italic p-2" style="font-size:0.8rem;">ไม่มีข้อมูลสถานพยาบาล</li>`;
-            }
-
-            document.getElementById('panel-desc').innerText = force.detailedDesc;
-            panel.classList.add('show');
-        }
-
-        window.resetMap = function () {
-            activeForceId = null;
-            if (tacticalMap) tacticalMap.closePopup();
-            distanceLineGroup.clearLayers();
-            resetAllPopups();
-
-            const layerToggles = document.getElementById('layer-toggles');
-            if (layerToggles) {
-                layerToggles.style.opacity = '1';
-                layerToggles.style.pointerEvents = 'auto';
-                layerToggles.style.transform = 'none';
-            }
-
-            document.getElementById('side-panel-map').classList.remove('show');
-            if (tacticalMap) { tacticalMap.setView([13.7367, 100.5231], 5.8, { animate: true, duration: 0.8 }); }
-            window.resetHighlight();
-        };
+        // 📌 ตั้งค่า LIFF ID ของคุณที่นี่ (จำเป็นสำหรับการใช้งาน LINE Login)
+        const LIFF_ID = "YOUR_LIFF_ID_HERE";
 
         window.getBsModal = (id) => {
             const el = document.getElementById(id);
@@ -2791,10 +2766,26 @@
                     roleBadge.classList.add('text-dark');
                 }
 
+                const profPic = sessionStorage.getItem('profilePic');
+                if (profPic && profPic !== "") {
+                    document.getElementById('userProfileIcon').style.display = 'none';
+                    document.getElementById('userProfilePic').style.display = 'inline-block';
+                    document.getElementById('userProfilePic').src = profPic;
+                }
+
                 window.loadData(true);
             } else {
                 document.getElementById('loginSection').style.display = 'flex';
                 document.getElementById('appWrapper').style.display = 'none';
+            }
+
+            // 📌 Initialize LIFF เมื่อโหลดหน้าเว็บเสร็จ
+            if (LIFF_ID !== "YOUR_LIFF_ID_HERE") {
+                liff.init({ liffId: LIFF_ID }).then(() => {
+                    console.log("LIFF Initialized");
+                }).catch(err => {
+                    console.error("LIFF Init Error:", err);
+                });
             }
         });
 
@@ -2821,6 +2812,13 @@
                         resolve({ rows: [{ rank: 'ร.29 พัน.1', name: '188', position_normal: '150', position_field: 'report_r29.xlsx', id_card: '', mil_id: 'ร.อ. ตัวอย่าง ทดสอบ', unit: 'false', affiliation: '', line_id: '', timestamp: '12/10/2026 10:00:00', rowIndex: 2 }] });
                     }
                     else if (action === 'saveUnitData' || action === 'saveUserData' || action === 'deleteUserData' || action === 'savePersonnelData' || action === 'deletePersonnelData') {
+                        resolve({ success: true });
+                    }
+                    else if (action === 'checkLineLogin') {
+                        // Demo: สมมติว่ายังไม่เคยลงทะเบียน
+                        resolve({ success: false, error: "NOT_FOUND" });
+                    }
+                    else if (action === 'registerLineUser') {
                         resolve({ success: true });
                     }
                     else resolve({ error: 'Demo Action Not Found' });
@@ -2867,6 +2865,17 @@
                         document.querySelectorAll('.btn-admin-only').forEach(el => el.style.display = 'none');
                     }
 
+                    // จัดการแสดงรูปโปรไฟล์ถ้ามีเซฟไว้
+                    const profPic = res.profilePic || sessionStorage.getItem('profilePic');
+                    if (profPic && profPic !== "") {
+                        document.getElementById('userProfileIcon').style.display = 'none';
+                        document.getElementById('userProfilePic').style.display = 'inline-block';
+                        document.getElementById('userProfilePic').src = profPic;
+                    } else {
+                        document.getElementById('userProfileIcon').style.display = 'inline-block';
+                        document.getElementById('userProfilePic').style.display = 'none';
+                    }
+
                     Swal.fire({ title: 'ยินดีต้อนรับ', text: 'เข้าสู่ระบบสำเร็จ', icon: 'success', timer: 1500, showConfirmButton: false });
                     window.loadData(true);
                 }
@@ -2888,13 +2897,169 @@
                     document.getElementById('loginUser').value = '';
                     document.getElementById('loginPass').value = '';
 
+                    // รีเซ็ตรูปโปรไฟล์
+                    document.getElementById('userProfileIcon').style.display = 'inline-block';
+                    document.getElementById('userProfilePic').style.display = 'none';
+                    document.getElementById('userProfilePic').src = '';
+
                     document.getElementById('sidebar').classList.remove('mobile-open');
                     document.getElementById('mobileOverlay').classList.remove('active');
+
+                    // 📌 Logout ออกจากระบบ LINE ด้วย
+                    if (typeof liff !== 'undefined' && liff.isLoggedIn()) {
+                        liff.logout();
+                    }
 
                     if (pChart) pChart.destroy();
                     if (yearlyChart) yearlyChart.destroy();
                 }
             });
+        };
+
+        // ==========================================
+        // 🟢 ระบบ LINE LOGIN & REGISTRATION
+        // ==========================================
+
+        window.loginWithLine = function () {
+            if (LIFF_ID === "YOUR_LIFF_ID_HERE") {
+                Swal.fire('แจ้งเตือน', 'กรุณาระบุ LIFF_ID ในซอร์สโค้ดก่อนใช้งานระบบนี้', 'warning');
+                return;
+            }
+
+            let btn = document.getElementById('btnLineLogin');
+            let orig = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังเชื่อมต่อ LINE...';
+            btn.disabled = true;
+
+            if (!liff.isLoggedIn()) {
+                liff.login();
+            } else {
+                processLineLogin();
+            }
+        };
+
+        async function processLineLogin() {
+            let btn = document.getElementById('btnLineLogin');
+            try {
+                const profile = await liff.getProfile();
+
+                // ตรวจสอบว่าเคยลงทะเบียนด้วย LINE ID นี้แล้วหรือยัง
+                const res = await fetchAPI('checkLineLogin', { lineId: profile.userId });
+
+                if (res.success) {
+                    // 🟢 เคยลงทะเบียนแล้ว -> ล็อกอินเข้าใช้งาน
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('userName', res.rank + " " + res.name);
+                    sessionStorage.setItem('userRole', res.role);
+                    if (res.profilePic) sessionStorage.setItem('profilePic', res.profilePic);
+
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('appWrapper').style.display = 'block';
+                    document.getElementById('userDisplay').innerText = escapeHTML(res.rank + " " + res.name);
+
+                    let roleBadge = document.getElementById('userRoleBadge');
+                    roleBadge.innerText = escapeHTML(res.role);
+                    roleBadge.className = 'badge mt-1 shadow-sm bg-secondary';
+
+                    if (res.profilePic) {
+                        document.getElementById('userProfileIcon').style.display = 'none';
+                        document.getElementById('userProfilePic').style.display = 'inline-block';
+                        document.getElementById('userProfilePic').src = res.profilePic;
+                    }
+
+                    if (res.role === 'Admin') {
+                        roleBadge.classList.add('bg-danger');
+                        document.querySelectorAll('.btn-admin-only').forEach(el => el.style.display = '');
+                    } else if (res.role === 'Editor') {
+                        roleBadge.classList.replace('bg-secondary', 'bg-warning');
+                        roleBadge.classList.add('text-dark');
+                    }
+
+                    Swal.fire({ title: 'ยินดีต้อนรับ', text: 'เข้าสู่ระบบด้วย LINE สำเร็จ', icon: 'success', timer: 1500, showConfirmButton: false });
+                    window.loadData(true);
+
+                } else if (res.error === "NOT_FOUND") {
+                    // 🔴 ยังไม่เคยลงทะเบียน -> เปิด Modal เพื่อให้กรอกข้อมูลเพิ่มเติม
+                    document.getElementById('reg_line_id').value = profile.userId;
+                    document.getElementById('reg_name').value = profile.displayName; // ดึงชื่อจาก LINE มาใส่ให้เป็นค่าเริ่มต้น
+                    if (profile.pictureUrl) {
+                        document.getElementById('reg_pic_preview').src = profile.pictureUrl;
+                        document.getElementById('reg_pic_base64').value = profile.pictureUrl;
+                    }
+
+                    const modal = window.getBsModal('lineRegisterModal');
+                    if (modal) modal.show();
+                } else {
+                    throw new Error(res.error || "เกิดข้อผิดพลาดในการตรวจสอบข้อมูลกับเซิร์ฟเวอร์");
+                }
+            } catch (err) {
+                console.error(err);
+                Swal.fire('ข้อผิดพลาด', err.message || 'ไม่สามารถเชื่อมต่อระบบได้', 'error');
+            } finally {
+                if (btn) { btn.innerHTML = '<i class="bi bi-line fs-5 d-flex align-items-center"></i><span>เข้าสู่ระบบด้วย LINE</span>'; btn.disabled = false; }
+            }
+        }
+
+        window.cancelLineLogin = function () {
+            const modal = window.getBsModal('lineRegisterModal');
+            if (modal) modal.hide();
+            if (typeof liff !== 'undefined' && liff.isLoggedIn()) {
+                liff.logout();
+            }
+        };
+
+        window.previewProfilePic = function (input) {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('reg_pic_preview').src = e.target.result;
+                    document.getElementById('reg_pic_base64').value = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
+        window.submitLineRegistration = async function () {
+            const requiredFields = ['reg_rank', 'reg_name', 'reg_position', 'reg_affiliation', 'reg_unit', 'reg_phone'];
+            let isValid = true;
+            requiredFields.forEach(id => {
+                if (!document.getElementById(id).value.trim()) isValid = false;
+            });
+
+            if (!isValid) return Swal.fire('แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'warning');
+
+            let btn = document.getElementById('btnSubmitReg');
+            let orig = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังลงทะเบียน...';
+            btn.disabled = true;
+
+            const data = {
+                lineId: document.getElementById('reg_line_id').value,
+                rank: document.getElementById('reg_rank').value,
+                name: document.getElementById('reg_name').value,
+                position: document.getElementById('reg_position').value,
+                affiliation: document.getElementById('reg_affiliation').value,
+                unit: document.getElementById('reg_unit').value,
+                phone: document.getElementById('reg_phone').value,
+                email: document.getElementById('reg_email').value,
+                profilePic: document.getElementById('reg_pic_base64').value
+            };
+
+            try {
+                const res = await fetchAPI('registerLineUser', data);
+                if (res.success) {
+                    const modal = window.getBsModal('lineRegisterModal');
+                    if (modal) modal.hide();
+                    Swal.fire({ title: 'ลงทะเบียนสำเร็จ', text: 'กำลังพาท่านเข้าสู่ระบบ...', icon: 'success', timer: 1500, showConfirmButton: false });
+                    setTimeout(() => { processLineLogin(); }, 1500); // ทำการเข้าสู่ระบบอัตโนมัติ
+                } else {
+                    throw new Error(res.error || 'ลงทะเบียนไม่สำเร็จ');
+                }
+            } catch (err) {
+                Swal.fire('ข้อผิดพลาด', err.message, 'error');
+            } finally {
+                btn.innerHTML = orig; btn.disabled = false;
+            }
         };
 
         function applyPermissions() {
