@@ -1331,904 +1331,903 @@
                             placeholder="🔍 ค้นหา..." onkeyup="window.applyGlobalFilter(this)"></div>
                 </div>
             </div>
-            <!-- 📌 เพิ่มปุ่มเคลียร์ตัวกรอง (Clear Filter) -->
-            <div class="col-12 col-md-6 col-xl mt-2 mt-xl-0">
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control form-control-sm filter-search" data-filter="search"
-                        placeholder="🔍 ค้นหา..." onkeyup="window.applyGlobalFilter(this)">
-                    <button class="btn btn-outline-danger" type="button" onclick="window.resetGlobalFilter()"
-                        title="ล้างตัวกรองทั้งหมด"><i class="bi bi-x-circle"></i> ล้างค่า</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div id="dashboardSection">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i class="bi bi-speedometer2 text-warning me-2 d-none d-md-inline"></i>TACTICAL
-                    DASHBOARD
-                </h2>
-            </div><button class="btn btn-warning fw-bold shadow-sm" onclick="window.loadData(true)"><i
-                    class="bi bi-arrow-clockwise me-md-1"></i><span
-                    class="d-none d-md-inline">ซิงค์ข้อมูล</span></button>
-        </div>
-        <div id="dashboardFilterContainer"></div>
-        <div class="row g-3 mb-4 text-center justify-content-center">
-            <div class="col-12 col-sm-6 col-lg">
-                <div class="tactical-card py-4"><small class="fw-bold text-muted">รวมทั้งสิ้น (นาย)</small>
-                    <h2 id="v-total" class="fw-bold mt-1 mb-0" style="font-size: 2.2rem;">0</h2>
-                    <div id="diff-total" class="mt-1" style="min-height: 20px;"></div>
+            <div id="dashboardSection">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i
+                                class="bi bi-speedometer2 text-warning me-2 d-none d-md-inline"></i>TACTICAL DASHBOARD
+                        </h2>
+                    </div><button class="btn btn-warning fw-bold shadow-sm" onclick="window.loadData(true)"><i
+                            class="bi bi-arrow-clockwise me-md-1"></i><span
+                            class="d-none d-md-inline">ซิงค์ข้อมูล</span></button>
                 </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg">
-                <div class="tactical-card py-4" style="border-bottom: 4px solid #0dcaf0;"><small
-                        class="fw-bold text-info">นายพล</small>
-                    <h2 id="v-g" class="fw-bold mt-1 mb-0 text-info" style="font-size: 2.2rem;">0</h2>
-                    <div id="diff-g" class="mt-1" style="min-height: 20px;"></div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg">
-                <div class="tactical-card py-4" style="border-bottom: 4px solid #2ecc71;"><small
-                        class="fw-bold text-success">น. (สัญญาบัตร)</small>
-                    <h2 id="v-n" class="fw-bold mt-1 mb-0 text-success" style="font-size: 2.2rem;">0</h2>
-                    <div id="diff-n" class="mt-1" style="min-height: 20px;"></div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg">
-                <div class="tactical-card py-4" style="border-bottom: 4px solid #f1c40f;"><small
-                        class="fw-bold text-warning">ส. (ประทวน)</small>
-                    <h2 id="v-s" class="fw-bold mt-1 mb-0 text-warning" style="font-size: 2.2rem;">0</h2>
-                    <div id="diff-s" class="mt-1" style="min-height: 20px;"></div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg">
-                <div class="tactical-card py-4" style="border-bottom: 4px solid #e74c3c;"><small
-                        class="fw-bold text-danger">พลฯ</small>
-                    <h2 id="v-p" class="fw-bold mt-1 mb-0 text-danger" style="font-size: 2.2rem;">0</h2>
-                    <div id="diff-p" class="mt-1" style="min-height: 20px;"></div>
-                </div>
-            </div>
-        </div>
-        <h6 class="fw-bold mb-3 mt-5 text-gold"><i
-                class="bi bi-building-fill text-warning me-2"></i>สรุปจำนวนหน่วยแยกตามระดับ</h6>
-        <div class="row g-2 mb-5 text-center">
-            <div class="col-6 col-sm-4 col-lg">
-                <div class="tactical-card py-3">
-                    <h2 id="c-l0" class="fw-bold text-info mb-0">0</h2><small
-                        class="text-muted fw-bold">ส่วนภูมิภาค</small>
-                </div>
-            </div>
-            <div class="col-6 col-sm-4 col-lg">
-                <div class="tactical-card py-3">
-                    <h2 id="c-l1" class="fw-bold text-success mb-0">0</h2><small
-                        class="text-muted fw-bold">จัดกำลัง</small>
-                </div>
-            </div>
-            <div class="col-6 col-sm-4 col-lg">
-                <div class="tactical-card py-3">
-                    <h2 id="c-l2" class="fw-bold text-warning mb-0">0</h2><small
-                        class="text-muted fw-bold">กองกำลัง</small>
-                </div>
-            </div>
-            <div class="col-6 col-sm-6 col-lg">
-                <div class="tactical-card py-3">
-                    <h2 id="c-l3" class="fw-bold text-danger mb-0">0</h2><small
-                        class="text-muted fw-bold">หน่วยเฉพาะกิจ</small>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg">
-                <div class="tactical-card py-3">
-                    <h2 id="c-l4" class="fw-bold mb-0 text-muted">0</h2><small class="text-muted fw-bold">หน่วย</small>
-                </div>
-            </div>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="tactical-card h-100">
-                    <h6 class="fw-bold mb-3 text-gold"><i class="bi bi-shield-check me-2"></i>สถานะอัปเดตข้อมูล
-                    </h6>
-                    <div class="d-flex justify-content-center align-items-center mb-4 mt-4 gap-4">
-                        <div class="text-center">
-                            <h2 id="stat-updated" class="text-success mb-0 fw-bold">0</h2><small
-                                class="text-muted">อัปเดตแล้ว</small>
-                        </div>
-                        <div style="width: 2px; height: 50px; background: rgba(128,128,128,0.3);"></div>
-                        <div class="text-center">
-                            <h2 id="stat-pending" class="text-secondary mb-0 fw-bold">0</h2><small
-                                class="text-muted">รอดำเนินการ</small>
+                <div id="dashboardFilterContainer"></div>
+                <div class="row g-3 mb-4 text-center justify-content-center">
+                    <div class="col-12 col-sm-6 col-lg">
+                        <div class="tactical-card py-4"><small class="fw-bold text-muted">รวมทั้งสิ้น (นาย)</small>
+                            <h2 id="v-total" class="fw-bold mt-1 mb-0" style="font-size: 2.2rem;">0</h2>
+                            <div id="diff-total" class="mt-1" style="min-height: 20px;"></div>
                         </div>
                     </div>
-                    <div class="progress mb-2" style="height: 10px;">
-                        <div id="updateProgressBar" class="progress-bar bg-success" style="width: 0%"></div>
-                    </div>
-                    <div class="text-center small text-muted mb-4">ความสำเร็จ: <span id="updatePct"
-                            class="fw-bold text-success">0%</span></div>
-                    <h6 class="mt-4 mb-3 border-bottom pb-2 text-gold"><i
-                            class="bi bi-journal-text me-2"></i>สรุปตามแผนยุทธศาสตร์</h6>
-                    <div id="planSummaryBox" class="small custom-scroll" style="max-height: 180px; overflow-y: auto;">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="tactical-card h-100">
-                    <h6 class="fw-bold mb-3 text-gold"
-                        style="border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 10px;"><i
-                            class="bi bi-diagram-3-fill me-2"></i>ยอดแยกตามโครงสร้าง</h6>
-                    <div id="structurePersonnelBox" class="custom-scroll" style="max-height: 340px; overflow-y: auto;">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="tactical-card h-100">
-                    <h6 class="fw-bold mb-3 text-center text-gold"><i
-                            class="bi bi-pie-chart-fill me-2"></i>สัดส่วนกำลังพลภาพรวม</h6>
-                    <div
-                        style="position: relative; height: 300px; display:flex; justify-content:center; align-items:center;">
-                        <canvas id="pChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="tactical-card">
-                    <h6 class="fw-bold mb-3 text-gold"><i class="bi bi-bar-chart-fill me-2"></i>เปรียบเทียบยอดกำลังพล
-                        อดีต - ปัจจุบัน
-                        (จำแนกตามส่วนภูมิภาค/ปี)</h6>
-                    <div style="position: relative; height: 350px; width: 100%;"><canvas
-                            id="yearlyCompareChart"></canvas></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div id="structureSection" style="display:none;">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i
-                        class="bi bi-table text-warning me-2 d-none d-md-inline"></i>บัญชีโครงสร้างหน่วย</h2>
-            </div>
-            <div class="d-flex gap-2"><button class="btn btn-warning btn-auth-edit fw-bold"
-                    onclick="window.openModal()"><i class="bi bi-plus-lg me-1"></i>เพิ่มข้อมูล</button><button
-                    class="btn btn-success fw-bold" onclick="window.exportExcel()"><i
-                        class="bi bi-file-earmark-excel me-1"></i>Excel</button></div>
-        </div>
-        <div id="tableFilterContainer"></div>
-        <div class="row g-2 mb-3">
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="glass-panel py-2 text-center"><small class="text-info fw-bold"
-                        style="font-size:0.7rem">หน่วยที่พบ</small>
-                    <h5 id="st-unit-count" class="text-info mb-0 fw-bold">0</h5>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="glass-panel py-2 text-center"><small class="text-white fw-bold"
-                        style="font-size:0.7rem">พลรวม (นาย)</small>
-                    <h5 id="st-personnel-count" class="text-white mb-0 fw-bold">0</h5>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="glass-panel py-2 text-center"><small class="text-info fw-bold" style="font-size:0.7rem">ยอด
-                        นายพล</small>
-                    <h5 id="st-g" class="text-info mb-0 fw-bold">0</h5>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="glass-panel py-2 text-center"><small class="text-success fw-bold"
-                        style="font-size:0.7rem">ยอด น.</small>
-                    <h5 id="st-n" class="text-success mb-0 fw-bold">0</h5>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="glass-panel py-2 text-center"><small class="text-warning fw-bold"
-                        style="font-size:0.7rem">ยอด ส.</small>
-                    <h5 id="st-s" class="text-warning mb-0 fw-bold">0</h5>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="glass-panel py-2 text-center"><small class="text-danger fw-bold"
-                        style="font-size:0.7rem">ยอด พลฯ</small>
-                    <h5 id="st-p" class="text-danger mb-0 fw-bold">0</h5>
-                </div>
-            </div>
-        </div>
-        <div class="table-container">
-            <div class="table-scroll custom-scroll">
-                <table class="table table-hover w-100" style="min-width: 1000px;">
-                    <thead>
-                        <tr>
-                            <th class="td-left">แผนยุทธศาสตร์</th>
-                            <th class="td-left">ส่วนภูมิภาค - จัดกำลัง</th>
-                            <th class="td-left">กองกำลัง > หน่วยเฉพาะกิจ > หน่วย</th>
-                            <th style="color:#0dcaf0">นายพล</th>
-                            <th style="color:#2ecc71">น.</th>
-                            <th style="color:#f1c40f">ส.</th>
-                            <th style="color:#e74c3c">พลฯ</th>
-                            <th class="text-gold">รวม</th>
-                            <th>สัดส่วน</th>
-                            <th>สถานะ</th>
-                            <th class="btn-auth-edit">ตั้งค่า</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div id="treeSection" style="display:none;">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i class="bi bi-diagram-3 text-warning me-2"></i>ผังโครงสร้างหน่วย</h2>
-            </div>
-        </div>
-        <div id="treeFilterContainer"></div>
-        <div class="tree-scroll custom-scroll">
-            <div class="tree-vertical" id="treeDisplay"></div>
-        </div>
-    </div>
-
-    <div id="dynamicSection" style="display:none;">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i class="bi bi-layers-fill text-warning me-2"></i>จัดการโครงสร้าง</h2>
-            </div>
-            <button class="btn btn-outline-info btn-sm fw-bold" onclick="window.buildDynamicTree()"><i
-                    class="bi bi-arrow-repeat"></i> รีโหลด</button>
-        </div>
-        <div id="dynamicFilterContainer"></div>
-
-        <div id="dynamicSummaryBox" class="row g-3 mb-4"></div>
-
-        <div id="dynamicTreeContainer" class="custom-scroll p-3 rounded"
-            style="background: rgba(128,128,128,0.05); border: 1px dashed var(--army); max-height: 650px; overflow-y: auto;">
-        </div>
-    </div>
-
-    <div id="mapSection" style="display:none;">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i class="bi bi-globe-americas text-info me-2"></i>แผนที่ยุทธวิธี (GIS
-                    2026)</h2>
-            </div>
-            <button class="btn btn-outline-info btn-sm fw-bold" onclick="window.loadMap(true)"><i
-                    class="bi bi-arrow-repeat"></i> รีโหลดแผนที่</button>
-        </div>
-
-        <div class="row g-4" style="min-height: 650px; padding-bottom: 20px;">
-            <div class="col-lg-3 order-2 order-lg-1" id="col-left"
-                style="display:flex; flex-direction:column; gap:1rem;"></div>
-            <div class="col-lg-6 order-1 order-lg-2 d-flex flex-column position-relative" style="min-height: 600px;">
-                <div id="map-container"
-                    class="w-100 flex-grow-1 position-relative rounded-4 border border-secondary shadow-lg overflow-hidden"
-                    style="z-index: 10; background: #0f172a; min-height: 500px;">
-                    <div id="viewDiv" class="w-100 h-100 position-absolute top-0 start-0 z-0"></div>
-
-                    <div class="hud-corner hud-tl"></div>
-                    <div class="hud-corner hud-tr"></div>
-                    <div class="hud-corner hud-bl"></div>
-                    <div class="hud-corner hud-br"></div>
-                    <div id="live-coords" class="coord-display">DEC: 00.0000, 00.0000<br>DMS: 00°00'00"N |
-                        000°00'00"E</div>
-
-                    <div id="loading"
-                        class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-muted"
-                        style="z-index: 2000; background: rgba(17,24,39,0.8);">
-                        <i class="fas fa-satellite fa-spin text-warning mb-3" style="font-size: 2.5rem;"></i>
-                        <p class="font-monospace mt-2 small" style="letter-spacing: 2px;">INITIALIZING GIS
-                            DATA...</p>
-                    </div>
-
-                    <!-- Layer Toggle Menu -->
-                    <div id="layer-toggles" class="position-absolute"
-                        style="top: 15px; right: 15px; width: 250px; z-index: 1000; background: rgba(24, 28, 20, 0.95); border: 1px solid #4b5563; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); backdrop-filter: blur(4px); transition: all 0.3s; overflow: hidden;">
-                        <div onclick="window.toggleLayerMenu()" id="layer-menu-header"
-                            class="d-flex justify-content-between align-items-center p-2 cursor-pointer"
-                            style="background: rgba(31, 41, 55, 0.8); border-bottom: 1px solid #4b5563;">
-                            <span class="text-warning fw-bold" style="font-size: 0.8rem;"><i
-                                    class="fas fa-layer-group me-2"></i>เปิด/ปิด เลเยอร์ที่ตั้ง</span>
-                            <i id="layer-menu-icon" class="fas fa-chevron-up text-muted"
-                                style="font-size: 0.8rem; transition: transform 0.3s;"></i>
+                    <div class="col-12 col-sm-6 col-lg">
+                        <div class="tactical-card py-4" style="border-bottom: 4px solid #0dcaf0;"><small
+                                class="fw-bold text-info">นายพล</small>
+                            <h2 id="v-g" class="fw-bold mt-1 mb-0 text-info" style="font-size: 2.2rem;">0</h2>
+                            <div id="diff-g" class="mt-1" style="min-height: 20px;"></div>
                         </div>
-                        <div id="layer-menu-content" class="layer-menu-content custom-scroll"
-                            style="max-height: 500px; opacity: 1; overflow-y: auto; transition: max-height 0.3s, opacity 0.3s;">
-                            <div class="p-2 d-flex flex-column gap-2" style="font-size: 0.75rem;">
-
-                                <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                    onclick="window.toggleMapLayer('higherHqLayerGroup', 'eye-higherHq')">
-                                    <div class="d-flex align-items-center gap-2"><span
-                                            class="d-flex align-items-center justify-content-center border border-warning rounded"
-                                            style="width: 18px; height: 18px; background: #7f1d1d;"><i
-                                                class="fas fa-shield-alt text-warning"
-                                                style="font-size: 8px;"></i></span> <span class="text-light">บก.ทบ. /
-                                            ทภ.</span></div>
-                                    <i id="eye-higherHq" class="fas fa-eye text-success"></i>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg">
+                        <div class="tactical-card py-4" style="border-bottom: 4px solid #2ecc71;"><small
+                                class="fw-bold text-success">น. (สัญญาบัตร)</small>
+                            <h2 id="v-n" class="fw-bold mt-1 mb-0 text-success" style="font-size: 2.2rem;">0</h2>
+                            <div id="diff-n" class="mt-1" style="min-height: 20px;"></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg">
+                        <div class="tactical-card py-4" style="border-bottom: 4px solid #f1c40f;"><small
+                                class="fw-bold text-warning">ส. (ประทวน)</small>
+                            <h2 id="v-s" class="fw-bold mt-1 mb-0 text-warning" style="font-size: 2.2rem;">0</h2>
+                            <div id="diff-s" class="mt-1" style="min-height: 20px;"></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg">
+                        <div class="tactical-card py-4" style="border-bottom: 4px solid #e74c3c;"><small
+                                class="fw-bold text-danger">พลฯ</small>
+                            <h2 id="v-p" class="fw-bold mt-1 mb-0 text-danger" style="font-size: 2.2rem;">0</h2>
+                            <div id="diff-p" class="mt-1" style="min-height: 20px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <h6 class="fw-bold mb-3 mt-5 text-gold"><i
+                        class="bi bi-building-fill text-warning me-2"></i>สรุปจำนวนหน่วยแยกตามระดับ</h6>
+                <div class="row g-2 mb-5 text-center">
+                    <div class="col-6 col-sm-4 col-lg">
+                        <div class="tactical-card py-3">
+                            <h2 id="c-l0" class="fw-bold text-info mb-0">0</h2><small
+                                class="text-muted fw-bold">ส่วนภูมิภาค</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-lg">
+                        <div class="tactical-card py-3">
+                            <h2 id="c-l1" class="fw-bold text-success mb-0">0</h2><small
+                                class="text-muted fw-bold">จัดกำลัง</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-lg">
+                        <div class="tactical-card py-3">
+                            <h2 id="c-l2" class="fw-bold text-warning mb-0">0</h2><small
+                                class="text-muted fw-bold">กองกำลัง</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg">
+                        <div class="tactical-card py-3">
+                            <h2 id="c-l3" class="fw-bold text-danger mb-0">0</h2><small
+                                class="text-muted fw-bold">หน่วยเฉพาะกิจ</small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg">
+                        <div class="tactical-card py-3">
+                            <h2 id="c-l4" class="fw-bold mb-0 text-muted">0</h2><small
+                                class="text-muted fw-bold">หน่วย</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="tactical-card h-100">
+                            <h6 class="fw-bold mb-3 text-gold"><i class="bi bi-shield-check me-2"></i>สถานะอัปเดตข้อมูล
+                            </h6>
+                            <div class="d-flex justify-content-center align-items-center mb-4 mt-4 gap-4">
+                                <div class="text-center">
+                                    <h2 id="stat-updated" class="text-success mb-0 fw-bold">0</h2><small
+                                        class="text-muted">อัปเดตแล้ว</small>
                                 </div>
-
-                                <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                    onclick="window.toggleMapLayer('hqLayerGroup', 'eye-hq')">
-                                    <div class="d-flex align-items-center gap-2"><span
-                                            class="d-flex align-items-center justify-content-center border border-warning rounded"
-                                            style="width: 18px; height: 18px; background: #111827;"><i
-                                                class="fas fa-star text-warning" style="font-size: 8px;"></i></span>
-                                        <span class="text-light">ที่ตั้ง บก.กกล.</span></div>
-                                    <i id="eye-hq" class="fas fa-eye text-success"></i>
+                                <div style="width: 2px; height: 50px; background: rgba(128,128,128,0.3);"></div>
+                                <div class="text-center">
+                                    <h2 id="stat-pending" class="text-secondary mb-0 fw-bold">0</h2><small
+                                        class="text-muted">รอดำเนินการ</small>
                                 </div>
+                            </div>
+                            <div class="progress mb-2" style="height: 10px;">
+                                <div id="updateProgressBar" class="progress-bar bg-success" style="width: 0%"></div>
+                            </div>
+                            <div class="text-center small text-muted mb-4">ความสำเร็จ: <span id="updatePct"
+                                    class="fw-bold text-success">0%</span></div>
+                            <h6 class="mt-4 mb-3 border-bottom pb-2 text-gold"><i
+                                    class="bi bi-journal-text me-2"></i>สรุปตามแผนยุทธศาสตร์</h6>
+                            <div id="planSummaryBox" class="small custom-scroll"
+                                style="max-height: 180px; overflow-y: auto;"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tactical-card h-100">
+                            <h6 class="fw-bold mb-3 text-gold"
+                                style="border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 10px;"><i
+                                    class="bi bi-diagram-3-fill me-2"></i>ยอดแยกตามโครงสร้าง</h6>
+                            <div id="structurePersonnelBox" class="custom-scroll"
+                                style="max-height: 340px; overflow-y: auto;"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tactical-card h-100">
+                            <h6 class="fw-bold mb-3 text-center text-gold"><i
+                                    class="bi bi-pie-chart-fill me-2"></i>สัดส่วนกำลังพลภาพรวม</h6>
+                            <div
+                                style="position: relative; height: 300px; display:flex; justify-content:center; align-items:center;">
+                                <canvas id="pChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                                <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                    onclick="window.toggleMapLayer('hospitalLayerGroup', 'eye-hosp')">
-                                    <div class="d-flex align-items-center gap-1">
-                                        <div class="d-flex gap-1">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center border border-danger rounded-circle"
-                                                style="width: 14px; height: 14px; background: #111827;"><i
-                                                    class="fas fa-plus text-danger" style="font-size: 6px;"></i></span>
-                                            <span
-                                                class="d-flex align-items-center justify-content-center border border-success rounded-circle"
-                                                style="width: 14px; height: 14px; background: #111827;"><i
-                                                    class="fas fa-plus text-success" style="font-size: 6px;"></i></span>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="tactical-card">
+                            <h6 class="fw-bold mb-3 text-gold"><i
+                                    class="bi bi-bar-chart-fill me-2"></i>เปรียบเทียบยอดกำลังพล อดีต - ปัจจุบัน
+                                (จำแนกตามส่วนภูมิภาค/ปี)</h6>
+                            <div style="position: relative; height: 350px; width: 100%;"><canvas
+                                    id="yearlyCompareChart"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="structureSection" style="display:none;">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i
+                                class="bi bi-table text-warning me-2 d-none d-md-inline"></i>บัญชีโครงสร้างหน่วย</h2>
+                    </div>
+                    <div class="d-flex gap-2"><button class="btn btn-warning btn-auth-edit fw-bold"
+                            onclick="window.openModal()"><i class="bi bi-plus-lg me-1"></i>เพิ่มข้อมูล</button><button
+                            class="btn btn-success fw-bold" onclick="window.exportExcel()"><i
+                                class="bi bi-file-earmark-excel me-1"></i>Excel</button></div>
+                </div>
+                <div id="tableFilterContainer"></div>
+                <div class="row g-2 mb-3">
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="glass-panel py-2 text-center"><small class="text-info fw-bold"
+                                style="font-size:0.7rem">หน่วยที่พบ</small>
+                            <h5 id="st-unit-count" class="text-info mb-0 fw-bold">0</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="glass-panel py-2 text-center"><small class="text-white fw-bold"
+                                style="font-size:0.7rem">พลรวม (นาย)</small>
+                            <h5 id="st-personnel-count" class="text-white mb-0 fw-bold">0</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="glass-panel py-2 text-center"><small class="text-info fw-bold"
+                                style="font-size:0.7rem">ยอด นายพล</small>
+                            <h5 id="st-g" class="text-info mb-0 fw-bold">0</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="glass-panel py-2 text-center"><small class="text-success fw-bold"
+                                style="font-size:0.7rem">ยอด น.</small>
+                            <h5 id="st-n" class="text-success mb-0 fw-bold">0</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="glass-panel py-2 text-center"><small class="text-warning fw-bold"
+                                style="font-size:0.7rem">ยอด ส.</small>
+                            <h5 id="st-s" class="text-warning mb-0 fw-bold">0</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="glass-panel py-2 text-center"><small class="text-danger fw-bold"
+                                style="font-size:0.7rem">ยอด พลฯ</small>
+                            <h5 id="st-p" class="text-danger mb-0 fw-bold">0</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-scroll custom-scroll">
+                        <table class="table table-hover w-100" style="min-width: 1000px;">
+                            <thead>
+                                <tr>
+                                    <th class="td-left">แผนยุทธศาสตร์</th>
+                                    <th class="td-left">ส่วนภูมิภาค - จัดกำลัง</th>
+                                    <th class="td-left">กองกำลัง > หน่วยเฉพาะกิจ > หน่วย</th>
+                                    <th style="color:#0dcaf0">นายพล</th>
+                                    <th style="color:#2ecc71">น.</th>
+                                    <th style="color:#f1c40f">ส.</th>
+                                    <th style="color:#e74c3c">พลฯ</th>
+                                    <th class="text-gold">รวม</th>
+                                    <th>สัดส่วน</th>
+                                    <th>สถานะ</th>
+                                    <th class="btn-auth-edit">ตั้งค่า</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="treeSection" style="display:none;">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i class="bi bi-diagram-3 text-warning me-2"></i>ผังโครงสร้างหน่วย</h2>
+                    </div>
+                </div>
+                <div id="treeFilterContainer"></div>
+                <div class="tree-scroll custom-scroll">
+                    <div class="tree-vertical" id="treeDisplay"></div>
+                </div>
+            </div>
+
+            <div id="dynamicSection" style="display:none;">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i class="bi bi-layers-fill text-warning me-2"></i>จัดการโครงสร้าง</h2>
+                    </div>
+                    <button class="btn btn-outline-info btn-sm fw-bold" onclick="window.buildDynamicTree()"><i
+                            class="bi bi-arrow-repeat"></i> รีโหลด</button>
+                </div>
+                <div id="dynamicFilterContainer"></div>
+
+                <div id="dynamicSummaryBox" class="row g-3 mb-4"></div>
+
+                <div id="dynamicTreeContainer" class="custom-scroll p-3 rounded"
+                    style="background: rgba(128,128,128,0.05); border: 1px dashed var(--army); max-height: 650px; overflow-y: auto;">
+                </div>
+            </div>
+
+            <div id="mapSection" style="display:none;">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i class="bi bi-globe-americas text-info me-2"></i>แผนที่ยุทธวิธี (GIS
+                            2026)</h2>
+                    </div>
+                    <button class="btn btn-outline-info btn-sm fw-bold" onclick="window.loadMap(true)"><i
+                            class="bi bi-arrow-repeat"></i> รีโหลดแผนที่</button>
+                </div>
+
+                <div class="row g-4" style="min-height: 650px; padding-bottom: 20px;">
+                    <div class="col-lg-3 order-2 order-lg-1" id="col-left"
+                        style="display:flex; flex-direction:column; gap:1rem;"></div>
+                    <div class="col-lg-6 order-1 order-lg-2 d-flex flex-column position-relative"
+                        style="min-height: 600px;">
+                        <div id="map-container"
+                            class="w-100 flex-grow-1 position-relative rounded-4 border border-secondary shadow-lg overflow-hidden"
+                            style="z-index: 10; background: #0f172a; min-height: 500px;">
+                            <div id="viewDiv" class="w-100 h-100 position-absolute top-0 start-0 z-0"></div>
+
+                            <div class="hud-corner hud-tl"></div>
+                            <div class="hud-corner hud-tr"></div>
+                            <div class="hud-corner hud-bl"></div>
+                            <div class="hud-corner hud-br"></div>
+                            <div id="live-coords" class="coord-display">DEC: 00.0000, 00.0000<br>DMS: 00°00'00"N |
+                                000°00'00"E</div>
+
+                            <div id="loading"
+                                class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-muted"
+                                style="z-index: 2000; background: rgba(17,24,39,0.8);">
+                                <i class="fas fa-satellite fa-spin text-warning mb-3" style="font-size: 2.5rem;"></i>
+                                <p class="font-monospace mt-2 small" style="letter-spacing: 2px;">INITIALIZING GIS
+                                    DATA...</p>
+                            </div>
+
+                            <!-- Layer Toggle Menu -->
+                            <div id="layer-toggles" class="position-absolute"
+                                style="top: 15px; right: 15px; width: 250px; z-index: 1000; background: rgba(24, 28, 20, 0.95); border: 1px solid #4b5563; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); backdrop-filter: blur(4px); transition: all 0.3s; overflow: hidden;">
+                                <div onclick="window.toggleLayerMenu()" id="layer-menu-header"
+                                    class="d-flex justify-content-between align-items-center p-2 cursor-pointer"
+                                    style="background: rgba(31, 41, 55, 0.8); border-bottom: 1px solid #4b5563;">
+                                    <span class="text-warning fw-bold" style="font-size: 0.8rem;"><i
+                                            class="fas fa-layer-group me-2"></i>เปิด/ปิด เลเยอร์ที่ตั้ง</span>
+                                    <i id="layer-menu-icon" class="fas fa-chevron-up text-muted"
+                                        style="font-size: 0.8rem; transition: transform 0.3s;"></i>
+                                </div>
+                                <div id="layer-menu-content" class="layer-menu-content custom-scroll"
+                                    style="max-height: 500px; opacity: 1; overflow-y: auto; transition: max-height 0.3s, opacity 0.3s;">
+                                    <div class="p-2 d-flex flex-column gap-2" style="font-size: 0.75rem;">
+
+                                        <div class="d-flex justify-content-between align-items-center cursor-pointer"
+                                            onclick="window.toggleMapLayer('higherHqLayerGroup', 'eye-higherHq')">
+                                            <div class="d-flex align-items-center gap-2"><span
+                                                    class="d-flex align-items-center justify-content-center border border-warning rounded"
+                                                    style="width: 18px; height: 18px; background: #7f1d1d;"><i
+                                                        class="fas fa-shield-alt text-warning"
+                                                        style="font-size: 8px;"></i></span> <span
+                                                    class="text-light">บก.ทบ. / ทภ.</span></div>
+                                            <i id="eye-higherHq" class="fas fa-eye text-success"></i>
                                         </div>
-                                        <span class="text-light">สถานพยาบาล ทบ./รัฐ</span>
+
+                                        <div class="d-flex justify-content-between align-items-center cursor-pointer"
+                                            onclick="window.toggleMapLayer('hqLayerGroup', 'eye-hq')">
+                                            <div class="d-flex align-items-center gap-2"><span
+                                                    class="d-flex align-items-center justify-content-center border border-warning rounded"
+                                                    style="width: 18px; height: 18px; background: #111827;"><i
+                                                        class="fas fa-star text-warning"
+                                                        style="font-size: 8px;"></i></span> <span
+                                                    class="text-light">ที่ตั้ง บก.กกล.</span></div>
+                                            <i id="eye-hq" class="fas fa-eye text-success"></i>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center cursor-pointer"
+                                            onclick="window.toggleMapLayer('hospitalLayerGroup', 'eye-hosp')">
+                                            <div class="d-flex align-items-center gap-1">
+                                                <div class="d-flex gap-1">
+                                                    <span
+                                                        class="d-flex align-items-center justify-content-center border border-danger rounded-circle"
+                                                        style="width: 14px; height: 14px; background: #111827;"><i
+                                                            class="fas fa-plus text-danger"
+                                                            style="font-size: 6px;"></i></span>
+                                                    <span
+                                                        class="d-flex align-items-center justify-content-center border border-success rounded-circle"
+                                                        style="width: 14px; height: 14px; background: #111827;"><i
+                                                            class="fas fa-plus text-success"
+                                                            style="font-size: 6px;"></i></span>
+                                                </div>
+                                                <span class="text-light">สถานพยาบาล ทบ./รัฐ</span>
+                                            </div>
+                                            <i id="eye-hosp" class="fas fa-eye text-success"></i>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center cursor-pointer"
+                                            onclick="window.toggleMapLayer('strategicLayerGroup', 'eye-strat')">
+                                            <div class="d-flex align-items-center gap-2"><span
+                                                    class="strategic-marker-mini"></span> <span
+                                                    class="text-light">จุดยุทธศาสตร์ (1:50k)</span></div>
+                                            <i id="eye-strat" class="fas fa-eye text-success"></i>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center cursor-pointer"
+                                            onclick="window.toggleMapLayer('borderLayerGroup', 'eye-border')">
+                                            <div class="d-flex align-items-center gap-2"><span
+                                                    style="width: 16px; border-bottom: 2px solid #ef4444;"></span> <span
+                                                    class="text-light">เส้นเขตแดน ไทย-กัมพูชา</span></div>
+                                            <i id="eye-border" class="fas fa-eye text-success"></i>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center cursor-pointer"
+                                            onclick="window.toggleMapLayer('pillarLayerGroup', 'eye-pillar')">
+                                            <div class="d-flex align-items-center gap-2"><span
+                                                    class="border-pillar-marker-mini"></span> <span
+                                                    class="text-light">หลักหมุดเขตแดน (1-73)</span></div>
+                                            <i id="eye-pillar" class="fas fa-eye text-success"></i>
+                                        </div>
+
                                     </div>
-                                    <i id="eye-hosp" class="fas fa-eye text-success"></i>
+                                </div>
+                            </div>
+
+                            <!-- Detailed Side Panel -->
+                            <div id="side-panel-map" class="p-3 custom-scroll">
+                                <button onclick="window.resetMap()"
+                                    class="btn btn-sm btn-dark position-absolute top-0 end-0 m-3 rounded-circle shadow border-secondary"><i
+                                        class="bi bi-x-lg"></i></button>
+                                <div id="panel-stars" class="text-warning mb-1"></div>
+                                <h4 id="panel-title" class="fw-bold mb-4"></h4>
+
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-dark p-2 rounded me-3"><i class="fas fa-building text-secondary"
+                                            style="width:20px; text-align:center;"></i></div>
+                                    <div class="w-100"><small class="text-secondary d-block fw-bold text-uppercase"
+                                            style="font-size:0.7rem;">ที่ตั้งกองบัญชาการ (HQ)</small>
+                                        <div id="panel-hq"
+                                            class="p-2 rounded border border-secondary mt-1 cursor-pointer"
+                                            style="background: rgba(31, 41, 55, 0.6); font-size: 0.85rem;"
+                                            onmouseover="this.style.borderColor='#fbbf24'"
+                                            onmouseout="this.style.borderColor='var(--bs-secondary)'"></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-dark p-2 rounded me-3"><i class="fas fa-route text-secondary"
+                                            style="width:20px; text-align:center;"></i></div>
+                                    <div><small class="text-secondary d-block fw-bold text-uppercase"
+                                            style="font-size:0.7rem;">แนวพรมแดน</small><span id="panel-length"
+                                            class="text-light fw-medium" style="font-size:0.85rem;"></span></div>
+                                </div>
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="bg-dark p-2 rounded me-3"><i class="fas fa-users text-warning"
+                                            style="width:20px; text-align:center;"></i></div>
+                                    <div class="w-100"><small class="text-secondary d-block fw-bold text-uppercase mb-2"
+                                            style="font-size:0.7rem;">ยอดกำลังพลในฐานข้อมูล</small>
+                                        <div id="panel-total-personnel"
+                                            class="text-warning fw-bold fs-5 bg-dark p-2 rounded text-center border border-warning border-opacity-25 shadow-inner">
+                                            0 นาย</div>
+                                    </div>
                                 </div>
 
-                                <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                    onclick="window.toggleMapLayer('strategicLayerGroup', 'eye-strat')">
-                                    <div class="d-flex align-items-center gap-2"><span
-                                            class="strategic-marker-mini"></span> <span class="text-light">จุดยุทธศาสตร์
-                                            (1:50k)</span></div>
-                                    <i id="eye-strat" class="fas fa-eye text-success"></i>
+                                <div class="border-top border-secondary pt-3 mt-3">
+                                    <div class="mb-3">
+                                        <small class="text-secondary d-block mb-2 text-uppercase fw-bold"
+                                            style="font-size:0.7rem;"><i
+                                                class="fas fa-hospital-symbol text-danger me-1"></i> สถานพยาบาล /
+                                            รพ.สนาม (ทบ.)</small>
+                                        <ul id="panel-hospitals" class="list-unstyled mb-2" style="font-size:0.8rem;">
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <small class="text-secondary d-block mb-2 text-uppercase fw-bold"
+                                            style="font-size:0.7rem;"><i class="fas fa-hospital text-success me-1"></i>
+                                            สถานพยาบาล (ภาครัฐ)</small>
+                                        <ul id="panel-gov-hospitals" class="list-unstyled mb-2"
+                                            style="font-size:0.8rem;"></ul>
+                                    </div>
+                                    <p class="text-center text-muted mt-2" style="font-size: 0.65rem;">*
+                                        คลิกที่ชื่อเพื่อคำนวณระยะทางจาก บก.กกล.</p>
+
+                                    <div class="mt-3">
+                                        <small class="text-secondary d-block mb-1 text-uppercase fw-bold"
+                                            style="font-size:0.7rem;">ภารกิจและรายละเอียด</small>
+                                        <p id="panel-desc" class="text-muted small"
+                                            style="line-height: 1.6; font-size:0.75rem;"></p>
+                                    </div>
                                 </div>
+                                <button onclick="window.resetMap()"
+                                    class="btn btn-dark border-secondary w-100 mt-2 shadow-sm"
+                                    style="font-size: 0.85rem;">ย่อแผนที่กลับ</button>
+                            </div>
+                        </div>
 
-                                <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                    onclick="window.toggleMapLayer('borderLayerGroup', 'eye-border')">
-                                    <div class="d-flex align-items-center gap-2"><span
-                                            style="width: 16px; border-bottom: 2px solid #ef4444;"></span> <span
-                                            class="text-light">เส้นเขตแดน ไทย-กัมพูชา</span></div>
-                                    <i id="eye-border" class="fas fa-eye text-success"></i>
+                        <div class="mt-4 rounded-3 p-3 text-center shadow-lg"
+                            style="background: rgba(133, 77, 14, 0.1); border: 1px solid rgba(161, 98, 7, 0.3);">
+                            <p class="text-warning fw-medium small mb-0"><i class="fas fa-info-circle me-2"></i>***
+                                พื้นที่รับผิดชอบตามแนวชายแดน รวมระยะทาง 5,657 กม. (ทางบก 3,497 กม. และทางน้ำ 2,144 กม.)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 order-3 order-lg-3" id="col-right"
+                        style="display:flex; flex-direction:column; gap:1rem;"></div>
+                </div>
+                <div id="custom-tooltip">
+                    <div id="tooltip-province" class="fw-bold text-white"></div>
+                    <div id="tooltip-force" class="small text-muted"></div>
+                </div>
+            </div>
+
+            <div id="adminSection" style="display:none;">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i class="bi bi-people-fill text-warning me-2"></i>จัดการผู้ใช้งาน
+                            (Admin)</h2>
+                    </div>
+                    <button class="btn btn-warning fw-bold shadow-sm" onclick="window.openUserModal()"><i
+                            class="bi bi-person-plus-fill me-1"></i> เพิ่มผู้ใช้ใหม่</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-scroll custom-scroll">
+                        <table class="table table-hover w-100" style="min-width: 700px;">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>ชื่อ-สกุล</th>
+                                    <th>สิทธิ์การใช้งาน</th>
+                                    <th>ตั้งค่า</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="personnelEntrySection" style="display:none;">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i class="bi bi-person-lines-fill text-purple me-2"
+                                style="color: #9b59b6;"></i>บันทึกนำเข้ากำลังพล</h2>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-warning fw-bold shadow-sm btn-auth-edit"
+                            onclick="window.openPersonnelModal()"><i class="bi bi-person-plus-fill me-1"></i>
+                            นำเข้า</button>
+                        <button class="btn btn-danger fw-bold shadow-sm" onclick="window.openPersonnelReport()"><i
+                                class="bi bi-file-earmark-pdf-fill me-1"></i> รายงาน PDF</button>
+                        <button class="btn btn-info fw-bold shadow-sm text-dark"
+                            onclick="window.exportPersonnelSummaryExcel()"><i class="bi bi-bar-chart-fill me-1"></i>
+                            สรุป (Excel)</button>
+                        <button class="btn btn-success fw-bold shadow-sm" onclick="window.exportPersonnelExcel()"><i
+                                class="bi bi-file-earmark-excel me-1"></i> ข้อมูล (Excel)</button>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                        <div class="tactical-card p-3 h-100">
+                            <small class="fw-bold text-muted d-block mb-2">ความคืบหน้าการนำเข้าข้อมูล
+                                (อ้างอิงจากยอดรวมโครงสร้าง)</small>
+                            <div class="progress mb-2" style="height: 15px;">
+                                <div id="personnelProgressBar" class="progress-bar bg-info" style="width: 0%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between small fw-bold">
+                                <span class="text-info"><span id="personnelEnteredCount">0</span> นาย
+                                    (ลงบันทึก)</span>
+                                <span class="text-muted">เป้าหมาย <span id="personnelTargetCount">0</span> นาย</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                        <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #3498db;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="w-100">
+                                    <small class="fw-bold text-info d-block mb-1"><i
+                                            class="bi bi-building me-1"></i>หน่วยทั้งหมดในโครงสร้าง</small>
+                                    <div class="d-flex align-items-end justify-content-between mt-2">
+                                        <h3 id="totalUnitStructureCount" class="mb-0 fw-bold text-info">0</h3>
+                                        <span class="small text-muted fw-bold">บันทึกแล้ว <span id="recordedUnitCount"
+                                                class="text-white">0</span> หน่วย</span>
+                                    </div>
                                 </div>
-
-                                <div class="d-flex justify-content-between align-items-center cursor-pointer"
-                                    onclick="window.toggleMapLayer('pillarLayerGroup', 'eye-pillar')">
-                                    <div class="d-flex align-items-center gap-2"><span
-                                            class="border-pillar-marker-mini"></span> <span
-                                            class="text-light">หลักหมุดเขตแดน (1-73)</span></div>
-                                    <i id="eye-pillar" class="fas fa-eye text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                        <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #2ecc71;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="fw-bold text-success d-block mb-1"><i
+                                            class="bi bi-check-circle-fill me-1"></i>หน่วยที่บรรจุครบ 100%
+                                        หรือยืนยันแล้ว</small>
+                                    <h3 id="unitCompleteCount" class="mb-0 fw-bold text-success">0</h3>
                                 </div>
-
+                                <i class="bi bi-shield-fill-check fs-1 text-success opacity-50"></i>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Detailed Side Panel -->
-                    <div id="side-panel-map" class="p-3 custom-scroll">
-                        <button onclick="window.resetMap()"
-                            class="btn btn-sm btn-dark position-absolute top-0 end-0 m-3 rounded-circle shadow border-secondary"><i
-                                class="bi bi-x-lg"></i></button>
-                        <div id="panel-stars" class="text-warning mb-1"></div>
-                        <h4 id="panel-title" class="fw-bold mb-4"></h4>
-
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="bg-dark p-2 rounded me-3"><i class="fas fa-building text-secondary"
-                                    style="width:20px; text-align:center;"></i></div>
-                            <div class="w-100"><small class="text-secondary d-block fw-bold text-uppercase"
-                                    style="font-size:0.7rem;">ที่ตั้งกองบัญชาการ (HQ)</small>
-                                <div id="panel-hq" class="p-2 rounded border border-secondary mt-1 cursor-pointer"
-                                    style="background: rgba(31, 41, 55, 0.6); font-size: 0.85rem;"
-                                    onmouseover="this.style.borderColor='#fbbf24'"
-                                    onmouseout="this.style.borderColor='var(--bs-secondary)'"></div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="bg-dark p-2 rounded me-3"><i class="fas fa-route text-secondary"
-                                    style="width:20px; text-align:center;"></i></div>
-                            <div><small class="text-secondary d-block fw-bold text-uppercase"
-                                    style="font-size:0.7rem;">แนวพรมแดน</small><span id="panel-length"
-                                    class="text-light fw-medium" style="font-size:0.85rem;"></span></div>
-                        </div>
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="bg-dark p-2 rounded me-3"><i class="fas fa-users text-warning"
-                                    style="width:20px; text-align:center;"></i></div>
-                            <div class="w-100"><small class="text-secondary d-block fw-bold text-uppercase mb-2"
-                                    style="font-size:0.7rem;">ยอดกำลังพลในฐานข้อมูล</small>
-                                <div id="panel-total-personnel"
-                                    class="text-warning fw-bold fs-5 bg-dark p-2 rounded text-center border border-warning border-opacity-25 shadow-inner">
-                                    0 นาย</div>
-                            </div>
-                        </div>
-
-                        <div class="border-top border-secondary pt-3 mt-3">
-                            <div class="mb-3">
-                                <small class="text-secondary d-block mb-2 text-uppercase fw-bold"
-                                    style="font-size:0.7rem;"><i class="fas fa-hospital-symbol text-danger me-1"></i>
-                                    สถานพยาบาล /
-                                    รพ.สนาม (ทบ.)</small>
-                                <ul id="panel-hospitals" class="list-unstyled mb-2" style="font-size:0.8rem;">
-                                </ul>
-                            </div>
-                            <div>
-                                <small class="text-secondary d-block mb-2 text-uppercase fw-bold"
-                                    style="font-size:0.7rem;"><i class="fas fa-hospital text-success me-1"></i>
-                                    สถานพยาบาล (ภาครัฐ)</small>
-                                <ul id="panel-gov-hospitals" class="list-unstyled mb-2" style="font-size:0.8rem;"></ul>
-                            </div>
-                            <p class="text-center text-muted mt-2" style="font-size: 0.65rem;">*
-                                คลิกที่ชื่อเพื่อคำนวณระยะทางจาก บก.กกล.</p>
-
-                            <div class="mt-3">
-                                <small class="text-secondary d-block mb-1 text-uppercase fw-bold"
-                                    style="font-size:0.7rem;">ภารกิจและรายละเอียด</small>
-                                <p id="panel-desc" class="text-muted small"
-                                    style="line-height: 1.6; font-size:0.75rem;"></p>
-                            </div>
-                        </div>
-                        <button onclick="window.resetMap()" class="btn btn-dark border-secondary w-100 mt-2 shadow-sm"
-                            style="font-size: 0.85rem;">ย่อแผนที่กลับ</button>
-                    </div>
-                </div>
-
-                <div class="mt-4 rounded-3 p-3 text-center shadow-lg"
-                    style="background: rgba(133, 77, 14, 0.1); border: 1px solid rgba(161, 98, 7, 0.3);">
-                    <p class="text-warning fw-medium small mb-0"><i class="fas fa-info-circle me-2"></i>***
-                        พื้นที่รับผิดชอบตามแนวชายแดน รวมระยะทาง 5,657 กม. (ทางบก 3,497 กม. และทางน้ำ 2,144 กม.)
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 order-3 order-lg-3" id="col-right"
-                style="display:flex; flex-direction:column; gap:1rem;"></div>
-        </div>
-        <div id="custom-tooltip">
-            <div id="tooltip-province" class="fw-bold text-white"></div>
-            <div id="tooltip-force" class="small text-muted"></div>
-        </div>
-    </div>
-
-    <div id="adminSection" style="display:none;">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i class="bi bi-people-fill text-warning me-2"></i>จัดการผู้ใช้งาน
-                    (Admin)</h2>
-            </div>
-            <button class="btn btn-warning fw-bold shadow-sm" onclick="window.openUserModal()"><i
-                    class="bi bi-person-plus-fill me-1"></i> เพิ่มผู้ใช้ใหม่</button>
-        </div>
-
-        <div class="table-container">
-            <div class="table-scroll custom-scroll">
-                <table class="table table-hover w-100" style="min-width: 700px;">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>ชื่อ-สกุล</th>
-                            <th>สิทธิ์การใช้งาน</th>
-                            <th>ตั้งค่า</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div id="personnelEntrySection" style="display:none;">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i class="bi bi-person-lines-fill text-purple me-2"
-                        style="color: #9b59b6;"></i>บันทึกนำเข้ากำลังพล</h2>
-            </div>
-            <div class="d-flex gap-2">
-                <button class="btn btn-warning fw-bold shadow-sm btn-auth-edit" onclick="window.openPersonnelModal()"><i
-                        class="bi bi-person-plus-fill me-1"></i>
-                    นำเข้า</button>
-                <button class="btn btn-danger fw-bold shadow-sm" onclick="window.openPersonnelReport()"><i
-                        class="bi bi-file-earmark-pdf-fill me-1"></i> รายงาน PDF</button>
-                <button class="btn btn-info fw-bold shadow-sm text-dark"
-                    onclick="window.exportPersonnelSummaryExcel()"><i class="bi bi-bar-chart-fill me-1"></i>
-                    สรุป (Excel)</button>
-                <button class="btn btn-success fw-bold shadow-sm" onclick="window.exportPersonnelExcel()"><i
-                        class="bi bi-file-earmark-excel me-1"></i> ข้อมูล (Excel)</button>
-            </div>
-        </div>
-
-        <div class="row mb-4">
-            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                <div class="tactical-card p-3 h-100">
-                    <small class="fw-bold text-muted d-block mb-2">ความคืบหน้าการนำเข้าข้อมูล
-                        (อ้างอิงจากยอดรวมโครงสร้าง)</small>
-                    <div class="progress mb-2" style="height: 15px;">
-                        <div id="personnelProgressBar" class="progress-bar bg-info" style="width: 0%"></div>
-                    </div>
-                    <div class="d-flex justify-content-between small fw-bold">
-                        <span class="text-info"><span id="personnelEnteredCount">0</span> นาย
-                            (ลงบันทึก)</span>
-                        <span class="text-muted">เป้าหมาย <span id="personnelTargetCount">0</span> นาย</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #3498db;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="w-100">
-                            <small class="fw-bold text-info d-block mb-1"><i
-                                    class="bi bi-building me-1"></i>หน่วยทั้งหมดในโครงสร้าง</small>
-                            <div class="d-flex align-items-end justify-content-between mt-2">
-                                <h3 id="totalUnitStructureCount" class="mb-0 fw-bold text-info">0</h3>
-                                <span class="small text-muted fw-bold">บันทึกแล้ว <span id="recordedUnitCount"
-                                        class="text-white">0</span> หน่วย</span>
+                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                        <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #e74c3c;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="fw-bold text-danger d-block mb-1"><i
+                                            class="bi bi-x-circle-fill me-1"></i>หน่วยที่บรรจุไม่ครบ 100%
+                                        และยังไม่ยืนยัน</small>
+                                    <h3 id="unitIncompleteCount" class="mb-0 fw-bold text-danger">0</h3>
+                                </div>
+                                <i class="bi bi-shield-fill-exclamation fs-1 text-danger opacity-50"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #2ecc71;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="fw-bold text-success d-block mb-1"><i
-                                    class="bi bi-check-circle-fill me-1"></i>หน่วยที่บรรจุครบ 100%
-                                หรือยืนยันแล้ว</small>
-                            <h3 id="unitCompleteCount" class="mb-0 fw-bold text-success">0</h3>
+
+                <div class="row mb-3 mt-4">
+                    <div class="col-12">
+                        <h5 class="text-gold fw-bold mb-3"><i
+                                class="bi bi-bar-chart-steps me-2"></i>สรุปการนำเข้าภาพรวมตามโครงสร้างส่วนภูมิภาค</h5>
+                        <div class="row g-3" id="personnelStructureSummary">
                         </div>
-                        <i class="bi bi-shield-fill-check fs-1 text-success opacity-50"></i>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                <div class="tactical-card p-3 h-100" style="border-bottom: 4px solid #e74c3c;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="fw-bold text-danger d-block mb-1"><i
-                                    class="bi bi-x-circle-fill me-1"></i>หน่วยที่บรรจุไม่ครบ 100%
-                                และยังไม่ยืนยัน</small>
-                            <h3 id="unitIncompleteCount" class="mb-0 fw-bold text-danger">0</h3>
+
+                <div class="mb-3 mt-4">
+                    <h5 class="text-info fw-bold mb-3"><i class="bi bi-list-ul me-2"></i>รายการบันทึกกำลังพล</h5>
+
+                    <div class="row g-2 align-items-center">
+                        <div class="col-6 col-sm-4 col-md-3 col-xl">
+                            <select id="pFilterL0"
+                                class="form-select form-select-sm bg-dark text-info border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">🛡️ ทุกส่วนภูมิภาค</option>
+                            </select>
                         </div>
-                        <i class="bi bi-shield-fill-exclamation fs-1 text-danger opacity-50"></i>
+                        <div class="col-6 col-sm-4 col-md-3 col-xl">
+                            <select id="pFilterL1"
+                                class="form-select form-select-sm bg-dark text-success border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">⚡ ทุกการจัดกำลัง</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-xl">
+                            <select id="pFilterL2"
+                                class="form-select form-select-sm bg-dark text-warning border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">🎯 ทุกกองกำลัง</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-xl">
+                            <select id="pFilterL3"
+                                class="form-select form-select-sm bg-dark text-danger border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">⚔️ ทุกหน่วยเฉพาะกิจ</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-xl">
+                            <select id="pFilterL4"
+                                class="form-select form-select-sm bg-dark text-light border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">🏢 ทุกหน่วย</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-xl">
+                            <select id="pFilterRank"
+                                class="form-select form-select-sm bg-dark text-primary border-secondary fw-bold w-100"
+                                onchange="window.renderPersonnelTable()">
+                                <option value="">👮 ทุกชั้นยศ</option>
+                                <option value="g">นายพล</option>
+                                <option value="n">น.</option>
+                                <option value="s">ส.</option>
+                                <option value="p">พลฯ</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl mt-2 mt-xl-0">
+                            <div class="input-group input-group-sm shadow-sm w-100">
+                                <span class="input-group-text bg-dark border-secondary text-muted"><i
+                                        class="bi bi-search"></i></span>
+                                <input type="text" id="personnelSearchInput"
+                                    class="form-control form-control-sm bg-dark text-white border-secondary"
+                                    placeholder="ค้นหาชื่อหน่วย, เจ้าหน้าที่..."
+                                    onkeyup="window.renderPersonnelTable()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-scroll custom-scroll">
+                        <table class="table table-hover w-100 align-middle" style="min-width: 1100px;">
+                            <thead>
+                                <tr>
+                                    <th>หน่วย</th>
+                                    <th>อัตรา</th>
+                                    <th>บรรจุจริง</th>
+                                    <th>คิดเป็น (%)</th>
+                                    <th>สถานะยืนยัน</th>
+                                    <th>เจ้าหน้าที่บันทึก</th>
+                                    <th>ไฟล์แนบ</th>
+                                    <th>อัปเดตล่าสุด</th>
+                                    <th class="btn-auth-edit">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="personnelTableBody">
+                                <tr>
+                                    <td colspan="9" class="text-center text-muted py-4">กำลังโหลดข้อมูล...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mb-3 mt-4">
-            <div class="col-12">
-                <h5 class="text-gold fw-bold mb-3"><i
-                        class="bi bi-bar-chart-steps me-2"></i>สรุปการนำเข้าภาพรวมตามโครงสร้างส่วนภูมิภาค</h5>
-                <div class="row g-3" id="personnelStructureSummary">
+            <div id="personnelReportSection" style="display:none;">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3 no-print">
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-outline-secondary me-3 shadow-sm"
+                            onclick="window.showPage('personnelEntry')"><i class="bi bi-arrow-left"></i> กลับ</button>
+                        <h2 class="mb-0 fw-bold"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>รายงานผลการนำเข้ากำลังพล</h2>
+                    </div>
+                    <button class="btn btn-danger fw-bold shadow-sm" onclick="window.print()"><i
+                            class="bi bi-printer-fill me-1"></i> พิมพ์ / เซฟเป็น PDF</button>
+                </div>
+
+                <div class="bg-white text-dark p-4 p-md-5 rounded-4 shadow-sm report-paper"
+                    style="max-width: 210mm; margin: auto; min-height: 297mm;">
+
+                    <div class="text-center mb-4">
+                        <img src="./logo.png" width="60" style="filter: grayscale(100%); margin-bottom: 10px;">
+                        <h4 class="fw-bold mb-1">บันทึกข้อความ</h4>
+                    </div>
+                    <div class="row mb-2" style="font-size: 1.1rem;">
+                        <div class="col-8"><span class="fw-bold">ส่วนราชการ</span> ศูนย์ปฏิบัติการกองทัพบก (ฝกพ.ศปก.ทบ.)
+                        </div>
+                        <div class="col-4 text-end"><span class="fw-bold">วันที่</span> <span id="pr-date"></span></div>
+                    </div>
+                    <div class="row mb-4" style="font-size: 1.1rem;">
+                        <div class="col-12"><span class="fw-bold">เรื่อง</span>
+                            รายงานสรุปความคืบหน้าการนำเข้าข้อมูลกำลังพลประจำวัน</div>
+                    </div>
+                    <hr class="border-dark opacity-100" style="border-width: 2px;">
+
+                    <div class="mt-4" style="font-size: 1.1rem; line-height: 1.8;">
+                        <p><span class="fw-bold">เรียน</span> ผอ.ฝกพ.ศปก.ทบ.</p>
+                        <p style="text-indent: 2.5em;">ตามที่ ฝ่ายกำลังพล ศูนย์ปฏิบัติการกองทัพบก
+                            ได้ดำเนินการนำเข้าและตรวจสอบยอดกำลังพลปฏิบัติงานจริงเข้าสู่ <span
+                                class="fw-bold">"ระบบบริหารจัดการและบัญชาการโครงสร้างหน่วย ศปก.ทบ."</span>
+                            เพื่อให้ข้อมูลมีความถูกต้องและเป็นปัจจุบัน นั้น</p>
+                        <p style="text-indent: 2.5em;">บัดนี้ ขอรายงานสรุปความคืบหน้าผลการนำเข้าข้อมูลกำลังพล
+                            (อ้างอิงตามฐานข้อมูลโครงสร้างปัจจุบัน) โดยมีรายละเอียดสรุปภาพรวมดังต่อไปนี้</p>
+                    </div>
+
+                    <div class="row text-center mb-4 mt-4 p-3 rounded"
+                        style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+                        <div class="col-4 border-end border-dark border-opacity-25">
+                            <h6 class="fw-bold text-muted mb-2">อัตราตามโครงสร้างรวม</h6>
+                            <h4 class="fw-bold text-dark mb-0"><span id="pr-total-target">0</span> <span
+                                    class="fs-6 fw-normal">นาย</span></h4>
+                        </div>
+                        <div class="col-4 border-end border-dark border-opacity-25">
+                            <h6 class="fw-bold text-muted mb-2">บรรจุจริง (บันทึกแล้ว)</h6>
+                            <h4 class="fw-bold text-success mb-0"><span id="pr-total-actual">0</span> <span
+                                    class="fs-6 fw-normal">นาย</span></h4>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="fw-bold text-muted mb-2">คิดเป็นร้อยละ</h6>
+                            <h4 class="fw-bold text-primary mb-0" id="pr-total-pct">0%</h4>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-dark mb-3"><i class="fas fa-list-ul me-2"></i>สรุปผลการนำเข้า
+                        จำแนกตามส่วนภูมิภาค</h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
+                            style="font-size: 0.95rem;">
+                            <thead class="table-light border-dark text-dark">
+                                <tr>
+                                    <th rowspan="2" class="align-middle" style="width: 5%;">ลำดับ</th>
+                                    <th rowspan="2" class="align-middle" style="width: 35%;">ส่วนภูมิภาค / กองกำลัง</th>
+                                    <th colspan="2">ข้อมูลหน่วย (หน่วย)</th>
+                                    <th colspan="3">ข้อมูลกำลังพล (นาย)</th>
+                                </tr>
+                                <tr>
+                                    <th>โครงสร้าง</th>
+                                    <th>บันทึกแล้ว</th>
+                                    <th>อัตรา</th>
+                                    <th>บรรจุจริง</th>
+                                    <th>ร้อยละ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pr-table-body" class="text-dark">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-5 pt-5 row">
+                        <div class="col-6"></div>
+                        <div class="col-6 text-center" style="font-size: 1.1rem;">
+                            <p class="mb-5">(ลงชื่อ).........................................................</p>
+                            <p class="mb-1">(.........................................................)</p>
+                            <p class="text-muted">เจ้าหน้าที่บันทึกข้อมูล/ผู้รายงาน</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
 
-        <div class="mb-3 mt-4">
-            <h5 class="text-info fw-bold mb-3"><i class="bi bi-list-ul me-2"></i>รายการบันทึกกำลังพล</h5>
+            <div id="dailyReportSection" style="display:none;">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3 no-print">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i
+                                class="bi bi-file-earmark-bar-graph text-success me-2"></i>รายงานสรุปยอดประจำวัน</h2>
+                    </div>
+                    <button class="btn btn-primary fw-bold shadow-sm" onclick="window.print()"><i
+                            class="bi bi-printer-fill me-1"></i> พิมพ์รายงาน</button>
+                </div>
 
-            <div class="row g-2 align-items-center">
-                <div class="col-6 col-sm-4 col-md-3 col-xl">
-                    <select id="pFilterL0"
-                        class="form-select form-select-sm bg-dark text-info border-secondary fw-bold w-100"
-                        onchange="window.renderPersonnelTable()">
-                        <option value="">🛡️ ทุกส่วนภูมิภาค</option>
-                    </select>
-                </div>
-                <div class="col-6 col-sm-4 col-md-3 col-xl">
-                    <select id="pFilterL1"
-                        class="form-select form-select-sm bg-dark text-success border-secondary fw-bold w-100"
-                        onchange="window.renderPersonnelTable()">
-                        <option value="">⚡ ทุกการจัดกำลัง</option>
-                    </select>
-                </div>
-                <div class="col-6 col-sm-4 col-md-3 col-xl">
-                    <select id="pFilterL2"
-                        class="form-select form-select-sm bg-dark text-warning border-secondary fw-bold w-100"
-                        onchange="window.renderPersonnelTable()">
-                        <option value="">🎯 ทุกกองกำลัง</option>
-                    </select>
-                </div>
-                <div class="col-6 col-sm-4 col-md-3 col-xl">
-                    <select id="pFilterL3"
-                        class="form-select form-select-sm bg-dark text-danger border-secondary fw-bold w-100"
-                        onchange="window.renderPersonnelTable()">
-                        <option value="">⚔️ ทุกหน่วยเฉพาะกิจ</option>
-                    </select>
-                </div>
-                <div class="col-6 col-sm-4 col-md-3 col-xl">
-                    <select id="pFilterL4"
-                        class="form-select form-select-sm bg-dark text-light border-secondary fw-bold w-100"
-                        onchange="window.renderPersonnelTable()">
-                        <option value="">🏢 ทุกหน่วย</option>
-                    </select>
-                </div>
-                <div class="col-6 col-sm-4 col-md-3 col-xl">
-                    <select id="pFilterRank"
-                        class="form-select form-select-sm bg-dark text-primary border-secondary fw-bold w-100"
-                        onchange="window.renderPersonnelTable()">
-                        <option value="">👮 ทุกชั้นยศ</option>
-                        <option value="g">นายพล</option>
-                        <option value="n">น.</option>
-                        <option value="s">ส.</option>
-                        <option value="p">พลฯ</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-6 col-xl mt-2 mt-xl-0">
-                    <div class="input-group input-group-sm shadow-sm w-100">
-                        <span class="input-group-text bg-dark border-secondary text-muted"><i
-                                class="bi bi-search"></i></span>
-                        <input type="text" id="personnelSearchInput"
-                            class="form-control form-control-sm bg-dark text-white border-secondary"
-                            placeholder="ค้นหาชื่อหน่วย, เจ้าหน้าที่..." onkeyup="window.renderPersonnelTable()">
+                <div class="bg-white text-dark p-4 p-md-5 rounded-4 shadow-sm report-paper"
+                    style="max-width: 210mm; margin: auto;">
+                    <div class="text-center mb-4 pb-3 border-bottom border-dark border-2">
+                        <h3 class="fw-bold text-dark mb-1">รายงานสรุปยอดกำลังพลประจำวัน</h3>
+                        <h5 class="text-dark">ศูนย์ปฏิบัติการกองทัพบก (ศปก.ทบ.)</h5>
+                        <p class="mb-0 mt-2">ข้อมูล ณ วันที่: <span id="reportDate" class="fw-bold"></span></p>
+                    </div>
+
+                    <div class="row text-center mb-4">
+                        <div class="col-4 border-end border-dark">
+                            <h6 class="fw-bold text-muted mb-1">ยอดอนุมัติรวม</h6>
+                            <h4 class="fw-bold text-dark" id="dr-total-prev">0</h4>
+                        </div>
+                        <div class="col-4 border-end border-dark">
+                            <h6 class="fw-bold text-muted mb-1">ยอดปฏิบัติจริง</h6>
+                            <h4 class="fw-bold text-primary" id="dr-total-curr">0</h4>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="fw-bold text-muted mb-1">ส่วนต่าง (+/-)</h6>
+                            <h4 class="fw-bold" id="dr-total-diff">0</h4>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-dark mb-3"><i class="fas fa-list-ul me-2"></i>สรุปแยกตามกองกำลัง /
+                        ส่วนภูมิภาค</h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
+                            style="font-size: 0.9rem; min-width: 600px;">
+                            <thead class="table-light border-dark text-dark">
+                                <tr>
+                                    <th rowspan="2" class="align-middle w-25">กองกำลัง / ส่วนภูมิภาค</th>
+                                    <th colspan="4">ปฏิบัติจริงแยกประเภท (นาย)</th>
+                                    <th rowspan="2" class="align-middle">ยอดรวม<br>ปฏิบัติจริง</th>
+                                    <th rowspan="2" class="align-middle">ยอดรวม<br>อนุมัติ</th>
+                                    <th rowspan="2" class="align-middle">หมายเหตุ<br>(ส่วนต่าง)</th>
+                                </tr>
+                                <tr>
+                                    <th>น.พล</th>
+                                    <th>น.</th>
+                                    <th>ส.</th>
+                                    <th>พลฯ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dr-table-body" class="text-dark">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-5 pt-5 text-end">
+                        <p class="mb-5 text-dark">
+                            ผู้จัดทำรายงาน.........................................................</p>
+                        <p class="mb-1 text-dark">(.........................................................)</p>
+                        <p class="text-muted small">ฝกพ.ศปก.ทบ.</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="table-container">
-            <div class="table-scroll custom-scroll">
-                <table class="table table-hover w-100 align-middle" style="min-width: 1100px;">
-                    <thead>
-                        <tr>
-                            <th>หน่วย</th>
-                            <th>อัตรา</th>
-                            <th>บรรจุจริง</th>
-                            <th>คิดเป็น (%)</th>
-                            <th>สถานะยืนยัน</th>
-                            <th>เจ้าหน้าที่บันทึก</th>
-                            <th>ไฟล์แนบ</th>
-                            <th>อัปเดตล่าสุด</th>
-                            <th class="btn-auth-edit">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="personnelTableBody">
-                        <tr>
-                            <td colspan="9" class="text-center text-muted py-4">กำลังโหลดข้อมูล...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div id="personnelReportSection" style="display:none;">
-        <div
-            class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3 no-print">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-outline-secondary me-3 shadow-sm" onclick="window.showPage('personnelEntry')"><i
-                        class="bi bi-arrow-left"></i> กลับ</button>
-                <h2 class="mb-0 fw-bold"><i class="bi bi-file-earmark-pdf text-danger me-2"></i>รายงานผลการนำเข้ากำลังพล
-                </h2>
-            </div>
-            <button class="btn btn-danger fw-bold shadow-sm" onclick="window.print()"><i
-                    class="bi bi-printer-fill me-1"></i> พิมพ์ / เซฟเป็น PDF</button>
-        </div>
-
-        <div class="bg-white text-dark p-4 p-md-5 rounded-4 shadow-sm report-paper"
-            style="max-width: 210mm; margin: auto; min-height: 297mm;">
-
-            <div class="text-center mb-4">
-                <img src="./logo.png" width="60" style="filter: grayscale(100%); margin-bottom: 10px;">
-                <h4 class="fw-bold mb-1">บันทึกข้อความ</h4>
-            </div>
-            <div class="row mb-2" style="font-size: 1.1rem;">
-                <div class="col-8"><span class="fw-bold">ส่วนราชการ</span> ศูนย์ปฏิบัติการกองทัพบก (ฝกพ.ศปก.ทบ.)
+            <div id="kp4ReportSection" style="display:none;">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3 no-print">
+                    <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
+                            onclick="window.toggleMobileSidebar()"></i>
+                        <h2 class="mb-0 fw-bold"><i
+                                class="bi bi-file-earmark-text text-info me-2"></i>รายงานสถานภาพหน่วย</h2>
+                    </div>
+                    <div class="d-flex gap-2"><button class="btn btn-warning fw-bold shadow-sm btn-auth-edit"
+                            onclick="window.openModal()"><i class="bi bi-plus-lg me-1"></i> เพิ่มรายการ</button><button
+                            class="btn btn-primary fw-bold shadow-sm" onclick="window.print()"><i
+                                class="bi bi-printer-fill me-1"></i> พิมพ์แบบฟอร์ม</button></div>
                 </div>
-                <div class="col-4 text-end"><span class="fw-bold">วันที่</span> <span id="pr-date"></span></div>
-            </div>
-            <div class="row mb-4" style="font-size: 1.1rem;">
-                <div class="col-12"><span class="fw-bold">เรื่อง</span>
-                    รายงานสรุปความคืบหน้าการนำเข้าข้อมูลกำลังพลประจำวัน</div>
-            </div>
-            <hr class="border-dark opacity-100" style="border-width: 2px;">
-
-            <div class="mt-4" style="font-size: 1.1rem; line-height: 1.8;">
-                <p><span class="fw-bold">เรียน</span> ผอ.ฝกพ.ศปก.ทบ.</p>
-                <p style="text-indent: 2.5em;">ตามที่ ฝ่ายกำลังพล ศูนย์ปฏิบัติการกองทัพบก
-                    ได้ดำเนินการนำเข้าและตรวจสอบยอดกำลังพลปฏิบัติงานจริงเข้าสู่ <span
-                        class="fw-bold">"ระบบบริหารจัดการและบัญชาการโครงสร้างหน่วย ศปก.ทบ."</span>
-                    เพื่อให้ข้อมูลมีความถูกต้องและเป็นปัจจุบัน นั้น</p>
-                <p style="text-indent: 2.5em;">บัดนี้ ขอรายงานสรุปความคืบหน้าผลการนำเข้าข้อมูลกำลังพล
-                    (อ้างอิงตามฐานข้อมูลโครงสร้างปัจจุบัน) โดยมีรายละเอียดสรุปภาพรวมดังต่อไปนี้</p>
-            </div>
-
-            <div class="row text-center mb-4 mt-4 p-3 rounded"
-                style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
-                <div class="col-4 border-end border-dark border-opacity-25">
-                    <h6 class="fw-bold text-muted mb-2">อัตราตามโครงสร้างรวม</h6>
-                    <h4 class="fw-bold text-dark mb-0"><span id="pr-total-target">0</span> <span
-                            class="fs-6 fw-normal">นาย</span></h4>
-                </div>
-                <div class="col-4 border-end border-dark border-opacity-25">
-                    <h6 class="fw-bold text-muted mb-2">บรรจุจริง (บันทึกแล้ว)</h6>
-                    <h4 class="fw-bold text-success mb-0"><span id="pr-total-actual">0</span> <span
-                            class="fs-6 fw-normal">นาย</span></h4>
-                </div>
-                <div class="col-4">
-                    <h6 class="fw-bold text-muted mb-2">คิดเป็นร้อยละ</h6>
-                    <h4 class="fw-bold text-primary mb-0" id="pr-total-pct">0%</h4>
+                <div class="bg-white text-dark p-4 p-md-5 rounded-4 shadow-sm report-paper"
+                    style="width: 100%; overflow-x: auto;">
+                    <div class="text-center mb-4">
+                        <h4 class="fw-bold text-dark text-decoration-underline mb-2">รายงานสถานภาพหน่วย</h4>
+                        <p class="mb-0">หน่วย: ศูนย์ปฏิบัติการกองทัพบก ประจำวันที่: <span id="kp4Date"
+                                class="fw-bold"></span></p>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- 📌 เปลี่ยนขนาดฟอนต์นิดหน่อยและบังคับกว้าง 100% แทนการตั้งค่าตายตัว -->
+                        <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
+                            style="font-size: 0.9rem; border: 2px solid #000; width: 100%;">
+                            <thead class="text-dark fw-bold"
+                                style="background-color: #d9d9d9 !important; border-bottom: 2px solid #000;">
+                                <tr>
+                                    <th rowspan="2" class="align-middle" style="width:5%">ลำดับ</th>
+                                    <th rowspan="2" class="align-middle" style="width:20%">นามหน่วย</th>
+                                    <th colspan="5">สถานภาพกำลังพลปฏิบัติงานจริง (นาย)</th>
+                                    <th rowspan="2" class="align-middle" style="width:10%">รวมทั้งสิ้น</th>
+                                    <th rowspan="2" class="align-middle" style="width:15%">หมายเหตุ</th>
+                                    <th rowspan="2" class="align-middle no-print" style="width:5%">จัดการ</th>
+                                </tr>
+                                <tr>
+                                    <th style="width:10%">นายพล</th>
+                                    <th style="width:10%">สัญญาบัตร</th>
+                                    <th style="width:10%">ประทวน</th>
+                                    <th style="width:10%">พลทหาร</th>
+                                    <th style="width:10%">ลูกจ้าง/พนักงาน</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kp4-table-body" class="text-dark">
+                            </tbody>
+                            <tfoot id="kp4-table-foot" class="fw-bold"
+                                style="background-color: #f0f0f0 !important; border-top: 2px solid #000;">
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <h6 class="fw-bold text-dark mb-3"><i class="fas fa-list-ul me-2"></i>สรุปผลการนำเข้า
-                จำแนกตามส่วนภูมิภาค</h6>
-            <div class="table-responsive">
-                <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
-                    style="font-size: 0.95rem;">
-                    <thead class="table-light border-dark text-dark">
-                        <tr>
-                            <th rowspan="2" class="align-middle" style="width: 5%;">ลำดับ</th>
-                            <th rowspan="2" class="align-middle" style="width: 35%;">ส่วนภูมิภาค / กองกำลัง</th>
-                            <th colspan="2">ข้อมูลหน่วย (หน่วย)</th>
-                            <th colspan="3">ข้อมูลกำลังพล (นาย)</th>
-                        </tr>
-                        <tr>
-                            <th>โครงสร้าง</th>
-                            <th>บันทึกแล้ว</th>
-                            <th>อัตรา</th>
-                            <th>บรรจุจริง</th>
-                            <th>ร้อยละ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pr-table-body" class="text-dark">
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="mt-5 pt-5 row">
-                <div class="col-6"></div>
-                <div class="col-6 text-center" style="font-size: 1.1rem;">
-                    <p class="mb-5">(ลงชื่อ).........................................................</p>
-                    <p class="mb-1">(.........................................................)</p>
-                    <p class="text-muted">เจ้าหน้าที่บันทึกข้อมูล/ผู้รายงาน</p>
+            <!-- 📌 Footer -->
+            <footer class="mt-5 pt-4 pb-3 border-top border-secondary border-opacity-25 text-center no-print">
+                <div
+                    class="text-muted small mb-0 d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 gap-md-3">
+                    <a href="https://pfm.rta.mi.th/" target="_blank" class="text-info text-decoration-none fw-bold"
+                        style="transition: 0.3s;" onmouseover="this.style.color='var(--gold)'"
+                        onmouseout="this.style.color='var(--bs-info)'">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>ช่องทางเข้าระบบ PFM (https://pfm.rta.mi.th/)
+                    </a>
+                    <span class="d-none d-md-inline text-secondary">|</span>
+                    <span>Developed By <span class="text-gold fw-bold"><i
+                                class="bi bi-code-slash me-1"></i>SpikeKub</span></span>
                 </div>
-            </div>
+            </footer>
 
         </div>
-    </div>
-
-    <div id="dailyReportSection" style="display:none;">
-        <div
-            class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3 no-print">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i
-                        class="bi bi-file-earmark-bar-graph text-success me-2"></i>รายงานสรุปยอดประจำวัน</h2>
-            </div>
-            <button class="btn btn-primary fw-bold shadow-sm" onclick="window.print()"><i
-                    class="bi bi-printer-fill me-1"></i> พิมพ์รายงาน</button>
-        </div>
-
-        <div class="bg-white text-dark p-4 p-md-5 rounded-4 shadow-sm report-paper"
-            style="max-width: 210mm; margin: auto;">
-            <div class="text-center mb-4 pb-3 border-bottom border-dark border-2">
-                <h3 class="fw-bold text-dark mb-1">รายงานสรุปยอดกำลังพลประจำวัน</h3>
-                <h5 class="text-dark">ศูนย์ปฏิบัติการกองทัพบก (ศปก.ทบ.)</h5>
-                <p class="mb-0 mt-2">ข้อมูล ณ วันที่: <span id="reportDate" class="fw-bold"></span></p>
-            </div>
-
-            <div class="row text-center mb-4">
-                <div class="col-4 border-end border-dark">
-                    <h6 class="fw-bold text-muted mb-1">ยอดอนุมัติรวม</h6>
-                    <h4 class="fw-bold text-dark" id="dr-total-prev">0</h4>
-                </div>
-                <div class="col-4 border-end border-dark">
-                    <h6 class="fw-bold text-muted mb-1">ยอดปฏิบัติจริง</h6>
-                    <h4 class="fw-bold text-primary" id="dr-total-curr">0</h4>
-                </div>
-                <div class="col-4">
-                    <h6 class="fw-bold text-muted mb-1">ส่วนต่าง (+/-)</h6>
-                    <h4 class="fw-bold" id="dr-total-diff">0</h4>
-                </div>
-            </div>
-
-            <h6 class="fw-bold text-dark mb-3"><i class="fas fa-list-ul me-2"></i>สรุปแยกตามกองกำลัง /
-                ส่วนภูมิภาค</h6>
-            <div class="table-responsive">
-                <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
-                    style="font-size: 0.9rem; min-width: 600px;">
-                    <thead class="table-light border-dark text-dark">
-                        <tr>
-                            <th rowspan="2" class="align-middle w-25">กองกำลัง / ส่วนภูมิภาค</th>
-                            <th colspan="4">ปฏิบัติจริงแยกประเภท (นาย)</th>
-                            <th rowspan="2" class="align-middle">ยอดรวม<br>ปฏิบัติจริง</th>
-                            <th rowspan="2" class="align-middle">ยอดรวม<br>อนุมัติ</th>
-                            <th rowspan="2" class="align-middle">หมายเหตุ<br>(ส่วนต่าง)</th>
-                        </tr>
-                        <tr>
-                            <th>น.พล</th>
-                            <th>น.</th>
-                            <th>ส.</th>
-                            <th>พลฯ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dr-table-body" class="text-dark">
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="mt-5 pt-5 text-end">
-                <p class="mb-5 text-dark">
-                    ผู้จัดทำรายงาน.........................................................</p>
-                <p class="mb-1 text-dark">(.........................................................)</p>
-                <p class="text-muted small">ฝกพ.ศปก.ทบ.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="kp4ReportSection" style="display:none;">
-        <div
-            class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3 no-print">
-            <div class="d-flex align-items-center"><i class="bi bi-list mobile-nav-toggler me-3"
-                    onclick="window.toggleMobileSidebar()"></i>
-                <h2 class="mb-0 fw-bold"><i class="bi bi-file-earmark-text text-info me-2"></i>รายงานสถานภาพหน่วย</h2>
-            </div>
-            <div class="d-flex gap-2"><button class="btn btn-warning fw-bold shadow-sm btn-auth-edit"
-                    onclick="window.openModal()"><i class="bi bi-plus-lg me-1"></i> เพิ่มรายการ</button><button
-                    class="btn btn-primary fw-bold shadow-sm" onclick="window.print()"><i
-                        class="bi bi-printer-fill me-1"></i> พิมพ์แบบฟอร์ม</button></div>
-        </div>
-        <div class="bg-white text-dark p-4 p-md-5 rounded-4 shadow-sm report-paper"
-            style="width: 100%; overflow-x: auto;">
-            <div class="text-center mb-4">
-                <h4 class="fw-bold text-dark text-decoration-underline mb-2">รายงานสถานภาพหน่วย</h4>
-                <p class="mb-0">หน่วย: ศูนย์ปฏิบัติการกองทัพบก ประจำวันที่: <span id="kp4Date" class="fw-bold"></span>
-                </p>
-            </div>
-            <div class="table-responsive">
-                <!-- 📌 เปลี่ยนขนาดฟอนต์นิดหน่อยและบังคับกว้าง 100% แทนการตั้งค่าตายตัว -->
-                <table class="table table-bordered border-dark table-sm align-middle text-center mb-0"
-                    style="font-size: 0.9rem; border: 2px solid #000; width: 100%;">
-                    <thead class="text-dark fw-bold"
-                        style="background-color: #d9d9d9 !important; border-bottom: 2px solid #000;">
-                        <tr>
-                            <th rowspan="2" class="align-middle" style="width:5%">ลำดับ</th>
-                            <th rowspan="2" class="align-middle" style="width:20%">นามหน่วย</th>
-                            <th colspan="5">สถานภาพกำลังพลปฏิบัติงานจริง (นาย)</th>
-                            <th rowspan="2" class="align-middle" style="width:10%">รวมทั้งสิ้น</th>
-                            <th rowspan="2" class="align-middle" style="width:15%">หมายเหตุ</th>
-                            <th rowspan="2" class="align-middle no-print" style="width:5%">จัดการ</th>
-                        </tr>
-                        <tr>
-                            <th style="width:10%">นายพล</th>
-                            <th style="width:10%">สัญญาบัตร</th>
-                            <th style="width:10%">ประทวน</th>
-                            <th style="width:10%">พลทหาร</th>
-                            <th style="width:10%">ลูกจ้าง/พนักงาน</th>
-                        </tr>
-                    </thead>
-                    <tbody id="kp4-table-body" class="text-dark">
-                    </tbody>
-                    <tfoot id="kp4-table-foot" class="fw-bold"
-                        style="background-color: #f0f0f0 !important; border-top: 2px solid #000;">
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- 📌 Footer -->
-    <footer class="mt-5 pt-4 pb-3 border-top border-secondary border-opacity-25 text-center no-print">
-        <div
-            class="text-muted small mb-0 d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 gap-md-3">
-            <a href="https://pfm.rta.mi.th/" target="_blank" class="text-info text-decoration-none fw-bold"
-                style="transition: 0.3s;" onmouseover="this.style.color='var(--gold)'"
-                onmouseout="this.style.color='var(--bs-info)'">
-                <i class="bi bi-box-arrow-up-right me-1"></i>ช่องทางเข้าระบบ PFM (https://pfm.rta.mi.th/)
-            </a>
-            <span class="d-none d-md-inline text-secondary">|</span>
-            <span>Developed By <span class="text-gold fw-bold"><i
-                        class="bi bi-code-slash me-1"></i>SpikeKub</span></span>
-        </div>
-    </footer>
-
-    </div>
     </div>
 
     <!-- ================= DRAWER (รายละเอียดด้านขวา) ================= -->
@@ -3345,16 +3344,6 @@
             renderUI();
         };
 
-        window.resetGlobalFilter = function () {
-            // ล้างค่าในออบเจกต์กรองทั้งหมด
-            filters = { search: '', plan: '', l0: '', l1: '', l2: '', l3: '', l4: '', rank: '' };
-            // รีเซ็ตค่า Input และ Select ในหน้าจอทั้งหมด
-            document.querySelectorAll('.filter-search, .filter-plan, .filter-l0, .filter-l1, .filter-l2, .filter-l3, .filter-l4, .filter-rank').forEach(el => {
-                el.value = '';
-            });
-            renderUI();
-        };
-
         function isMatchFilter(r) {
             let strMatch = r.slice(0, 6).map(x => (x || "").toString()).join(" ").toUpperCase();
             if (filters.search && !strMatch.includes(filters.search)) return false;
@@ -3874,21 +3863,22 @@
                 const res = await fetchAPI('generateSinglePDF', { rowIndex: rowIndex });
                 if (res.error) throw new Error(res.error);
                 btn.innerHTML = origHtml; btn.disabled = false;
-
-                // ⚠️ แก้ไข: เลี่ยงการถูกเบราว์เซอร์บล็อก Popup โดยให้ผู้ใช้คลิกเปิดลิงก์เอง
-                if (res.url) {
-                    Swal.fire({
-                        title: 'สร้าง PDF สำเร็จ',
-                        html: `<p class="mb-3 text-muted small">กรุณาคลิกปุ่มด้านล่างเพื่อเปิดไฟล์รายงาน</p><a href="${res.url}" target="_blank" class="btn btn-success fw-bold px-4 py-2 text-white shadow" style="text-decoration:none;"><i class="bi bi-file-earmark-pdf me-2"></i>ดาวน์โหลดเอกสาร PDF</a>`,
-                        icon: 'success',
-                        showConfirmButton: false,
-                        showCloseButton: true,
-                        customClass: { popup: 'dark-swal' }
-                    });
-                }
+                if (res.url) window.open(res.url, '_blank');
             } catch (err) {
                 btn.innerHTML = origHtml; btn.disabled = false;
                 Swal.fire('Error', err.message, 'error');
+            }
+        };
+
+        window.loadPersonnel = async function () {
+            safeSetHTML('personnelTableBody', '<tr><td colspan="9" class="text-center text-warning py-4"><div class="spinner-border spinner-border-sm"></div> กำลังโหลดข้อมูล...</td></tr>');
+            try {
+                const res = await fetchAPI('getPersonnelData');
+                if (res.error) throw new Error(res.error);
+                personnelData = res.rows || [];
+                window.renderPersonnelTable();
+            } catch (err) {
+                safeSetHTML('personnelTableBody', '<tr><td colspan="9" class="text-center text-danger">เกิดข้อผิดพลาด: ' + err.message + '</td></tr>');
             }
         };
 
@@ -4142,7 +4132,9 @@
             safeSetHTML('p_current_file_display', '');
 
             let officerInput = document.getElementById('p_officer_name');
+            // 📌 ดึงชื่อผู้ใช้ที่ล็อกอินอยู่ มาเติมให้อัตโนมัติ
             if (officerInput) officerInput.value = sessionStorage.getItem('userName') || '';
+
             let chk = document.getElementById('p_is_confirmed');
             if (chk) chk.checked = false;
 
