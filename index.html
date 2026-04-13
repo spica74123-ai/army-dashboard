@@ -2568,7 +2568,7 @@
         // ==========================================
         // 🔗 API CONNECTION (ใส่ URL ตรงนี้)
         // ==========================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzmf6eOKI2IWA95AHDYUIDkzqnXzcVpdd5j5dK1TLMQFzY0Zwqt3FIsVMmMDLMciKoI/exec";
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbx4GfOBrL48C1r_YX6xJ2Ec1X36VMEoV6cYXAPmjfJnI_2oeX6T89g2ANwUgM4rFang/exec";
 
         async function fetchAPI(action, data = {}) {
             if (!GAS_API_URL || GAS_API_URL.trim() === "") {
@@ -2634,6 +2634,13 @@
             let instance = bootstrap.Offcanvas.getInstance(el);
             if (!instance) instance = new bootstrap.Offcanvas(el);
             return instance;
+        };
+
+        // 📌 เพิ่มฟังก์ชันนี้เพื่อแก้ไข Error: window.logSystemAction is not a function
+        window.logSystemAction = function (actionDesc) {
+            let userName = sessionStorage.getItem('userName') || 'Unknown';
+            let role = sessionStorage.getItem('userRole') || 'Unknown';
+            fetchAPI('saveLog', { name: userName, role: role, action: actionDesc }).catch(e => console.log('Log Error:', e));
         };
 
         const higherHQs = [
@@ -3863,7 +3870,18 @@
                 const res = await fetchAPI('generateSinglePDF', { rowIndex: rowIndex });
                 if (res.error) throw new Error(res.error);
                 btn.innerHTML = origHtml; btn.disabled = false;
-                if (res.url) window.open(res.url, '_blank');
+
+                // ⚠️ แก้ไขบัค: เลี่ยงการถูกเบราว์เซอร์บล็อก Popup โดยแสดงหน้าต่างให้ผู้ใช้คลิกเปิดลิงก์เอกสารเอง
+                if (res.url) {
+                    Swal.fire({
+                        title: 'สร้างเอกสารสำเร็จ',
+                        html: `<p class="mb-3 text-muted small">คลิกปุ่มด้านล่างเพื่อเปิดไฟล์ PDF</p><a href="${res.url}" target="_blank" class="btn btn-success fw-bold px-4 py-2 text-white shadow" style="text-decoration:none;"><i class="bi bi-file-earmark-pdf me-2"></i> เปิดเอกสาร PDF</a>`,
+                        icon: 'success',
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        customClass: { popup: 'dark-swal' }
+                    });
+                }
             } catch (err) {
                 btn.innerHTML = origHtml; btn.disabled = false;
                 Swal.fire('Error', err.message, 'error');
@@ -5099,7 +5117,26 @@
             const canEdit = applyPermissions();
             let html = '';
 
+            // 📌 ดึงค่าจากช่องค้นหา
+            const searchTerm = (document.getElementById('casualtySearchInput')?.value || '').toLowerCase();
+
+            let totalCas = 0;
+            let confirmedCas = 0;
+            let pendingCas = 0;
+
             casualtyData.forEach((c, i) => {
+                // 📌 ระบบค้นหา
+                const searchString = `${c.name} ${c.unit} ${c.cause} ${c.status} ${c.date}`.toLowerCase();
+                if (searchTerm && !searchString.includes(searchTerm)) return;
+
+                // 📌 คำนวณสถิติ
+                totalCas++;
+                if (c.doctorConfirm === "true") {
+                    confirmedCas++;
+                } else {
+                    pendingCas++;
+                }
+
                 let imgHtml = c.picUrl && c.picUrl !== ""
                     ? `<a href="${c.picUrl}" target="_blank"><img src="${c.picUrl}" class="rounded border border-secondary" style="height:40px; width:40px; object-fit:cover;"></a>`
                     : '<span class="text-muted small">-</span>';
@@ -5121,7 +5158,13 @@
                     <td class="btn-auth-edit">${editBtnHtml}</td>
                 </tr>`;
             });
-            safeSetHTML('casualtyTableBody', html || '<tr><td colspan="8" class="text-center text-muted py-4">ไม่มีรายการสถานภาพสูญเสีย</td></tr>');
+
+            safeSetHTML('casualtyTableBody', html || '<tr><td colspan="8" class="text-center text-muted py-4">ไม่มีรายการสถานภาพสูญเสียที่ตรงกับการค้นหา</td></tr>');
+
+            // 📌 อัปเดตตัวเลขแสดงผลในกล่อง Summary ด้านบน
+            safeSetText('casTotalCount', totalCas.toLocaleString());
+            safeSetText('casConfirmedCount', confirmedCas.toLocaleString());
+            safeSetText('casPendingCount', pendingCas.toLocaleString());
         };
 
         window.openCasualtyModal = function () {
