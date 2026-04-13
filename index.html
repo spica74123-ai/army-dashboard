@@ -4214,13 +4214,33 @@
         };
 
         window.savePersonnel = async function () {
+            const safeGetVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
+
+            const pUnitVal = safeGetVal('p_unit').trim();
+            const pRidVal = safeGetVal('p_rid');
+
+            // 📌 เช็คข้อมูลซ้ำ: ถ้าเป็นการเพิ่มใหม่ (ไม่มี p_rid) ให้ตรวจดูว่ามีหน่วยนี้ในตารางแล้วหรือไม่
+            if (!pRidVal && pUnitVal) {
+                const isDuplicate = personnelData.some(p => p.rank.trim() === pUnitVal);
+                if (isDuplicate) {
+                    Swal.fire({
+                        title: 'หน่วยนี้ถูกบันทึกแล้ว!',
+                        text: `หน่วย "${pUnitVal}" มีการบันทึกข้อมูลไปแล้ว กรุณากดปุ่ม "แก้ไข" (ไอคอนรูปดินสอ) ที่ตารางด้านล่างแทนการเพิ่มใหม่ครับ`,
+                        icon: 'warning',
+                        confirmButtonText: 'ตกลง',
+                        customClass: { popup: 'dark-swal' }
+                    });
+                    return; // หยุดการทำงานเพื่อไม่ให้บันทึกซ้ำ
+                }
+            }
+
             const formEl = document.getElementById('personnelForm');
             let btn = null; let origHtml = "บันทึกข้อมูลกำลังพล";
             if (formEl) {
                 btn = formEl.querySelector('button');
                 if (btn) { origHtml = btn.innerHTML; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>กำลังอัปโหลด...'; btn.disabled = true; }
             }
-            const safeGetVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
+
             let chk = document.getElementById('p_is_confirmed');
             let isConfirmedStr = chk && chk.checked ? "true" : "false";
             const submitAPI = async (base64Data, fileName) => {
@@ -4236,7 +4256,7 @@
                     if (modal) modal.hide();
                     if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
                     Swal.fire({ title: 'สำเร็จ', text: 'บันทึกข้อมูลเรียบร้อย', icon: 'success', timer: 1500, showConfirmButton: false });
-                    window.logSystemAction(`บันทึกข้อมูลกำลังพล: หน่วย ${data.rank}`); // 📌
+                    window.logSystemAction(`บันทึกข้อมูลกำลังพล: หน่วย ${data.rank}`);
                     setTimeout(() => { window.loadPersonnel(); }, 1000);
                 } catch (err) {
                     if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
