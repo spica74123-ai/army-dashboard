@@ -3947,6 +3947,7 @@
                 let l4 = escapeHTML(r[5]) || "-";
                 let rawUnitName = r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-";
                 let normUnitName = normalizeName(rawUnitName);
+                let jsUnitName = rawUnitName.replace(/'/g, "\\'");
                 let unitName = escapeHTML(rawUnitName);
                 let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
 
@@ -4035,14 +4036,14 @@
                     let fileBadge = fileName && fileName !== "-" ? `
                         <div class="d-flex flex-column align-items-center gap-1">
                             <a href="${fileUrl}" target="_blank" class="badge bg-success bg-opacity-25 text-success border border-success text-decoration-none shadow-sm text-truncate" style="max-width: 140px;" title="คลิกเพื่อโหลดไฟล์"><i class="bi bi-file-earmark-excel"></i> ${fileName}</a>
-                            ${canEdit ? `<span class="badge bg-warning bg-opacity-10 text-warning border border-warning" style="font-size: 0.65rem; cursor: pointer;" onclick="window.editPersonnelByName('${unitName}')" title="อัปโหลดไฟล์ใหม่เพื่อแก้ไข"><i class="bi bi-cloud-upload"></i> อัปเดตไฟล์</span>` : ''}
+                            ${canEdit ? `<span class="badge bg-warning bg-opacity-10 text-warning border border-warning" style="font-size: 0.65rem; cursor: pointer;" onclick="window.editPersonnelByName('${jsUnitName}')" title="อัปโหลดไฟล์ใหม่เพื่อแก้ไข"><i class="bi bi-cloud-upload"></i> อัปเดตไฟล์</span>` : ''}
                         </div>` : '<span class="text-muted small">ยังไม่มีไฟล์</span>';
 
                     // หา index ของ pr ใน personnelData เพื่อใช้ใน editPersonnel (ถ้ามี)
                     let pIdx = pr ? personnelData.indexOf(pr) : -1;
                     let editBtnHtml = canEdit ? (pr
                         ? `<button class="btn btn-sm btn-outline-info rounded-circle py-0 px-2 shadow-sm" onclick="window.editPersonnel(${pIdx})"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger rounded-circle py-0 px-2 shadow-sm ms-1" onclick="window.deletePersonnel(${pr.rowIndex})"><i class="bi bi-trash"></i></button>`
-                        : `<button class="btn btn-sm btn-warning rounded-pill px-2 py-0 shadow-sm" onclick="window.openPersonnelModalWithUnit('${unitName}')"><i class="bi bi-plus-lg"></i> บันทึก</button>`
+                        : `<button class="btn btn-sm btn-warning rounded-pill px-2 py-0 shadow-sm" onclick="window.openPersonnelModalWithUnit('${jsUnitName}')"><i class="bi bi-plus-lg"></i> บันทึก</button>`
                     ) : '';
 
                     html += `<tr class="${pr ? '' : 'opacity-75'}">
