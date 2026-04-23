@@ -1149,7 +1149,13 @@
         }
 
         .leaflet-tile {
+            filter: brightness(0.9) contrast(1.1);
+            outline: none !important;
+        }
+
+        .leaflet-tile-container img {
             color: transparent !important;
+            text-indent: -9999px;
         }
     </style>
 </head>
@@ -2744,6 +2750,11 @@
             });
         }
 
+        function normalizeName(str) {
+            if (!str) return "";
+            return str.toString().trim().replace(/\s+/g, ' ');
+        }
+
         function toDMS(coordinate, type) {
             let absolute = Math.abs(coordinate);
             let degrees = Math.floor(absolute);
@@ -3913,7 +3924,7 @@
             const searchRank = document.getElementById('pFilterRank')?.value || '';
 
             let recordedMap = {};
-            personnelData.forEach(p => { recordedMap[p.rank] = p; });
+            personnelData.forEach(p => { recordedMap[normalizeName(p.rank)] = p; });
 
             let unitInfoMap = {};
             let setL0 = new Set(), setL1 = new Set(), setL2 = new Set(), setL3 = new Set(), setL4 = new Set();
@@ -3935,6 +3946,7 @@
                 let l3 = escapeHTML(r[4]) || "-";
                 let l4 = escapeHTML(r[5]) || "-";
                 let unitName = escapeHTML(r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-");
+                let normUnitName = normalizeName(unitName);
                 let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
 
                 let g = cleanNumber(r[6]);
@@ -3963,8 +3975,9 @@
                     if (searchRank === 'p' && p <= 0) return;
                 }
 
-                let p_officerName = recordedMap[unitName] ? escapeHTML(recordedMap[unitName].mil_id || "-").toLowerCase() : "";
-                if (searchTerm && !unitName.toLowerCase().includes(searchTerm) && !p_officerName.includes(searchTerm)) return;
+                let pr = recordedMap[normUnitName];
+                let p_officerName = pr ? escapeHTML(pr.mil_id || "-") : "";
+                if (searchTerm && !unitName.toLowerCase().includes(searchTerm) && !p_officerName.toLowerCase().includes(searchTerm)) return;
 
                 if (unitName !== "-" && target > 0) {
                     validUnits++;
@@ -3972,12 +3985,18 @@
 
                     let actualValue = 0;
                     let isConfirmed = false;
-                    let pr = recordedMap[unitName];
+                    let fileName = "-";
+                    let fileUrl = "#";
+                    let timestamp = "-";
+
                     if (pr) {
                         recordedUnitsCount++;
                         actualValue = cleanNumber(pr.position_normal);
                         actualSum += actualValue;
                         isConfirmed = pr.unit === "true";
+                        fileName = escapeHTML(pr.position_field);
+                        fileUrl = pr.id_card;
+                        timestamp = escapeHTML(pr.timestamp);
                     }
 
                     let currentPct = target > 0 ? ((actualValue / target) * 100).toFixed(1) : 0;
@@ -3987,6 +4006,7 @@
                         incompleteUnits++;
                     }
 
+                    // --- Render Summary Card Logic ---
                     let groupKey = l0;
                     if (searchL3) groupKey = unitName;
                     else if (searchL2) groupKey = l3 !== "-" ? l3 : unitName;
@@ -4002,6 +4022,44 @@
                         structSummary[groupKey].recordedUnits++;
                         structSummary[groupKey].actualSum += actualValue;
                     }
+
+                    // --- Render Table Row HTML ---
+                    let progressColor = currentPct >= 100 ? 'bg-success' : (currentPct >= 50 ? 'bg-warning' : 'bg-danger');
+                    let progressWidth = Math.min(100, currentPct);
+                    let isFullyComplete = (currentPct >= 100) || isConfirmed;
+                    let statusBadge = pr
+                        ? (isFullyComplete ? '<span class="badge bg-success"><i class="bi bi-check-circle"></i> ยืนยันแล้ว</span>' : '<span class="badge bg-danger"><i class="bi bi-x-circle"></i> ยังไม่ยืนยัน</span>')
+                        : '<span class="badge bg-secondary opacity-50"><i class="bi bi-clock-history"></i> รอดำเนินการ</span>';
+
+                    let fileBadge = fileName && fileName !== "-" ? `
+                        <div class="d-flex flex-column align-items-center gap-1">
+                            <a href="${fileUrl}" target="_blank" class="badge bg-success bg-opacity-25 text-success border border-success text-decoration-none shadow-sm text-truncate" style="max-width: 140px;" title="คลิกเพื่อโหลดไฟล์"><i class="bi bi-file-earmark-excel"></i> ${fileName}</a>
+                            ${canEdit ? `<span class="badge bg-warning bg-opacity-10 text-warning border border-warning" style="font-size: 0.65rem; cursor: pointer;" onclick="window.editPersonnelByName('${unitName}')" title="อัปโหลดไฟล์ใหม่เพื่อแก้ไข"><i class="bi bi-cloud-upload"></i> อัปเดตไฟล์</span>` : ''}
+                        </div>` : '<span class="text-muted small">ยังไม่มีไฟล์</span>';
+
+                    // หา index ของ pr ใน personnelData เพื่อใช้ใน editPersonnel (ถ้ามี)
+                    let pIdx = pr ? personnelData.indexOf(pr) : -1;
+                    let editBtnHtml = canEdit ? (pr
+                        ? `<button class="btn btn-sm btn-outline-info rounded-circle py-0 px-2 shadow-sm" onclick="window.editPersonnel(${pIdx})"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger rounded-circle py-0 px-2 shadow-sm ms-1" onclick="window.deletePersonnel(${pr.rowIndex})"><i class="bi bi-trash"></i></button>`
+                        : `<button class="btn btn-sm btn-warning rounded-pill px-2 py-0 shadow-sm" onclick="window.openPersonnelModalWithUnit('${unitName}')"><i class="bi bi-plus-lg"></i> บันทึก</button>`
+                    ) : '';
+
+                    html += `<tr class="${pr ? '' : 'opacity-75'}">
+                        <td class="text-info fw-bold text-start ps-3">${unitName}</td>
+                        <td class="fw-bold">${target.toLocaleString()}</td>
+                        <td class="text-warning fw-bold">${actualValue.toLocaleString()}</td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <span class="small fw-bold text-end me-2" style="min-width: 45px;">${currentPct}%</span>
+                                <div class="progress" style="width: 60px; height: 8px;"><div class="progress-bar ${progressColor}" style="width: ${progressWidth}%"></div></div>
+                            </div>
+                        </td>
+                        <td>${statusBadge}</td>
+                        <td class="text-info small">${p_officerName || '-'}</td>
+                        <td>${fileBadge}</td>
+                        <td class="text-muted small">${timestamp}</td>
+                        <td class="btn-auth-edit">${editBtnHtml}</td>
+                    </tr>`;
                 }
             });
 
@@ -4059,68 +4117,6 @@
                 </div>`;
             }
             safeSetHTML('personnelStructureSummary', summaryHtml || '<div class="col-12 text-center text-muted py-3">ไม่มีข้อมูลโครงสร้างที่สอดคล้อง</div>');
-
-            personnelData.forEach((p, i) => {
-                let unit = escapeHTML(p.rank);
-                let p_officerName = escapeHTML(p.mil_id || "-");
-                let uInfo = unitInfoMap[unit] || { l0: "", l1: "", l2: "", l3: "", l4: "", g: 0, n: 0, s: 0, p: 0 };
-
-                if (searchL0 && uInfo.l0 !== searchL0) return;
-                if (searchL1 && uInfo.l1 !== searchL1) return;
-                if (searchL2 && uInfo.l2 !== searchL2) return;
-                if (searchL3 && uInfo.l3 !== searchL3) return;
-                if (searchL4 && uInfo.l4 !== searchL4) return;
-
-                if (searchRank) {
-                    if (searchRank === 'g' && uInfo.g <= 0) return;
-                    if (searchRank === 'n' && uInfo.n <= 0) return;
-                    if (searchRank === 's' && uInfo.s <= 0) return;
-                    if (searchRank === 'p' && uInfo.p <= 0) return;
-                }
-
-                if (searchTerm && !unit.toLowerCase().includes(searchTerm) && !p_officerName.toLowerCase().includes(searchTerm)) return;
-
-                let targetValue = cleanNumber(p.name);
-                let actualValue = cleanNumber(p.position_normal);
-                let fileName = escapeHTML(p.position_field);
-                let fileUrl = p.id_card;
-                let isConfirmed = p.unit === "true";
-                let timestamp = escapeHTML(p.timestamp);
-
-                let pct = targetValue > 0 ? ((actualValue / targetValue) * 100).toFixed(1) : 0;
-                let progressColor = pct >= 100 ? 'bg-success' : (pct >= 50 ? 'bg-warning' : 'bg-danger');
-                let progressWidth = Math.min(100, pct);
-
-                let isFullyComplete = (pct >= 100) || isConfirmed;
-                let statusBadge = isFullyComplete
-                    ? '<span class="badge bg-success"><i class="bi bi-check-circle"></i> ยืนยันแล้ว</span>'
-                    : '<span class="badge bg-danger"><i class="bi bi-x-circle"></i> ยังไม่ยืนยัน</span>';
-
-                let fileBadge = fileName && fileName !== "-" ? `
-                    <div class="d-flex flex-column align-items-center gap-1">
-                        <a href="${fileUrl}" target="_blank" class="badge bg-success bg-opacity-25 text-success border border-success text-decoration-none shadow-sm text-truncate" style="max-width: 140px;" title="คลิกเพื่อโหลดไฟล์"><i class="bi bi-file-earmark-excel"></i> ${fileName}</a>
-                        ${canEdit ? `<span class="badge bg-warning bg-opacity-10 text-warning border border-warning" style="font-size: 0.65rem; cursor: pointer;" onclick="window.editPersonnel(${i})" title="อัปโหลดไฟล์ใหม่เพื่อแก้ไข"><i class="bi bi-cloud-upload"></i> อัปเดตไฟล์</span>` : ''}
-                    </div>` : '<span class="text-muted">-</span>';
-                let editBtnHtml = canEdit ? `<button class="btn btn-sm btn-outline-info rounded-circle py-0 px-2 shadow-sm" onclick="window.editPersonnel(${i})"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-outline-danger rounded-circle py-0 px-2 shadow-sm ms-1" onclick="window.deletePersonnel(${p.rowIndex})"><i class="bi bi-trash"></i></button>` : '';
-
-                html += `<tr>
-                <td class="text-info fw-bold text-start ps-3">${unit}</td>
-                <td class="fw-bold">${targetValue.toLocaleString()}</td>
-                <td class="text-warning fw-bold">${actualValue.toLocaleString()}</td>
-                <td>
-                    <div class="d-flex align-items-center justify-content-center">
-                        <span class="small fw-bold text-end me-2" style="min-width: 45px;">${pct}%</span>
-                        <div class="progress" style="width: 60px; height: 8px;"><div class="progress-bar ${progressColor}" style="width: ${progressWidth}%"></div></div>
-                    </div>
-                </td>
-                <td>${statusBadge}</td>
-                <td class="text-info small">${p_officerName}</td>
-                <td>${fileBadge}</td>
-                <td class="text-muted small">${timestamp}</td>
-                <td class="btn-auth-edit">${editBtnHtml}</td>
-            </tr>`;
-            });
-
             safeSetHTML('personnelTableBody', html || '<tr><td colspan="9" class="text-center text-muted py-4">ไม่พบข้อมูลที่ตรงกับเงื่อนไข</td></tr>');
 
             let pctTotal = targetSum > 0 ? Math.min(100, Math.round((actualSum / targetSum) * 100)) : 0;
@@ -4189,6 +4185,28 @@
             }
             const modal = window.getBsModal('personnelModal');
             if (modal) modal.show();
+        };
+
+        window.openPersonnelModalWithUnit = function (unitName) {
+            window.openPersonnelModal();
+            setTimeout(() => {
+                const unitInput = document.getElementById('p_unit');
+                if (unitInput) {
+                    unitInput.value = unitName;
+                    // Trigger oninput to set target
+                    unitInput.dispatchEvent(new Event('input'));
+                }
+            }, 200);
+        };
+
+        window.editPersonnelByName = function (unitName) {
+            const normName = normalizeName(unitName);
+            const idx = personnelData.findIndex(p => normalizeName(p.rank) === normName);
+            if (idx !== -1) {
+                window.editPersonnel(idx);
+            } else {
+                window.openPersonnelModalWithUnit(unitName);
+            }
         };
 
         window.editPersonnel = function (i) {
@@ -4578,9 +4596,13 @@
             taskForces.forEach(tf => tf.currentPersonnel = 0);
             rawData.forEach(r => {
                 if (!isMatchFilter(r)) return;
-                let rowStr = r.slice(0, 6).map(x => (x || "").toString()).join("").replace(/\s/g, '');
+                let rowStr = r.slice(0, 6).map(x => normalizeName(x)).join("|");
                 let total = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
-                taskForces.forEach(tf => { if (rowStr.includes(tf.name.replace(/\s/g, '')) || rowStr.includes(tf.id)) tf.currentPersonnel += total; });
+                taskForces.forEach(tf => {
+                    if (rowStr.includes(normalizeName(tf.name)) || rowStr.includes(tf.id)) {
+                        tf.currentPersonnel += total;
+                    }
+                });
             });
             renderCards();
         }
