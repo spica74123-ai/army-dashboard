@@ -3945,8 +3945,9 @@
                 let l2 = escapeHTML(r[3]) || "-";
                 let l3 = escapeHTML(r[4]) || "-";
                 let l4 = escapeHTML(r[5]) || "-";
-                let unitName = escapeHTML(r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-");
-                let normUnitName = normalizeName(unitName);
+                let rawUnitName = r[5] || r[4] || r[3] || r[2] || r[1] || r[0] || "-";
+                let normUnitName = normalizeName(rawUnitName);
+                let unitName = escapeHTML(rawUnitName);
                 let target = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
 
                 let g = cleanNumber(r[6]);
@@ -4239,7 +4240,8 @@
 
             // 📌 เช็คข้อมูลซ้ำ: ถ้าเป็นการเพิ่มใหม่ (ไม่มี p_rid) ให้ตรวจดูว่ามีหน่วยนี้ในตารางแล้วหรือไม่
             if (!pRidVal && pUnitVal) {
-                const isDuplicate = personnelData.some(p => p.rank.trim() === pUnitVal);
+                const normNewUnit = normalizeName(pUnitVal);
+                const isDuplicate = personnelData.some(p => normalizeName(p.rank) === normNewUnit);
                 if (isDuplicate) {
                     Swal.fire({
                         title: 'หน่วยนี้ถูกบันทึกแล้ว!',
