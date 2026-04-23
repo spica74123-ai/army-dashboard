@@ -4599,10 +4599,12 @@
             taskForces.forEach(tf => tf.currentPersonnel = 0);
             rawData.forEach(r => {
                 if (!isMatchFilter(r)) return;
-                let rowStr = r.slice(0, 6).map(x => normalizeName(x)).join("|");
+                // ใช้วิธีลบช่องว่างทั้งหมดเพื่อการจับคู่ที่แม่นยำที่สุดบนแผนที่
+                let rowStr = r.slice(0, 6).map(x => (x || "").toString()).join("").replace(/\s/g, '');
                 let total = cleanNumber(r[10]) || (cleanNumber(r[6]) + cleanNumber(r[7]) + cleanNumber(r[8]) + cleanNumber(r[9]));
                 taskForces.forEach(tf => {
-                    if (rowStr.includes(normalizeName(tf.name)) || rowStr.includes(tf.id)) {
+                    let tfMatchName = tf.name.replace(/\s/g, '');
+                    if (rowStr.includes(tfMatchName) || rowStr.includes(tf.id)) {
                         tf.currentPersonnel += total;
                     }
                 });
